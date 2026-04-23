@@ -1,0 +1,4 @@
+interface:
+  display_name: "LINE絵文字 skill 育成"
+  short_description: "local skill の新設・改修・整理を行うスキル"
+  default_prompt: "Use $line-emoji-skill-builder to このリポジトリの local skill を追加・改修・整理する。"

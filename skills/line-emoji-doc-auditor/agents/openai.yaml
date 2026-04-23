@@ -1,0 +1,4 @@
+interface:
+  display_name: "LINE絵文字文書監査"
+  short_description: "LINE絵文字基盤文書の監査と構造改善を支援するスキル"
+  default_prompt: "Use $line-emoji-doc-auditor to このリポジトリの LINE絵文字基盤文書を監査または改善する。"

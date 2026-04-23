@@ -1,0 +1,4 @@
+interface:
+  display_name: "LINE絵文字 factory 継続改善"
+  short_description: "監査結果や作業結果を継続改善と push 完了まで閉じるスキル"
+  default_prompt: "Use $line-emoji-factory-evolver to このリポジトリで監査結果や作業結果を継続改善ループへ接続する。"
