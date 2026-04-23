@@ -16,6 +16,7 @@
 - Result:
 - Reviewer notes:
 - Escalated to factory:
+- Retrospective path:
 - Follow-up action:
 
 ## Release Entry

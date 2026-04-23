@@ -16,6 +16,7 @@
 - 判断基準: `rules/continuous-improvement-rules.md`
 - 市場探索を含む場合: `rules/idea-research-rules.md`, `workflows/idea-research-workflow.md`
 - 品質起点の場合: `workflows/quality-control-workflow.md`
+- milestone 学習を圧縮する場合: `workflows/release-retrospective-workflow.md`
 - 文書 / skill 改修を含む場合: `workflows/framework-maintenance.md`
 - brand 側記録: `templates/quality-ledger-template.md`, `templates/release-log-template.md`
 - factory 側記録: `templates/factory-improvement-ledger-template.md`
@@ -43,9 +44,10 @@
    - skill が責務を持ちすぎていないか。
    - workflow が一時的事情を恒久手順にしていないか。
 11. 重いと判定した場合は、その場で `削る / 要約する / owner file へ寄せる / skill を統合する / section を畳む` のどれかを行う。
-12. 作業終了前に、変更した owner file、記録、依存ファイルを揃える。
-13. `git status` を確認し、意図した差分だけを commit する。
-14. remote へ push して閉じる。
+12. release の節目学習があるなら `workflows/release-retrospective-workflow.md` を起動し、短く圧縮する。
+13. 作業終了前に、変更した owner file、記録、依存ファイルを揃える。
+14. `git status` を確認し、意図した差分だけを commit する。
+15. remote へ push して閉じる。
 
 ## factory へ昇格しやすいパターン
 - 同じ QA 事故が複数 brand / release で再発した。

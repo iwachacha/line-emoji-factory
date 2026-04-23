@@ -14,6 +14,8 @@ This repository is dedicated to production, QA, review, and release work for the
 - Release specs: `emoji-sets/releases/`
 - QA checklist: `qa/release-checklist.md`
 - Quality ledger: `qa/quality-ledger.md`
+- Usage validations: `qa/usage-validations/`
+- Retrospectives: `qa/retrospectives/`
 - Submission history: `submissions/release-log.md`
 
 ## Operating Rules

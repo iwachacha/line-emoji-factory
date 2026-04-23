@@ -25,6 +25,8 @@ production:
 quality:
   release_checklist_path: "qa/release-checklist.md"
   quality_ledger_path: "qa/quality-ledger.md"
+  usage_validation_dir: "qa/usage-validations"
+  retrospective_dir: "qa/retrospectives"
   release_log_path: "submissions/release-log.md"
 
 strategy:
@@ -42,6 +44,8 @@ references:
   production_pipeline_snapshot_path: "references/shared/production-pipeline-workflow.md"
   quality_control_snapshot_path: "references/shared/quality-control-workflow.md"
   continuous_improvement_workflow_snapshot_path: "references/shared/continuous-improvement-workflow.md"
+  usage_validation_workflow_snapshot_path: "references/shared/usage-validation-workflow.md"
+  release_retrospective_workflow_snapshot_path: "references/shared/release-retrospective-workflow.md"
 
 source:
   factory_repo: "line-emoji-factory"

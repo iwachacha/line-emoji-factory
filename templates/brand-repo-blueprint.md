@@ -24,7 +24,9 @@ brand-repo/
 │       ├── transformation-workflow.md
 │       ├── production-pipeline-workflow.md
 │       ├── quality-control-workflow.md
-│       └── continuous-improvement-workflow.md
+│       ├── continuous-improvement-workflow.md
+│       ├── usage-validation-workflow.md
+│       └── release-retrospective-workflow.md
 ├── prompts/
 │   ├── gpt-image2-rough-prompts.md
 │   ├── claude-design-prompts.md
@@ -42,6 +44,10 @@ brand-repo/
 ├── qa/
 │   ├── release-checklist.md
 │   └── quality-ledger.md
+│   ├── usage-validations/
+│   │   └── release-001.md
+│   └── retrospectives/
+│       └── release-001.md
 └── submissions/
     └── release-log.md
 ```
@@ -70,6 +76,10 @@ brand-repo/
   - brand repo 側で再発問題や運用過重を factory へ返すときの判断基準 snapshot。
 - `references/shared/continuous-improvement-workflow.md`
   - brand repo 側の QA や運用学習を factory 改善へ返すための workflow snapshot。
+- `references/shared/usage-validation-workflow.md`
+  - brand repo 側で具体会話検証を行うための workflow snapshot。
+- `references/shared/release-retrospective-workflow.md`
+  - brand repo 側で節目学習を短く圧縮するための workflow snapshot。
 - `prompts/*`
   - `GPT-image2.0` 用 rough prompt、`ClaudeDesign` 用仕上げ prompt、修正 prompt を蓄積する。
 - `production/rough-boards/*`
@@ -84,6 +94,10 @@ brand-repo/
   - リリース前確認の正本。
 - `qa/quality-ledger.md`
   - 継続品質管理の正本。
+- `qa/usage-validations/*`
+  - release ごとの具体会話検証を残す。
+- `qa/retrospectives/*`
+  - milestone ごとの短い振り返りを残す。
 - `submissions/release-log.md`
   - 提出、審査差し戻し、修正、再提出の履歴を残す。
 
@@ -91,6 +105,7 @@ brand-repo/
 - そのブランドだけに必要な決定
 - そのブランドの制作ログ
 - そのブランド専用の prompt、rough board、handoff、QA、品質台帳
+- そのブランドの具体会話検証と節目振り返り
 - そのブランドの将来リリース計画
 
 ## repo に残さないもの

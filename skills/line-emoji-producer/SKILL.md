@@ -26,11 +26,13 @@ description: LINE絵文字ブランドの通常運用スキル。候補出し、
 12. ブランド固有制作基盤が必要なら `../../templates/brand-production-brief-template.md` を埋める。
 13. 初期 release / set が必要なら `../../templates/release-spec-template.md` を埋める。
 14. 品質管理が必要なら `../../workflows/quality-control-workflow.md` と `../../templates/release-checklist-template.md`, `../../templates/quality-ledger-template.md`, `../../templates/release-log-template.md` を初期化する。
-15. release / set ごとの handoff が必要なら `../../templates/production-handoff-template.md` を埋める。
-16. ブランドの継続運用や独立制作が見えたら `../../workflows/brand-lifecycle-workflow.md` を確認する。
-17. 分離する場合は `../../templates/brand-repo-blueprint.md` と `../../templates/brand-repo-manifest-template.yaml` を使う。
-18. 専用AI制作指示が必要なら `../../templates/brand-system-prompt-template.md` へ転記する。
-19. 作業結果や探索上の癖が見えたら `../../workflows/continuous-improvement-workflow.md` へ接続する。
+15. 実会話での勝ち筋確認が必要なら `../../workflows/usage-validation-workflow.md` と `../../templates/usage-validation-template.md` を使う。
+16. release / set ごとの handoff が必要なら `../../templates/production-handoff-template.md` を埋める。
+17. ブランドの継続運用や独立制作が見えたら `../../workflows/brand-lifecycle-workflow.md` を確認する。
+18. 分離する場合は `../../templates/brand-repo-blueprint.md` と `../../templates/brand-repo-manifest-template.yaml` を使う。
+19. 専用AI制作指示が必要なら `../../templates/brand-system-prompt-template.md` へ転記する。
+20. 節目学習を圧縮するなら `../../workflows/release-retrospective-workflow.md` と `../../templates/release-retrospective-template.md` を使う。
+21. 作業結果や探索上の癖が見えたら `../../workflows/continuous-improvement-workflow.md` へ接続する。
 
 ## Output Rules
 
@@ -49,7 +51,9 @@ description: LINE絵文字ブランドの通常運用スキル。候補出し、
 - ブランド核と視覚記号の設計
 - 絵文字セット構成と差分設計
 - 初期 release 設計
+- 具体会話での使用検証
 - 共通制作パイプラインと handoff 設計
 - 継続品質管理
+- release の節目振り返り
 - ブランド別 repo 分離判断
 - ブランド専用AI制作指示作成

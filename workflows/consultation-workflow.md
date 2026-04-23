@@ -19,8 +19,10 @@
 13. 初期 release / set が必要なら `templates/release-spec-template.md` を埋める。
 14. 品質管理が必要なら `workflows/quality-control-workflow.md` を起動し、`templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md` を初期化する。
 15. release / set ごとの handoff が必要なら `templates/production-handoff-template.md` を埋める。
-16. 専用AI制作指示が必要なら `templates/brand-system-prompt-template.md` を埋める。
-17. 継続改善や作業後の学習が必要なら `workflows/continuous-improvement-workflow.md` へ接続する。
+16. 実会話での勝ち筋確認が必要なら `workflows/usage-validation-workflow.md` と `templates/usage-validation-template.md` を使う。
+17. 専用AI制作指示が必要なら `templates/brand-system-prompt-template.md` を埋める。
+18. milestone 学習を圧縮するなら `workflows/release-retrospective-workflow.md` と `templates/release-retrospective-template.md` を使う。
+19. 継続改善や作業後の学習が必要なら `workflows/continuous-improvement-workflow.md` へ接続する。
 
 ## モード判定
 ### 探索モード
@@ -95,6 +97,7 @@
 - 要約
 - セット構成
 - 差分設計
+- 優先検証シーン
 - 商品品質上の弱点
 - リスク
 
@@ -142,6 +145,7 @@
 - 共通ヘッダ
 - 要約
 - blocking 問題
+- 具体会話で負ける場面
 - `Watch` 項目
 - 直す owner file
 - 次 release までに固定すること

@@ -58,6 +58,7 @@
 - `brand-production-brief`
 - rough board / ラフ画像
 - `production-handoff`
+- usage validation があればその結果
 - 必要なら stage 別 prompt
 
 ### ClaudeDesign の責務
@@ -88,6 +89,7 @@
 
 ## Quality Gate
 - 提出前と継続改善は `workflows/quality-control-workflow.md` を使う。
+- 生成結果の強弱は `workflows/usage-validation-workflow.md` で具体会話に通す。
 - 監査結果や運用上の学習は `workflows/continuous-improvement-workflow.md` へ戻す。
 - blocking 問題が `release-checklist` に残る間は提出しない。
 - `Watch` 項目は `quality-ledger` と release handoff に引き継ぐ。

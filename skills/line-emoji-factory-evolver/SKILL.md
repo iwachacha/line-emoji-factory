@@ -19,9 +19,10 @@ description: 作業結果、監査結果、市場観測、skill の詰まりを 
 4. 品質起点なら `../../workflows/quality-control-workflow.md` を開き、brand 側と factory 側の切り分け軸を揃える。
 5. 文書や skill の変更が絡むなら `../../workflows/framework-maintenance.md` を開く。
 6. brand 側記録が必要なら `quality-ledger` と `release-log` を更新する。
-7. factory 側記録が必要なら repo root の `factory-improvement-ledger.md` を更新する。
-8. skill の不足が原因なら `../line-emoji-skill-builder/SKILL.md` に接続する。
-9. 閉じる前に、改善の仕組み自体が重くなっていないか確認する。
+7. 具体会話検証や milestone 学習があるなら `../../workflows/usage-validation-workflow.md` と `../../workflows/release-retrospective-workflow.md` を使う。
+8. factory 側記録が必要なら repo root の `factory-improvement-ledger.md` を更新する。
+9. skill の不足が原因なら `../line-emoji-skill-builder/SKILL.md` に接続する。
+10. 閉じる前に、改善の仕組み自体が重くなっていないか確認する。
 
 ## Decision Rules
 

@@ -13,6 +13,15 @@
 - Evidence: `workflows/quality-control-workflow.md`, `skills/line-emoji-improvement-auditor/SKILL.md`, `PROJECT_MAP.md` だけでは、作業後の学習閉路と軽量化判断が分散していた
 - Candidate owner file: `rules/continuous-improvement-rules.md`, `workflows/continuous-improvement-workflow.md`, `skills/line-emoji-factory-evolver/SKILL.md`
 - Next audit point: 次回の探索相談、次回の改善監査、次回の doc audit
+- ID: `FAC-2026-04-24-002`
+- Date: `2026-04-24`
+- Trigger: `そえしるし` を見ると、設計は通っていても `具体会話で本当に勝つか` と `milestone ごとの圧縮学習` を残す部品が弱かった
+- Scope candidate: `factory common`
+- Observation: quality ledger だけでは `どの会話で句読点に負けるか` と `何を削って軽く保つか` が薄く、brand 実例から基盤不足が見えた
+- Affected layer: `商品 / 品質 / 運用`
+- Evidence: `sandbox/soeshirushi/qa/quality-ledger.md`, `sandbox/soeshirushi/emoji-sets/releases/release-001.md`, `sandbox/soeshirushi/production/handoffs/release-001-handoff.md`
+- Candidate owner file: `workflows/usage-validation-workflow.md`, `templates/usage-validation-template.md`, `workflows/release-retrospective-workflow.md`, `templates/release-retrospective-template.md`
+- Next audit point: `release-001` rough 後
 
 ## 2. Active Interventions
 - ID: `FAC-2026-04-24-001`
@@ -21,6 +30,12 @@
 - Updated owner file: 正本 / skill / scaffold へ反映済み。次回運用で実効性を観測する段階
 - Verification method: 次回の探索・監査で `起点 / スコープ / 次観測点 / push 状態` まで一貫して出せるかを見る
 - Verify on: 次回運用時
+- ID: `FAC-2026-04-24-002`
+- Hypothesis: 具体会話検証と節目振り返りを共通基盤化すれば、`買う理由` の弱さと学習の散逸を早期に検知できる
+- Intervention: usage validation / release retrospective の workflow と template を追加し、brand repo scaffold と `そえしるし` 実例へ反映する
+- Updated owner file: workflow / template / scaffold / `そえしるし` 実例へ反映済み。rough 以降で実効性を観測する段階
+- Verification method: `そえしるし` rough 以降で、使用検証と retrospective が実際の修正判断を動かすかを見る
+- Verify on: `release-001 / rough`
 
 ## 3. Verified Upgrades
 

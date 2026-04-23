@@ -14,6 +14,7 @@
 - 参照する制作基盤:
 - 参照する set 仕様:
 - 参照する quality ledger:
+- 参照する usage validation:
 - 判定状態:
 
 ## 2. rough stage の要約

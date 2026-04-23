@@ -45,3 +45,7 @@ release を跨いで管理する。
 - 重くなった artifact:
 - 要約 / 統合 / 昇格の候補:
 - 次回まで残す最小論点:
+
+## 7. Linked Evidence
+- usage validation:
+- retrospective:

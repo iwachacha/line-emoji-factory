@@ -71,6 +71,8 @@ $dirs = @(
     "production/finals",
     "emoji-sets/releases",
     "qa",
+    "qa/usage-validations",
+    "qa/retrospectives",
     "submissions"
 )
 
@@ -88,7 +90,9 @@ $sharedFiles = @(
     @{ Source = "workflows/transformation-workflow.md"; Target = "references/shared/transformation-workflow.md" },
     @{ Source = "workflows/production-pipeline-workflow.md"; Target = "references/shared/production-pipeline-workflow.md" },
     @{ Source = "workflows/quality-control-workflow.md"; Target = "references/shared/quality-control-workflow.md" },
-    @{ Source = "workflows/continuous-improvement-workflow.md"; Target = "references/shared/continuous-improvement-workflow.md" }
+    @{ Source = "workflows/continuous-improvement-workflow.md"; Target = "references/shared/continuous-improvement-workflow.md" },
+    @{ Source = "workflows/usage-validation-workflow.md"; Target = "references/shared/usage-validation-workflow.md" },
+    @{ Source = "workflows/release-retrospective-workflow.md"; Target = "references/shared/release-retrospective-workflow.md" }
 )
 
 foreach ($item in $sharedFiles) {
@@ -105,6 +109,8 @@ $releaseSpecTemplate = Read-Utf8File (Join-Path $repoRoot "templates/release-spe
 $handoffTemplate = Read-Utf8File (Join-Path $repoRoot "templates/production-handoff-template.md")
 $releaseChecklistTemplate = Read-Utf8File (Join-Path $repoRoot "templates/release-checklist-template.md")
 $qualityLedgerTemplate = Read-Utf8File (Join-Path $repoRoot "templates/quality-ledger-template.md")
+$usageValidationTemplate = Read-Utf8File (Join-Path $repoRoot "templates/usage-validation-template.md")
+$releaseRetrospectiveTemplate = Read-Utf8File (Join-Path $repoRoot "templates/release-retrospective-template.md")
 $releaseLogTemplate = Read-Utf8File (Join-Path $repoRoot "templates/release-log-template.md")
 $roughBoardsReadme = Read-Utf8File (Join-Path $repoRoot "templates/rough-boards-readme-template.md")
 $finalsReadme = Read-Utf8File (Join-Path $repoRoot "templates/finals-readme-template.md")
@@ -131,6 +137,8 @@ $revisionPrompts = Apply-Replacements -Content $revisionPrompts -Replacements $r
 $releaseSpecTemplate = Apply-Replacements -Content $releaseSpecTemplate -Replacements $replacements
 $releaseChecklistTemplate = Apply-Replacements -Content $releaseChecklistTemplate -Replacements $replacements
 $qualityLedgerTemplate = Apply-Replacements -Content $qualityLedgerTemplate -Replacements $replacements
+$usageValidationTemplate = Apply-Replacements -Content $usageValidationTemplate -Replacements $replacements
+$releaseRetrospectiveTemplate = Apply-Replacements -Content $releaseRetrospectiveTemplate -Replacements $replacements
 $releaseLogTemplate = Apply-Replacements -Content $releaseLogTemplate -Replacements $replacements
 $roughBoardsReadme = Apply-Replacements -Content $roughBoardsReadme -Replacements $replacements
 $finalsReadme = Apply-Replacements -Content $finalsReadme -Replacements $replacements
@@ -149,6 +157,8 @@ Write-Utf8File -Path (Join-Path $destRoot "production/finals/README.md") -Conten
 Write-Utf8File -Path (Join-Path $destRoot "emoji-sets/releases/release-001.md") -Content $releaseSpecTemplate
 Write-Utf8File -Path (Join-Path $destRoot "qa/release-checklist.md") -Content $releaseChecklistTemplate
 Write-Utf8File -Path (Join-Path $destRoot "qa/quality-ledger.md") -Content $qualityLedgerTemplate
+Write-Utf8File -Path (Join-Path $destRoot "qa/usage-validations/release-001.md") -Content $usageValidationTemplate
+Write-Utf8File -Path (Join-Path $destRoot "qa/retrospectives/release-001.md") -Content $releaseRetrospectiveTemplate
 Write-Utf8File -Path (Join-Path $destRoot "submissions/release-log.md") -Content $releaseLogTemplate
 
 Write-Host "Brand repo initialized at $destRoot"

@@ -24,7 +24,14 @@
 - [x] rough board が set 全体の方向を説明できるメモがある
 - [x] handoff に keep / trim / drift が書かれている
 - [x] 各絵文字に用途と意味がある
+- [x] 生成後に優先監査する絵文字が決まっている
 - [x] ClaudeDesign に暗黙前提を押し込んでいない
+
+## Gate 2.5: 具体会話検証
+- [x] usage validation シートがある
+- [x] 単体送信 / 文中使用 / 2個連続または左右ペアを検証した
+- [x] 代替される既存表現より、絵文字を使う意味が残っているコア枠がある
+- [x] 負け筋を quality ledger へ反映した
 
 ## Gate 3: 完成データ
 - [ ] 公式サイズ、形式、透過、容量制約を満たす
@@ -43,3 +50,6 @@
 - [x] quality ledger を更新した
 - [x] release log を更新した
 - [x] 次 release へ持ち越す `Watch` 項目を明記した
+- [x] factory へ戻すべき再発問題を判定した
+- [x] 台帳や checklist が重くなりすぎていない
+- [x] milestone が変わるなら retrospective を更新した

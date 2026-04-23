@@ -1,8 +1,8 @@
 # 品質管理ワークフロー
 
 このファイルは、ブランド工場における継続品質管理の正本である。
-対象は、初期 release 設計、rough review、handoff review、完成物 QA、審査差し戻し対応、
-公開後の drift 監視までを含む。
+対象は、創出ブランドの監査、生成絵文字の監査、初期 release 設計、rough review、
+handoff review、完成物 QA、審査差し戻し対応、公開後の drift 監視までを含む。
 
 ## 境界
 - このフローは `構造 → ブランド → 商品` の評価順を置き換えない。
@@ -13,6 +13,7 @@
 
 ## 起動条件
 - 初期 release を設計する。
+- 創出ブランドや生成された絵文字を監査したい。
 - rough board が出た。
 - production handoff を確定したい。
 - 完成データを提出前に点検したい。
@@ -32,6 +33,8 @@
   - タイトル、説明文、コピーライト、タグ、審査リスク対応が弱い。
 - `運用記録不良`
   - release spec、checklist、quality ledger、release log が未更新。
+- `改善機構過重`
+  - quality ledger、handoff、workflow、skill が重くなり、監査より管理コストが前に出ている。
 
 ## 使う正本
 - release 単位の設計: `templates/release-spec-template.md`
@@ -39,6 +42,9 @@
 - 継続品質の論点管理: `templates/quality-ledger-template.md`
 - 提出 / 審査 / 公開履歴: `templates/release-log-template.md`
 - 制作工程の基盤: `workflows/production-pipeline-workflow.md`
+- 具体会話検証: `workflows/usage-validation-workflow.md`, `templates/usage-validation-template.md`
+- 節目の振り返り圧縮: `workflows/release-retrospective-workflow.md`, `templates/release-retrospective-template.md`
+- factory への再発学習: `workflows/continuous-improvement-workflow.md`, `templates/factory-improvement-ledger-template.md`
 
 ## Gate 0: release 設計の成立確認
 ### 必須入力
@@ -80,6 +86,13 @@
 - `構造後退` は `workflows/transformation-workflow.md`
 - `ブランド drift` は `brand-setting` または `brand-production-brief`
 - `商品品質不良` と `制作パイプライン不良` は `release-spec` または rough 再設計
+
+## Concrete Usage Validation
+- `release-spec` ができたら、具体会話検証を行う。
+- 検証は `単体送信 / 文中使用 / 2個連続または左右ペア` を最低限含める。
+- 代替される `句読点 / 既存記号 / 既存絵文字` と比べて、商品として残す理由があるかを見る。
+- 強い負け筋が見えたら `release-spec`, `production-handoff`, `quality-ledger` を更新する。
+- 同じ負け筋が再発するなら `workflows/continuous-improvement-workflow.md` に送る。
 
 ## Gate 2: handoff quality review
 ### 入力
@@ -126,6 +139,15 @@
 - 審査差し戻し理由を release log に残したか。
 - 差し戻し理由を stage 固有問題か factory 基盤問題か分類したか。
 - 再発しうる問題を quality ledger に移したか。
+- 再発や skill blind spot が見えたら `workflows/continuous-improvement-workflow.md` に接続したか。
+- milestone が切り替わったら `workflows/release-retrospective-workflow.md` で振り返りを圧縮したか。
+
+## Lightweight Check
+- quality ledger の履歴が active 論点を埋めていないか。
+- 同じ論点が handoff、checklist、quality ledger に重複していないか。
+- 監査項目が多すぎて、1 絵文字単位の判断が遅くなっていないか。
+- brand 固有問題まで factory 化していないか。
+- 改善機構が重い場合、`削る / 要約する / owner file へ寄せる / factory へ昇格させる` のどれで軽くするか決めたか。
 
 ## Factory へ昇格させる条件
 次のどれかに当たるときは、ブランド repo の修正だけで終えず、
@@ -135,9 +157,13 @@
 - script の scaffold 不備が原因だった。
 - brand-production-brief や production-handoff の項目欠落が原因だった。
 - quality ledger だけでは抑えきれず、共通 workflow を変える必要がある。
+- 改善機構そのものが重く、継続監査を妨げている。
+- skill の入口不足や責務過多が再発原因になっている。
 
 ## 監査で必ず見るもの
 - blocking 問題が checklist で止まる設計か。
 - `Watch` が quality ledger に繋がっているか。
 - release log に審査差し戻しと修正履歴が残るか。
 - brand repo 側に production と quality の snapshot があるか。
+- 生成絵文字 1 件単位でも監査可能な粒度になっているか。
+- 監査の仕組み自体が重くなったときの戻し先があるか。

@@ -20,6 +20,12 @@
 - Result: `Design Ready`
 - Notes: `8` 個構成から `16` 個構成へ拡張し、release 固有コンセプトと主力 / 補助枠を再定義
 
+## 2026-04-24
+- Event: usage validation and retrospective added
+- Release: `release-001`
+- Result: `Design Ready`
+- Notes: 具体会話検証と節目振り返りを追加し、factory 共通基盤へ返す証拠を整理
+
 ## Submission Entry
 - Date:
 - Release:
@@ -27,6 +33,8 @@
 - Metadata version:
 - Result:
 - Reviewer notes:
+- Escalated to factory:
+- Retrospective path:
 - Follow-up action:
 
 ## Release Entry

@@ -21,10 +21,10 @@
   - 公式仕様、構造、評価語彙、ブランド分類、商品判断、リスク判定、継続改善、市場探索判断を持つ。
 - `workflows/`
   - 手順の正本。
-  - 相談処理、共通制作フロー、品質管理、変換処理、継続改善、探索手順、文書保守手順、ブランド運用手順を持つ。
+  - 相談処理、共通制作フロー、品質管理、変換処理、継続改善、探索手順、具体会話検証、振り返り、文書保守手順、ブランド運用手順を持つ。
 - `templates/`
   - 出力骨格の正本。
-  - ブランド設定、制作基盤、release 設計、handoff、QA、品質台帳、factory 改善台帳、探索 batch、repo 雛形、ブランド専用AI制作指示を持つ。
+  - ブランド設定、制作基盤、release 設計、handoff、QA、品質台帳、factory 改善台帳、探索 batch、具体会話検証、release 振り返り、repo 雛形、ブランド専用AI制作指示を持つ。
 - `skills/`
   - 実務入口の正本。
   - 通常運用用スキル、改善監査用スキル、文書監査用スキル、継続改善用スキル、skill 育成用スキルを持つ。
@@ -42,6 +42,8 @@
 - 構造Fail時の救済処理の正本: `workflows/transformation-workflow.md`
 - 継続改善の正本: `workflows/continuous-improvement-workflow.md`
 - 市場調査つき探索の正本: `workflows/idea-research-workflow.md`
+- 具体会話検証の正本: `workflows/usage-validation-workflow.md`
+- release 振り返りの正本: `workflows/release-retrospective-workflow.md`
 - ブランドの残留 / 分離判断の正本: `workflows/brand-lifecycle-workflow.md`
 - ブランド設定項目の正本: `templates/brand-setting-template.md`
 - ブランド固有制作基盤の正本: `templates/brand-production-brief-template.md`
@@ -51,6 +53,8 @@
 - 品質台帳項目の正本: `templates/quality-ledger-template.md`
 - factory 改善台帳項目の正本: `templates/factory-improvement-ledger-template.md`
 - アイデア探索 batch 項目の正本: `templates/idea-batch-template.md`
+- 具体会話検証項目の正本: `templates/usage-validation-template.md`
+- release 振り返り項目の正本: `templates/release-retrospective-template.md`
 - 公開 / 審査履歴項目の正本: `templates/release-log-template.md`
 - ブランド別リポジトリ設計の正本: `templates/brand-repo-blueprint.md`
 - ブランド別 manifest の正本: `templates/brand-repo-manifest-template.yaml`
@@ -75,11 +79,13 @@
 16. 品質管理に入るなら `workflows/quality-control-workflow.md` を起動し、`templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md` を初期化する。
 17. release / set ごとの handoff が必要なら `templates/production-handoff-template.md` を埋める。
 18. 専用AI制作指示が必要なら `templates/brand-system-prompt-template.md` を埋める。
-19. 提出前と継続運用では `workflows/quality-control-workflow.md` を回し続ける。
-20. 作業結果、監査結果、市場観測、skill friction は `workflows/continuous-improvement-workflow.md` に接続して、記録、昇格判断、軽量化判断まで閉じる。
-21. ブランドの継続運用や独立制作が見えたら `workflows/brand-lifecycle-workflow.md` で残留 / 分離を決める。
-22. 分離する場合は `templates/brand-repo-blueprint.md` と `templates/brand-repo-manifest-template.yaml` を使う。
-23. 作業完了は、必要な owner file 更新、記録更新、remote push 完了まで含む。
+19. 実際の会話文脈での勝ち筋を確認するなら `workflows/usage-validation-workflow.md` を起動する。
+20. 提出前と継続運用では `workflows/quality-control-workflow.md` を回し続ける。
+21. 節目ごとの学習を圧縮するなら `workflows/release-retrospective-workflow.md` を起動する。
+22. 作業結果、監査結果、市場観測、skill friction は `workflows/continuous-improvement-workflow.md` に接続して、記録、昇格判断、軽量化判断まで閉じる。
+23. ブランドの継続運用や独立制作が見えたら `workflows/brand-lifecycle-workflow.md` で残留 / 分離を決める。
+24. 分離する場合は `templates/brand-repo-blueprint.md` と `templates/brand-repo-manifest-template.yaml` を使う。
+25. 作業完了は、必要な owner file 更新、記録更新、remote push 完了まで含む。
 
 ## 責務境界
 - `rules/` は「何を守るか」を定義する。手順は書かない。

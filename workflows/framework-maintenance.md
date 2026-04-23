@@ -49,6 +49,16 @@
 - 次に `templates/idea-batch-template.md` を整合させる。
 - 通常探索の入口が変わるなら `workflows/consultation-workflow.md` と `skills/line-emoji-producer/SKILL.md` を更新する。
 
+### 具体会話検証を変える
+- 先に `workflows/usage-validation-workflow.md` を更新する。
+- 次に `templates/usage-validation-template.md` を整合させる。
+- 品質管理との接続が変わるなら `workflows/quality-control-workflow.md`, `templates/release-checklist-template.md`, `skills/line-emoji-producer/SKILL.md` を更新する。
+
+### release 振り返りを変える
+- 先に `workflows/release-retrospective-workflow.md` を更新する。
+- 次に `templates/release-retrospective-template.md` を整合させる。
+- 継続改善との接続が変わるなら `workflows/continuous-improvement-workflow.md`, `templates/release-log-template.md`, `skills/line-emoji-factory-evolver/SKILL.md` を更新する。
+
 ### 共通制作パイプラインを変える
 - 先に `workflows/production-pipeline-workflow.md` を更新する。
 - 次に `templates/brand-production-brief-template.md` と `templates/production-handoff-template.md` を更新する。
@@ -102,6 +112,8 @@
 - 継続品質管理が `workflows/quality-control-workflow.md`, `templates/brand-repo-blueprint.md`, `scripts/init-brand-repo.ps1` で揃っているか。
 - 継続改善ループが `rules/continuous-improvement-rules.md`, `workflows/continuous-improvement-workflow.md`, `templates/factory-improvement-ledger-template.md`, `skills/line-emoji-factory-evolver/SKILL.md` で揃っているか。
 - 市場調査つき探索が `rules/idea-research-rules.md`, `workflows/idea-research-workflow.md`, `templates/idea-batch-template.md`, `skills/line-emoji-producer/SKILL.md` で揃っているか。
+- 具体会話検証が `workflows/usage-validation-workflow.md`, `templates/usage-validation-template.md`, `workflows/quality-control-workflow.md` で揃っているか。
+- release 振り返りが `workflows/release-retrospective-workflow.md`, `templates/release-retrospective-template.md`, `workflows/continuous-improvement-workflow.md` で揃っているか。
 - `scripts/init-brand-repo.ps1` が release / QA / log 骨格を script 内で二重定義していないか。
 - ブランド分離基準が `workflows/brand-lifecycle-workflow.md` と `scripts/init-brand-repo.ps1` で揃っているか。
 - `skills/` がルール本文を再掲していないか。

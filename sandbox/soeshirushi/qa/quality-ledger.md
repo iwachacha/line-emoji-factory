@@ -10,6 +10,7 @@
   - 影響レイヤー: `商品`
   - 根本原因: ペア使用の印象が強いと、単体意味が弱くなる
   - 直す owner file: `brand/brand-production-brief.md`, `production/handoffs/release-001-handoff.md`
+  - factory昇格候補: `左右補助枠の単体成立をどの粒度で検証するか` が複数 brand で再発したら昇格
   - 次アクション: rough board で単体表示とペア表示を必ず並置検証する
 - ID: `SOE-Q-002`
   - 初出 release: `release-001`
@@ -17,6 +18,7 @@
   - 影響レイヤー: `商品`
   - 根本原因: どちらも文章整理系で、外形が近づきやすい
   - 直す owner file: `emoji-sets/releases/release-001.md`, `production/handoffs/release-001-handoff.md`
+  - factory昇格候補: まだなし
   - 次アクション: 中央サインと外形の閉じ方向を逆に固定する
 - ID: `SOE-Q-003`
   - 初出 release: `release-001`
@@ -24,6 +26,7 @@
   - 影響レイヤー: `ブランド`
   - 根本原因: 仕事連絡文脈を基準に置きすぎると温度感が硬くなる
   - 直す owner file: `brand/brand-setting.md`, `emoji-sets/releases/release-001.md`
+  - factory昇格候補: 実用品ブランド全般で再発するなら `idea-research` と `usage validation` へ返す
   - 次アクション: サンプル使用場面に友人同士の軽い会話も含める
 - ID: `SOE-Q-004`
   - 初出 release: `release-001`
@@ -31,7 +34,16 @@
   - 影響レイヤー: `商品`
   - 根本原因: 近い実用品機能を増やしたため、中央サイン設計が弱いと混同しやすい
   - 直す owner file: `emoji-sets/releases/release-001.md`, `production/handoffs/release-001-handoff.md`
+  - factory昇格候補: `近機能3連続の見分け方` が他 brand でも起きたら昇格
   - 次アクション: 戻す / 返す / 収める の向き差を rough board で並置比較する
+- ID: `SOE-Q-005`
+  - 初出 release: `release-001`
+  - 症状: `共有 / メモ / おすすめ` が文中使用だと、句読点や既存記号との差分価値を出し損ねる可能性がある
+  - 影響レイヤー: `商品`
+  - 根本原因: 情報整理寄りの機能は、外形差だけでなく `絵文字を使う理由` の証明が必要
+  - 直す owner file: `emoji-sets/releases/release-001.md`, `qa/usage-validations/release-001.md`
+  - factory昇格候補: 実用品記号ブランドで `買う理由が句読点に負ける` 問題が再発したら昇格
+  - 次アクション: 具体会話検証で `共有 / メモ / おすすめ` の勝ち筋を比較する
 
 ## 2. Monitoring
 - ID: `SOE-M-001`
@@ -45,6 +57,10 @@
 - ID: `SOE-M-003`
   - 監視理由: 組み合わせ補助枠の存在感が強すぎると、主力枠より演出感が前に出る
   - 再発条件: rough board で `みて左 / みて右` が上段主力より強く見える
+  - 次に確認する release: `release-001`
+- ID: `SOE-M-004`
+  - 監視理由: `!`, `※`, `→`, `【】` だけで十分なシーンが多いと、商品としての買う理由が弱くなる
+  - 再発条件: usage validation で 2 シーン以上 `既存表現で十分` 判定になる
   - 次に確認する release: `release-001`
 
 ## 3. Closed Issues
@@ -65,8 +81,18 @@
 - metadata / review 由来か: 未判定
 
 ## 5. Factory Feedback
-- 工場本体へ戻すべき問題: 現時点では追加なし
+- 工場本体へ戻すべき問題: usage validation と release retrospective の共通基盤化は反映済み。今後は `おすすめ` のような温度違い枠の扱いが再発するか観測する
 - `workflows/production-pipeline-workflow.md` 更新候補: なし
 - `templates/brand-production-brief-template.md` 更新候補: なし
 - `templates/production-handoff-template.md` 更新候補: なし
-- `scripts/init-brand-repo.ps1` 更新候補: shared snapshot 追加は反映済み
+- `skills/` 更新候補: 現時点では追加なし
+- `scripts/init-brand-repo.ps1` 更新候補: usage validation / retrospective scaffold は反映済み
+
+## 6. Lightweight Maintenance
+- 重くなった artifact: まだなし
+- 要約 / 統合 / 昇格の候補: usage validation は decisive な 6 シーン前後で維持する
+- 次回まで残す最小論点: `S05 / S06`, `S08 / S16`, `S09 / S10`, `S14 / S15`
+
+## 7. Linked Evidence
+- usage validation: `qa/usage-validations/release-001.md`
+- retrospective: `qa/retrospectives/release-001.md`

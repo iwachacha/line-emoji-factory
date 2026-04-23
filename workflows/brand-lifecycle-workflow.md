@@ -87,6 +87,8 @@
 - `workflows/production-pipeline-workflow.md` の snapshot
 - `workflows/quality-control-workflow.md` の snapshot
 - `workflows/continuous-improvement-workflow.md` の snapshot
+- `workflows/usage-validation-workflow.md` の snapshot
+- `workflows/release-retrospective-workflow.md` の snapshot
 - `templates/brand-setting-template.md` から埋めたブランド設定
 - `templates/brand-production-brief-template.md` から埋めた制作基盤
 - `templates/release-spec-template.md` から埋めた release spec
@@ -98,6 +100,8 @@
 - prompt 集
 - QA checklist
 - quality ledger
+- usage validation
+- release retrospective
 - 審査対応ログ
 - 提出履歴
 

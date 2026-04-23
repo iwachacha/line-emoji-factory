@@ -37,6 +37,8 @@
 - 構造Fail時の変換: `workflows/transformation-workflow.md`
 - 継続改善フロー: `workflows/continuous-improvement-workflow.md`
 - 市場調査つき探索フロー: `workflows/idea-research-workflow.md`
+- 具体会話検証フロー: `workflows/usage-validation-workflow.md`
+- release 振り返りフロー: `workflows/release-retrospective-workflow.md`
 - 文書保守フロー: `workflows/framework-maintenance.md`
 - ブランド運用と分離戦略: `workflows/brand-lifecycle-workflow.md`
 - ブランド設定出力: `templates/brand-setting-template.md`
@@ -47,6 +49,8 @@
 - 品質台帳出力: `templates/quality-ledger-template.md`
 - factory 改善台帳出力: `templates/factory-improvement-ledger-template.md`
 - アイデア探索 batch 出力: `templates/idea-batch-template.md`
+- 具体会話検証出力: `templates/usage-validation-template.md`
+- release 振り返り出力: `templates/release-retrospective-template.md`
 - 公開 / 審査履歴出力: `templates/release-log-template.md`
 - ブランド別リポジトリ設計: `templates/brand-repo-blueprint.md`
 - ブランド別リポジトリ manifest: `templates/brand-repo-manifest-template.yaml`
