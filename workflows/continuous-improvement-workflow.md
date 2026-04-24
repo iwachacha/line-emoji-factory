@@ -30,6 +30,7 @@
 6. 記録先を決める。
    - brand / release / emoji 起点: `quality-ledger`。提出や審査が絡むなら `release-log` も更新する。
    - factory / skill 起点: repo root の `factory-improvement-ledger.md` を更新する。未作成なら `templates/factory-improvement-ledger-template.md` から初期化する。
+   - 文字コードや検証コマンドなど作業者側の再発操作ミスは、`Agent Guardrails` に数行で残す。
    - 両方に跨る場合: 両方を更新し、片方だけで閉じない。
 7. 対応を `直す / 試す / 監視する / 捨てる` のどれで扱うか決める。
 8. skill の不足が原因なら、既存 skill 改修で足りるかを先に見る。足りなければ `skills/line-emoji-skill-builder/SKILL.md` に接続する。

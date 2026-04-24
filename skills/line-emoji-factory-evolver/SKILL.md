@@ -21,8 +21,9 @@ description: 作業結果、監査結果、市場観測、skill の詰まりを 
 6. brand 側記録が必要なら `quality-ledger` と `release-log` を更新する。
 7. 具体会話検証や milestone 学習があるなら `../../workflows/usage-validation-workflow.md` と `../../workflows/release-retrospective-workflow.md` を使う。
 8. factory 側記録が必要なら repo root の `factory-improvement-ledger.md` を更新する。
-9. skill の不足が原因なら `../line-emoji-skill-builder/SKILL.md` に接続する。
-10. 閉じる前に、改善の仕組み自体が重くなっていないか確認する。
+9. 文字コードや検証コマンドなど作業者側の再発操作ミスなら、`factory-improvement-ledger.md` の `Agent Guardrails` に短く残す。
+10. skill の不足が原因なら `../line-emoji-skill-builder/SKILL.md` に接続する。
+11. 閉じる前に、改善の仕組み自体が重くなっていないか確認する。
 
 ## Decision Rules
 

@@ -31,6 +31,15 @@
 - Evidence: `skills/line-emoji-skill-builder/SKILL.md`, `templates/quality-ledger-template.md`, `templates/brand-repo-blueprint.md` では、ブランド別 auditor SKILL を作る共通入口と出力骨格が未定義だった
 - Candidate owner file: `skills/line-emoji-brand-audit-skill-builder/SKILL.md`, `templates/brand-audit-skill-template.md`, `AGENTS.md`, `PROJECT_MAP.md`
 - Next audit point: 初回のブランド別 auditor SKILL 作成時
+- ID: `FAC-2026-04-25-002`
+- Date: `2026-04-25`
+- Trigger: skill 作成時に日本語を含む `agents/openai.yaml` が文字コード不正になり、UTF-8 読みで処理できなかった
+- Scope candidate: `skill maintenance`
+- Observation: Windows + 日本語 + CLI / Python 検証の組み合わせで、文字コード前提のズレが再発しやすい
+- Affected layer: `skill / 文書`
+- Evidence: `init_skill.py` 実行後の `agents/openai.yaml` が invalid UTF-8 になり、`quick_validate.py` も既定エンコーディングでは日本語 SKILL を読めなかった
+- Candidate owner file: `templates/factory-improvement-ledger-template.md`, `skills/line-emoji-skill-builder/SKILL.md`, `skills/line-emoji-brand-audit-skill-builder/SKILL.md`
+- Next audit point: 次回の日本語 skill / agents metadata 作成時
 
 ## 2. Active Interventions
 - ID: `FAC-2026-04-24-001`
@@ -51,6 +60,12 @@
 - Updated owner file: skill / template / `AGENTS.md` / `PROJECT_MAP.md` / brand repo blueprint へ反映済み。次回作成時に実効性を観測する段階
 - Verification method: 初回のブランド別 auditor SKILL 作成で、共通骨格を再掲しすぎず、ブランド固有 anchor を不足なく固定できるかを見る
 - Verify on: 次回のブランド別 auditor SKILL 作成時
+- ID: `FAC-2026-04-25-002`
+- Hypothesis: 再発しやすい作業者側ミスを短い guardrail として残せば、workflow 全体を重くせず同じ失敗を減らせる
+- Intervention: factory 改善台帳に `Agent Guardrails` 枠を追加し、skill 作成系の入口に UTF-8 実行確認を 1 行で入れる
+- Updated owner file: template / ledger / skill へ反映済み。次回の日本語 skill 作成で実効性を観測する段階
+- Verification method: 次回の日本語 skill / agents metadata 作成時に、生成直後の UTF-8 読み確認と `python -X utf8` 検証が自然に実行されるかを見る
+- Verify on: 次回の日本語 skill 作成時
 
 ## 3. Verified Upgrades
 
@@ -61,14 +76,29 @@
 - New skill needed: `skills/line-emoji-brand-audit-skill-builder/SKILL.md`
 - Why workflow / template only では足りないか: template だけでは、対象 brand repo の正本を読み、固有 anchor を抽出し、既存 skill と統合する判断入口が残らない
 - Next check: 初回のブランド別 auditor SKILL 作成時
+- ID: `FAC-2026-04-25-002`
+- Friction: 日本語を含む skill / agent metadata 作成時に、CLI 引数や Python の既定エンコーディングで文字化け・invalid UTF-8 が起きる
+- Existing skill to update: `skills/line-emoji-skill-builder/SKILL.md`, `skills/line-emoji-brand-audit-skill-builder/SKILL.md`
+- New skill needed: なし
+- Why workflow / template only では足りないか: 該当作業の入口で発火しないと、毎回コマンド実行後に同じ確認漏れが起きる
+- Next check: 次回の日本語 skill / agents metadata 作成時
 
 ## 5. Market / Diversity Memory
 
-## 6. Lightweight Maintenance
+## 6. Agent Guardrails
+- ID: `FAC-2026-04-25-002`
+- Issue: Windows 環境で日本語を含む skill / `agents/openai.yaml` / markdown を生成・検証すると、文字コード不正や文字化けが再発しうる
+- Guard: PowerShell 読み書きは `-Encoding UTF8` を明示し、Python 検証は `python -X utf8` を使う。CLI 引数で日本語を渡して生成したファイルは、直後に UTF-8 読みで確認する
+- Applies to: skill 作成、`agents/openai.yaml` 作成、markdown テンプレート作成、quick validate
+- Owner surface: `skills/line-emoji-skill-builder/SKILL.md`, `skills/line-emoji-brand-audit-skill-builder/SKILL.md`
+- Next check: 次回の日本語 skill 作成時
+- Retire condition: 3 回連続で同種の文字コード事故が起きず、skill 作成手順へ定着したら 1 行要約へ圧縮する
+
+## 7. Lightweight Maintenance
 - Heavy artifact:
 - Why it became heavy:
 - Compress / archive / merge / retire:
 - Owner file:
 - Next review date:
 
-## 7. Deferred / Rejected
+## 8. Deferred / Rejected

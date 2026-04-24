@@ -45,14 +45,23 @@
 - Whitespace worth retrying:
 - Next forced rotation:
 
-## 6. Lightweight Maintenance
+## 6. Agent Guardrails
+- ID:
+- Issue:
+- Guard:
+- Applies to:
+- Owner surface:
+- Next check:
+- Retire condition:
+
+## 7. Lightweight Maintenance
 - Heavy artifact:
 - Why it became heavy:
 - Compress / archive / merge / retire:
 - Owner file:
 - Next review date:
 
-## 7. Deferred / Rejected
+## 8. Deferred / Rejected
 - ID:
 - Why not now:
 - Re-open condition:
