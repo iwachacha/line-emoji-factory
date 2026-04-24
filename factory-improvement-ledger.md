@@ -22,6 +22,15 @@
 - Evidence: `sandbox/soeshirushi/qa/quality-ledger.md`, `sandbox/soeshirushi/emoji-sets/releases/release-001.md`, `sandbox/soeshirushi/production/handoffs/release-001-handoff.md`
 - Candidate owner file: `workflows/usage-validation-workflow.md`, `templates/usage-validation-template.md`, `workflows/release-retrospective-workflow.md`, `templates/release-retrospective-template.md`
 - Next audit point: `release-001` rough 後
+- ID: `FAC-2026-04-25-001`
+- Date: `2026-04-25`
+- Trigger: ブランド創出とブランドスタートアップセット支援の共通基盤を全体監査した
+- Scope candidate: `factory common`
+- Observation: `Design Ready` 後に、共通品質を保ったままブランドごとの可変域を明示して、制作・QA・prompt・scaffold へ一式化する正本が薄かった
+- Affected layer: `商品 / 品質 / 制作パイプライン / 文書`
+- Evidence: `workflows/production-pipeline-workflow.md`, `templates/brand-production-brief-template.md`, `templates/gpt-image2-rough-prompts-template.md`, `templates/brand-repo-manifest-template.yaml`
+- Candidate owner file: `workflows/brand-startup-set-workflow.md`, `templates/brand-production-brief-template.md`, `templates/brand-system-prompt-template.md`, 工程別 prompt templates, `templates/brand-repo-manifest-template.yaml`, `scripts/init-brand-repo.ps1`
+- Next audit point: 次回の brand repo scaffold と初期 release 設計
 
 ## 2. Active Interventions
 - ID: `FAC-2026-04-24-001`
@@ -36,6 +45,12 @@
 - Updated owner file: workflow / template / scaffold / `そえしるし` 実例へ反映済み。rough 以降で実効性を観測する段階
 - Verification method: `そえしるし` rough 以降で、使用検証と retrospective が実際の修正判断を動かすかを見る
 - Verify on: `release-001 / rough`
+- ID: `FAC-2026-04-25-001`
+- Hypothesis: brand startup set の正本と工程別 prompt 骨格を明示すれば、共通固定条件を保ちながらブランドごとの可変域を制作・QA・scaffold に落としやすくなる
+- Intervention: startup set workflow を追加し、相談 / 制作 / QA / lifecycle / scaffold / prompt template を追随更新する
+- Updated owner file: workflow / template / scaffold へ反映済み。一時 scaffold で snapshot、manifest 参照、実用 prompt 束の生成を確認済み
+- Verification method: 次回の実ブランド scaffold と初期 release 設計で、共通固定条件とブランド可変域が混線しないかを見る
+- Verify on: 次回 brand startup set 作成時
 
 ## 3. Verified Upgrades
 

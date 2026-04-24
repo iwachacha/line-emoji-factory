@@ -38,6 +38,8 @@ release を跨いで管理する。
 - `workflows/production-pipeline-workflow.md` 更新候補:
 - `templates/brand-production-brief-template.md` 更新候補:
 - `templates/production-handoff-template.md` 更新候補:
+- `templates/brand-system-prompt-template.md` 更新候補:
+- 工程別 prompt template 更新候補:
 - `skills/` 更新候補:
 - `scripts/init-brand-repo.ps1` 更新候補:
 

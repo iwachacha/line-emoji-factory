@@ -14,15 +14,16 @@
 8. その後 `rules/emoji-product-rules.md` と `rules/review-risk-rules.md` で商品判断を行う。
 9. 最後に `rules/evaluation-model.md` の判定状態へ落とす。
 10. `Design Ready` なら `templates/brand-setting-template.md` を埋める。
-11. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で共通制作フローを固定する。
-12. ブランド固有の制作基盤が必要なら `templates/brand-production-brief-template.md` を埋める。
-13. 初期 release / set が必要なら `templates/release-spec-template.md` を埋める。
-14. 品質管理が必要なら `workflows/quality-control-workflow.md` を起動し、`templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md` を初期化する。
-15. release / set ごとの handoff が必要なら `templates/production-handoff-template.md` を埋める。
-16. 実会話での勝ち筋確認が必要なら `workflows/usage-validation-workflow.md` と `templates/usage-validation-template.md` を使う。
-17. 専用AI制作指示が必要なら `templates/brand-system-prompt-template.md` を埋める。
-18. milestone 学習を圧縮するなら `workflows/release-retrospective-workflow.md` と `templates/release-retrospective-template.md` を使う。
-19. 継続改善や作業後の学習が必要なら `workflows/continuous-improvement-workflow.md` へ接続する。
+11. ブランドスタートアップセットを一式化するなら `workflows/brand-startup-set-workflow.md` を起動する。
+12. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で共通制作フローを固定する。
+13. ブランド固有の制作基盤が必要なら `templates/brand-production-brief-template.md` を埋める。
+14. 初期 release / set が必要なら `templates/release-spec-template.md` を埋める。
+15. 品質管理が必要なら `workflows/quality-control-workflow.md` を起動し、`templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md` を初期化する。
+16. release / set ごとの handoff が必要なら `templates/production-handoff-template.md` を埋める。
+17. 実会話での勝ち筋確認が必要なら `workflows/usage-validation-workflow.md` と `templates/usage-validation-template.md` を使う。
+18. 専用AI制作指示が必要なら `templates/brand-system-prompt-template.md` と工程別 prompt template を埋める。
+19. milestone 学習を圧縮するなら `workflows/release-retrospective-workflow.md` と `templates/release-retrospective-template.md` を使う。
+20. 継続改善や作業後の学習が必要なら `workflows/continuous-improvement-workflow.md` へ接続する。
 
 ## モード判定
 ### 探索モード
@@ -111,6 +112,18 @@
 - 審査注意
 - 次の制作単位
 
+### ブランドスタートアップセット相談
+- 共通ヘッダ
+- 要約
+- 揃える必須文書
+- 共通固定条件
+- ブランド可変域
+- release 可変域
+- 初期 release の買う理由
+- prompt 束へ転記する項目
+- QA 初期化項目
+- 分離判断
+
 ### 初期release設計相談
 - 共通ヘッダ
 - 要約
@@ -155,6 +168,7 @@
 - `最終判断` は `Fail / Revise / Keep / Design Ready` の4値だけを使う。
 - 変換案が必要な場合は、必ず `workflows/transformation-workflow.md` に接続する。
 - 制作実装を語る場合は、必ず `workflows/production-pipeline-workflow.md` と整合させる。
+- `Design Ready` 後の一式化を語る場合は、必ず `workflows/brand-startup-set-workflow.md` と整合させる。
 - 品質管理を語る場合は、必ず `workflows/quality-control-workflow.md` と整合させる。
 - 現行市場について述べる場合は、観測日を明示する。
 - 作業後の学習や再発論点がある場合は、`workflows/continuous-improvement-workflow.md` に接続する。

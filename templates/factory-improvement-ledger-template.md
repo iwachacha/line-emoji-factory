@@ -9,7 +9,7 @@
 - Trigger:
 - Scope candidate: `brand local / factory common / skill maintenance / monitor only`
 - Observation:
-- Affected layer: `構造 / ブランド / 商品 / 品質 / 市場探索 / skill / 文書`
+- Affected layer: `構造 / ブランド / 商品 / 品質 / 制作パイプライン / scaffold / 市場探索 / skill / 文書`
 - Evidence:
 - Candidate owner file:
 - Next audit point:

@@ -8,6 +8,8 @@ blocking 問題を通さないために使う。
 - [ ] `brand-production-brief` が最新である
 - [ ] `release-spec` が存在する
 - [ ] release の一言コンセプトとブランド内での役割が定義されている
+- [ ] release を買う理由が 1 文で定義されている
+- [ ] 共通固定条件、ブランド可変域、release 可変域が分離されている
 - [ ] 初期セット個数の根拠が定義されている
 - [ ] `production-handoff` が存在する
 - [ ] `Watch` 項目が quality ledger に残っている
@@ -23,6 +25,7 @@ blocking 問題を通さないために使う。
 ## Gate 2: rough / handoff
 - [ ] rough board が set 全体の方向を説明できる
 - [ ] handoff に keep / trim / drift が書かれている
+- [ ] 工程別 prompt 束へ転記すべき条件が埋まっている
 - [ ] 各絵文字に用途と意味がある
 - [ ] 生成後に優先監査する絵文字が決まっている
 - [ ] ClaudeDesign に暗黙前提を押し込んでいない

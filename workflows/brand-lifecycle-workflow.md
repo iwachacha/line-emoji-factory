@@ -32,10 +32,12 @@
 
 ### Stage 2: 設計確定直前
 - `Design Ready` 候補が見えた。
+- `workflows/brand-startup-set-workflow.md` に沿って、スタートアップセットの最小構成を揃える。
 - `templates/brand-setting-template.md` と `templates/brand-production-brief-template.md` を埋める。
 - `templates/release-spec-template.md` を埋める。
 - 必要なら `templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md` を初期化する。
 - 必要なら `templates/production-handoff-template.md` の初版を埋める。
+- 必要なら `templates/brand-system-prompt-template.md` と工程別 prompt 束を埋める。
 - まだ工場本体に置く。
 
 ### Stage 3: 独立運用開始
@@ -83,6 +85,7 @@
 - `rules/emoji-product-rules.md` の snapshot
 - `rules/review-risk-rules.md` の snapshot
 - `rules/continuous-improvement-rules.md` の snapshot
+- `workflows/brand-startup-set-workflow.md` の snapshot
 - `workflows/transformation-workflow.md` の snapshot
 - `workflows/production-pipeline-workflow.md` の snapshot
 - `workflows/quality-control-workflow.md` の snapshot
@@ -94,10 +97,11 @@
 - `templates/release-spec-template.md` から埋めた release spec
 - `templates/production-handoff-template.md` から埋めた release handoff
 - `templates/brand-system-prompt-template.md` から埋めた専用AI制作指示
+- 工程別 prompt 束
 - `templates/brand-repo-manifest-template.yaml` から埋めた manifest
 
 ### 推奨
-- prompt 集
+- 追加 prompt 履歴
 - QA checklist
 - quality ledger
 - usage validation

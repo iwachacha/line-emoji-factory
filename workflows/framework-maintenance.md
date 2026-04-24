@@ -63,8 +63,16 @@
 - 先に `workflows/production-pipeline-workflow.md` を更新する。
 - 次に `templates/brand-production-brief-template.md` と `templates/production-handoff-template.md` を更新する。
 - 次に `templates/release-spec-template.md` を整合させる。
-- 次に `templates/brand-system-prompt-template.md` を整合させる。
+- 次に `templates/brand-system-prompt-template.md` と工程別 prompt template を整合させる。
 - brand repo へ影響するなら `templates/brand-repo-blueprint.md`, `templates/brand-repo-manifest-template.yaml`, `scripts/init-brand-repo.ps1` を更新する。
+
+### ブランドスタートアップセットを変える
+- 先に `workflows/brand-startup-set-workflow.md` を更新する。
+- 次に `templates/brand-setting-template.md`, `templates/brand-production-brief-template.md`, `templates/release-spec-template.md`, `templates/production-handoff-template.md` を整合させる。
+- 次に `templates/brand-system-prompt-template.md` と工程別 prompt template を整合させる。
+- QA 初期化が変わるなら `templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md`, `templates/usage-validation-template.md` を更新する。
+- brand repo へ影響するなら `workflows/brand-lifecycle-workflow.md`, `templates/brand-repo-blueprint.md`, `templates/brand-repo-manifest-template.yaml`, `scripts/init-brand-repo.ps1` を更新する。
+- 入口が変わるなら `workflows/consultation-workflow.md`, `skills/line-emoji-producer/SKILL.md`, `PROJECT_MAP.md`, `AGENTS.md` を更新する。
 
 ### 品質管理フローを変える
 - 先に `workflows/quality-control-workflow.md` を更新する。
@@ -108,7 +116,10 @@
 - `templates/release-spec-template.md`, `templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md` が `workflows/quality-control-workflow.md` と揃っているか。
 - `rules/line-platform-baseline.md` の事実が古くなっていないか。
 - ブランド設定だけで止まらず、必要なら `templates/brand-production-brief-template.md` まで落とせるか。
+- `Design Ready` 後に `workflows/brand-startup-set-workflow.md` で最小一式へ落とせるか。
+- 共通固定条件、ブランド可変域、release 可変域が混線していないか。
 - 共通制作パイプラインが `workflows/production-pipeline-workflow.md`, `templates/brand-repo-blueprint.md`, `scripts/init-brand-repo.ps1` で揃っているか。
+- 工程別 prompt template が `templates/brand-system-prompt-template.md`, `templates/brand-production-brief-template.md`, `templates/production-handoff-template.md` から埋められるか。
 - 継続品質管理が `workflows/quality-control-workflow.md`, `templates/brand-repo-blueprint.md`, `scripts/init-brand-repo.ps1` で揃っているか。
 - 継続改善ループが `rules/continuous-improvement-rules.md`, `workflows/continuous-improvement-workflow.md`, `templates/factory-improvement-ledger-template.md`, `skills/line-emoji-factory-evolver/SKILL.md` で揃っているか。
 - 市場調査つき探索が `rules/idea-research-rules.md`, `workflows/idea-research-workflow.md`, `templates/idea-batch-template.md`, `skills/line-emoji-producer/SKILL.md` で揃っているか。

@@ -32,6 +32,7 @@
 - 継続改善の昇格判断: `rules/continuous-improvement-rules.md`
 - 市場調査つき探索の判断: `rules/idea-research-rules.md`
 - 相談運用フロー: `workflows/consultation-workflow.md`
+- ブランドスタートアップセット化: `workflows/brand-startup-set-workflow.md`
 - 共通制作パイプライン: `workflows/production-pipeline-workflow.md`
 - 品質管理フロー: `workflows/quality-control-workflow.md`
 - 構造Fail時の変換: `workflows/transformation-workflow.md`
@@ -55,10 +56,11 @@
 - ブランド別リポジトリ設計: `templates/brand-repo-blueprint.md`
 - ブランド別リポジトリ manifest: `templates/brand-repo-manifest-template.yaml`
 - ブランド専用AI制作指示出力: `templates/brand-system-prompt-template.md`
+- 工程別prompt束出力: `templates/gpt-image2-rough-prompts-template.md`, `templates/claude-design-prompts-template.md`, `templates/revision-prompts-template.md`
 
 ## 役割
 - 相談の種類を切り分ける。
 - 正本ファイルを参照して判断する。
 - 案を広げるだけでなく、切る・変換する・磨く判断を行う。
 - ブランド固有修正と factory 修正を切り分ける。
-- 必要なら、ブランド設定、初期release設計、制作基盤、制作ハンドオフ、品質管理、継続改善、skill 改修、専用AI制作指示まで設計する。
+- 必要なら、ブランド設定、ブランドスタートアップセット、初期release設計、制作基盤、制作ハンドオフ、品質管理、継続改善、skill 改修、専用AI制作指示まで設計する。

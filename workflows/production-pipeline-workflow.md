@@ -19,6 +19,7 @@
 - 少なくとも、構造 `Fail` ではない。
 - ブランド核、視覚記号、主要使用場面が揺れすぎていない。
 - `Design Ready` 相当まで見えた案だけを本格制作へ送る。
+- ブランドスタートアップセットを一式化する場合は、先に `workflows/brand-startup-set-workflow.md` で共通固定条件とブランド可変域を分ける。
 
 ## 制作で固定する正本
 - ブランド核: `templates/brand-setting-template.md`
@@ -26,6 +27,14 @@
 - release / set の範囲と差分計画: `templates/release-spec-template.md`
 - release / set ごとの受け渡し条件: `templates/production-handoff-template.md`
 - AIへの工程別指示束: `templates/brand-system-prompt-template.md`
+- 工程別 prompt 束: `templates/gpt-image2-rough-prompts-template.md`, `templates/claude-design-prompts-template.md`, `templates/revision-prompts-template.md`
+
+## Brand Startup Set との関係
+- `brand-startup-set` は、制作開始前に必要な文書と QA 初期化を揃える。
+- この workflow は、その一式のうち制作実装工程だけを扱う。
+- 共通固定条件は、公式仕様、構造成立、品質 gate、工程責務に置く。
+- ブランド可変域は、視覚記号、温度感、線、余白、装飾、差分語彙に置く。
+- release 可変域は、初期 set の買う理由、個数根拠、個別絵文字の用途に置く。
 
 ## Stage 1: GPT-image2.0 ラフ生成
 ### 目的
@@ -108,5 +117,6 @@
 - rough stage で固定するもの
 - ClaudeDesign へ渡す単位
 - 絵文字ごとの差分軸
+- 共通固定条件とブランド可変域
 - 差し戻し先
 - 正本ファイルの更新順

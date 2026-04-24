@@ -1,6 +1,6 @@
 schema_version: "1.0"
-factory_base_version: "2026-04-24"
-template_schema_version: "1.0"
+factory_base_version: "[FACTORY_BASE_VERSION]"
+template_schema_version: "1.1"
 
 brand:
   slug: "your-brand-slug"
@@ -38,8 +38,12 @@ strategy:
 references:
   shared_dir: "references/shared"
   evaluation_model_snapshot_path: "references/shared/evaluation-model.md"
+  line_platform_baseline_snapshot_path: "references/shared/line-platform-baseline.md"
   structure_constraints_snapshot_path: "references/shared/structure-constraints.md"
+  emoji_product_rules_snapshot_path: "references/shared/emoji-product-rules.md"
+  review_risk_rules_snapshot_path: "references/shared/review-risk-rules.md"
   continuous_improvement_rules_snapshot_path: "references/shared/continuous-improvement-rules.md"
+  brand_startup_set_workflow_snapshot_path: "references/shared/brand-startup-set-workflow.md"
   transformation_workflow_snapshot_path: "references/shared/transformation-workflow.md"
   production_pipeline_snapshot_path: "references/shared/production-pipeline-workflow.md"
   quality_control_snapshot_path: "references/shared/quality-control-workflow.md"

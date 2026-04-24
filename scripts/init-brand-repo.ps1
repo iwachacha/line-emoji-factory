@@ -87,6 +87,7 @@ $sharedFiles = @(
     @{ Source = "rules/emoji-product-rules.md"; Target = "references/shared/emoji-product-rules.md" },
     @{ Source = "rules/review-risk-rules.md"; Target = "references/shared/review-risk-rules.md" },
     @{ Source = "rules/continuous-improvement-rules.md"; Target = "references/shared/continuous-improvement-rules.md" },
+    @{ Source = "workflows/brand-startup-set-workflow.md"; Target = "references/shared/brand-startup-set-workflow.md" },
     @{ Source = "workflows/transformation-workflow.md"; Target = "references/shared/transformation-workflow.md" },
     @{ Source = "workflows/production-pipeline-workflow.md"; Target = "references/shared/production-pipeline-workflow.md" },
     @{ Source = "workflows/quality-control-workflow.md"; Target = "references/shared/quality-control-workflow.md" },
@@ -118,6 +119,7 @@ $brandPrompt = Read-Utf8File (Join-Path $repoRoot "templates/brand-system-prompt
 $manifest = Read-Utf8File (Join-Path $repoRoot "templates/brand-repo-manifest-template.yaml")
 
 $initDate = Get-Date -Format "yyyy-MM-dd"
+$factoryBaseVersion = $initDate
 $releaseId = "release-001"
 
 $replacements = @{
@@ -126,9 +128,14 @@ $replacements = @{
     "[BRAND_NAME]" = $BrandName
     "[BRAND_SLUG]" = $BrandSlug
     "[INIT_DATE]" = $initDate
+    "[FACTORY_BASE_VERSION]" = $factoryBaseVersion
     "[RELEASE_ID]" = $releaseId
 }
 
+$brandSetting = Apply-Replacements -Content $brandSetting -Replacements $replacements
+$brandBrief = Apply-Replacements -Content $brandBrief -Replacements $replacements
+$brandPrompt = Apply-Replacements -Content $brandPrompt -Replacements $replacements
+$handoffTemplate = Apply-Replacements -Content $handoffTemplate -Replacements $replacements
 $manifest = Apply-Replacements -Content $manifest -Replacements $replacements
 $brandRepoReadme = Apply-Replacements -Content $brandRepoReadme -Replacements $replacements
 $gptImage2Prompts = Apply-Replacements -Content $gptImage2Prompts -Replacements $replacements

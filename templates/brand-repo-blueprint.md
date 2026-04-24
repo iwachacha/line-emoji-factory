@@ -21,6 +21,7 @@ brand-repo/
 │       ├── emoji-product-rules.md
 │       ├── review-risk-rules.md
 │       ├── continuous-improvement-rules.md
+│       ├── brand-startup-set-workflow.md
 │       ├── transformation-workflow.md
 │       ├── production-pipeline-workflow.md
 │       ├── quality-control-workflow.md
@@ -43,7 +44,7 @@ brand-repo/
 │       └── release-001.md
 ├── qa/
 │   ├── release-checklist.md
-│   └── quality-ledger.md
+│   ├── quality-ledger.md
 │   ├── usage-validations/
 │   │   └── release-001.md
 │   └── retrospectives/
@@ -68,8 +69,16 @@ brand-repo/
   - brand repo で日常運用するときの正本は、`brand/`, `emoji-sets/`, `production/`, `qa/`, `submissions/` 側の実体文書とする。
 - `references/shared/evaluation-model.md`
   - brand repo 側で使う判定語彙の snapshot。
+- `references/shared/line-platform-baseline.md`
+  - 公式仕様と表示事実の snapshot。
 - `references/shared/structure-constraints.md`
   - rough review や構造後退確認で参照する構造成立性の snapshot。
+- `references/shared/emoji-product-rules.md`
+  - release 設計、final QA、商品品質判断で参照する商品ルールの snapshot。
+- `references/shared/review-risk-rules.md`
+  - metadata、審査、権利、公開運用リスクで参照する snapshot。
+- `references/shared/brand-startup-set-workflow.md`
+  - brand repo scaffold 時の最小一式と、共通固定条件 / ブランド可変域 / release 可変域の境界を確認する snapshot。
 - `references/shared/transformation-workflow.md`
   - brand repo 側で構造後退が見えたときの戻し先になる変換フローの snapshot。
 - `references/shared/continuous-improvement-rules.md`
@@ -82,6 +91,7 @@ brand-repo/
   - brand repo 側で節目学習を短く圧縮するための workflow snapshot。
 - `prompts/*`
   - `GPT-image2.0` 用 rough prompt、`ClaudeDesign` 用仕上げ prompt、修正 prompt を蓄積する。
+  - `brand-system-prompt`, `release-spec`, `production-handoff` から転記して使う。
 - `production/rough-boards/*`
   - rough stage の全体図、anchor、過程メモを残す。
 - `production/handoffs/*`
@@ -117,6 +127,7 @@ brand-repo/
 ## 運用原則
 - brand repo は **制作と運用に特化** させる。
 - brand repo 側で共通ルールを再解釈しない。
+- 共通固定条件、ブランド可変域、release 可変域を混ぜない。
 - 公式仕様更新があったら、snapshot を更新するかどうかを明示的に判断する。
 - rough / handoff / final の責務を混ぜない。
 - 再発問題や運用過重が見えたら、factory 側の継続改善へ戻す。

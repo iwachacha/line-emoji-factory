@@ -1,25 +1,30 @@
 # [BRAND_NAME]
 
-This repository is dedicated to production, QA, review, and release work for the LINE emoji brand `[BRAND_NAME]`.
+このリポジトリは、LINE絵文字ブランド `[BRAND_NAME]` の制作、QA、審査、公開運用に集中するためのブランド別 repo です。
 
-## Entry Points
-- Brand source of truth: `brand/brand-setting.md`
-- Production source of truth: `brand/brand-production-brief.md`
-- Brand prompt source of truth: `brand/brand-system-prompt.md`
-- Machine-readable manifest: `brand/brand-manifest.yaml`
-- Shared snapshots: `references/shared/`
-- Rough boards: `production/rough-boards/`
-- Handoffs: `production/handoffs/`
-- Finals: `production/finals/`
-- Release specs: `emoji-sets/releases/`
+## 入口
+- ブランド正本: `brand/brand-setting.md`
+- 制作基盤正本: `brand/brand-production-brief.md`
+- ブランド専用AI制作指示: `brand/brand-system-prompt.md`
+- 機械可読 manifest: `brand/brand-manifest.yaml`
+- 共通基盤 snapshot: `references/shared/`
+- release 仕様: `emoji-sets/releases/`
+- rough board: `production/rough-boards/`
+- handoff: `production/handoffs/`
+- final asset: `production/finals/`
+- prompt 束: `prompts/`
 - QA checklist: `qa/release-checklist.md`
-- Quality ledger: `qa/quality-ledger.md`
-- Usage validations: `qa/usage-validations/`
-- Retrospectives: `qa/retrospectives/`
-- Submission history: `submissions/release-log.md`
+- quality ledger: `qa/quality-ledger.md`
+- usage validation: `qa/usage-validations/`
+- retrospective: `qa/retrospectives/`
+- 提出 / 審査 / 公開履歴: `submissions/release-log.md`
 
-## Operating Rules
-- Keep this repo focused on brand-specific production and operations.
-- Do not auto-sync factory updates.
-- Re-sync shared baselines and workflow snapshots only when official platform changes, review-policy changes, or repeated quality issues require it.
-- Treat `brand/`, `emoji-sets/`, `production/`, `qa/`, and `submissions/` as the working source of truth for this repo. Shared snapshots preserve factory provenance and naming.
+## 運用原則
+- `構造 → ブランド → 商品` の順で判断する。
+- 共通固定条件、ブランド可変域、release 可変域を混ぜない。
+- rough / handoff / final の責務を混ぜない。
+- `Watch` は `qa/quality-ledger.md` と handoff に残す。
+- 審査、差し戻し、修正、公開の履歴は `submissions/release-log.md` に残す。
+- factory 更新は自動同期しない。
+- 公式仕様変更、審査基準変更、再発品質問題があるときだけ snapshot 再同期を判断する。
+- 日常運用の正本は `brand/`, `emoji-sets/`, `production/`, `qa/`, `submissions/` 側の実体文書とする。

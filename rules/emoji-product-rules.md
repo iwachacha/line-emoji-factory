@@ -93,6 +93,7 @@
 
 ## ブランド固有基盤への接続
 - この工場では、制作方法を `GPT-image2.0 ラフ生成 → ClaudeDesign 仕上げ` で固定する。
+- `Design Ready` 後に一式化する場合は `workflows/brand-startup-set-workflow.md` で、共通固定条件、ブランド可変域、release 可変域を分ける。
 - `Design Ready` の後、制作実装へ進める場合は `workflows/production-pipeline-workflow.md` で工程責務を固定する。
 - `Design Ready` の後、制作実装へ進める場合は `templates/brand-production-brief-template.md` を埋める。
 - 初期 release / set 設計は `templates/release-spec-template.md` を埋める。
