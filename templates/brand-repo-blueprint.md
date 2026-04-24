@@ -48,9 +48,16 @@ brand-repo/
 │   │   └── release-001.md
 │   └── retrospectives/
 │       └── release-001.md
+├── skills/
+│   └── [brand-slug]-emoji-auditor/
+│       ├── SKILL.md
+│       └── agents/openai.yaml
 └── submissions/
     └── release-log.md
 ```
+
+`skills/[brand-slug]-emoji-auditor/` は、ブランド設定と制作基盤が固まった後に
+factory 側の `skills/line-emoji-brand-audit-skill-builder/SKILL.md` で生成する。
 
 ## 各ファイルの役割
 - `brand/brand-manifest.yaml`
@@ -98,6 +105,11 @@ brand-repo/
   - release ごとの具体会話検証を残す。
 - `qa/retrospectives/*`
   - milestone ごとの短い振り返りを残す。
+- `skills/[brand-slug]-emoji-auditor/SKILL.md`
+  - そのブランドの構想案、rough、handoff、final asset、release 運用を監査する入口。
+  - factory 側の `templates/brand-audit-skill-template.md` から、ブランド固有 anchor を埋めて作る。
+- `skills/[brand-slug]-emoji-auditor/agents/openai.yaml`
+  - ブランド別 auditor SKILL の UI 入口を定義する。
 - `submissions/release-log.md`
   - 提出、審査差し戻し、修正、再提出の履歴を残す。
 
@@ -105,6 +117,7 @@ brand-repo/
 - そのブランドだけに必要な決定
 - そのブランドの制作ログ
 - そのブランド専用の prompt、rough board、handoff、QA、品質台帳
+- そのブランド専用の監査SKILL
 - そのブランドの具体会話検証と節目振り返り
 - そのブランドの将来リリース計画
 
@@ -119,4 +132,5 @@ brand-repo/
 - brand repo 側で共通ルールを再解釈しない。
 - 公式仕様更新があったら、snapshot を更新するかどうかを明示的に判断する。
 - rough / handoff / final の責務を混ぜない。
+- ブランド別監査SKILLは brand 固有条件を薄く固定し、共通ルール本文を再掲しない。
 - 再発問題や運用過重が見えたら、factory 側の継続改善へ戻す。

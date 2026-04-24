@@ -24,10 +24,10 @@
   - 相談処理、共通制作フロー、品質管理、変換処理、継続改善、探索手順、具体会話検証、振り返り、文書保守手順、ブランド運用手順を持つ。
 - `templates/`
   - 出力骨格の正本。
-  - ブランド設定、制作基盤、release 設計、handoff、QA、品質台帳、factory 改善台帳、探索 batch、具体会話検証、release 振り返り、repo 雛形、ブランド専用AI制作指示を持つ。
+  - ブランド設定、制作基盤、release 設計、handoff、QA、品質台帳、ブランド別監査SKILL、factory 改善台帳、探索 batch、具体会話検証、release 振り返り、repo 雛形、ブランド専用AI制作指示を持つ。
 - `skills/`
   - 実務入口の正本。
-  - 通常運用用スキル、改善監査用スキル、文書監査用スキル、継続改善用スキル、skill 育成用スキルを持つ。
+  - 通常運用用スキル、改善監査用スキル、文書監査用スキル、継続改善用スキル、skill 育成用スキル、ブランド別監査SKILL作成用スキルを持つ。
 
 ## 正本範囲
 - 用語定義と判定状態の正本: `rules/evaluation-model.md`
@@ -51,6 +51,7 @@
 - 制作ハンドオフ項目の正本: `templates/production-handoff-template.md`
 - release QA 項目の正本: `templates/release-checklist-template.md`
 - 品質台帳項目の正本: `templates/quality-ledger-template.md`
+- ブランド別監査SKILL項目の正本: `templates/brand-audit-skill-template.md`
 - factory 改善台帳項目の正本: `templates/factory-improvement-ledger-template.md`
 - アイデア探索 batch 項目の正本: `templates/idea-batch-template.md`
 - 具体会話検証項目の正本: `templates/usage-validation-template.md`
@@ -67,25 +68,26 @@
 4. 文書監査なら `skills/line-emoji-doc-auditor/SKILL.md` を入口にする。
 5. 継続改善や作業後の学習閉路を回すなら `skills/line-emoji-factory-evolver/SKILL.md` を入口にする。
 6. local skill の不足や肥大化を直すなら `skills/line-emoji-skill-builder/SKILL.md` を入口にする。
-7. 通常運用では `workflows/consultation-workflow.md` に従ってモードを決める。
-8. 探索モードで新規案出しや市場調査が必要なら `workflows/idea-research-workflow.md` を起動する。
-9. 先に `rules/line-platform-baseline.md` と `rules/structure-constraints.md` で、公式仕様と構造成立性を判定する。
-10. 構造でFailしたら `workflows/transformation-workflow.md` に沿って変換案を出す。
-11. 構造を通過した案だけ、ブランドと商品を順に評価する。
-12. `Design Ready` まで達したら、`templates/brand-setting-template.md` を埋める。
-13. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で共通制作フローを固定する。
-14. ブランド固有の制作基盤が必要なら `templates/brand-production-brief-template.md` を埋める。
-15. 初期 release / set を切るなら `templates/release-spec-template.md` を埋める。
-16. 品質管理に入るなら `workflows/quality-control-workflow.md` を起動し、`templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md` を初期化する。
-17. release / set ごとの handoff が必要なら `templates/production-handoff-template.md` を埋める。
-18. 専用AI制作指示が必要なら `templates/brand-system-prompt-template.md` を埋める。
-19. 実際の会話文脈での勝ち筋を確認するなら `workflows/usage-validation-workflow.md` を起動する。
-20. 提出前と継続運用では `workflows/quality-control-workflow.md` を回し続ける。
-21. 節目ごとの学習を圧縮するなら `workflows/release-retrospective-workflow.md` を起動する。
-22. 作業結果、監査結果、市場観測、skill friction は `workflows/continuous-improvement-workflow.md` に接続して、記録、昇格判断、軽量化判断まで閉じる。
-23. ブランドの継続運用や独立制作が見えたら `workflows/brand-lifecycle-workflow.md` で残留 / 分離を決める。
-24. 分離する場合は `templates/brand-repo-blueprint.md` と `templates/brand-repo-manifest-template.yaml` を使う。
-25. 作業完了は、必要な owner file 更新、記録更新、remote push 完了まで含む。
+7. ブランド別の監査SKILLを作るなら `skills/line-emoji-brand-audit-skill-builder/SKILL.md` を入口にする。
+8. 通常運用では `workflows/consultation-workflow.md` に従ってモードを決める。
+9. 探索モードで新規案出しや市場調査が必要なら `workflows/idea-research-workflow.md` を起動する。
+10. 先に `rules/line-platform-baseline.md` と `rules/structure-constraints.md` で、公式仕様と構造成立性を判定する。
+11. 構造でFailしたら `workflows/transformation-workflow.md` に沿って変換案を出す。
+12. 構造を通過した案だけ、ブランドと商品を順に評価する。
+13. `Design Ready` まで達したら、`templates/brand-setting-template.md` を埋める。
+14. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で共通制作フローを固定する。
+15. ブランド固有の制作基盤が必要なら `templates/brand-production-brief-template.md` を埋める。
+16. 初期 release / set を切るなら `templates/release-spec-template.md` を埋める。
+17. 品質管理に入るなら `workflows/quality-control-workflow.md` を起動し、`templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md` を初期化する。
+18. release / set ごとの handoff が必要なら `templates/production-handoff-template.md` を埋める。
+19. 専用AI制作指示が必要なら `templates/brand-system-prompt-template.md` を埋める。
+20. 実際の会話文脈での勝ち筋を確認するなら `workflows/usage-validation-workflow.md` を起動する。
+21. 提出前と継続運用では `workflows/quality-control-workflow.md` を回し続ける。
+22. 節目ごとの学習を圧縮するなら `workflows/release-retrospective-workflow.md` を起動する。
+23. 作業結果、監査結果、市場観測、skill friction は `workflows/continuous-improvement-workflow.md` に接続して、記録、昇格判断、軽量化判断まで閉じる。
+24. ブランドの継続運用や独立制作が見えたら `workflows/brand-lifecycle-workflow.md` で残留 / 分離を決める。
+25. 分離する場合は `templates/brand-repo-blueprint.md` と `templates/brand-repo-manifest-template.yaml` を使う。
+26. 作業完了は、必要な owner file 更新、記録更新、remote push 完了まで含む。
 
 ## 責務境界
 - `rules/` は「何を守るか」を定義する。手順は書かない。

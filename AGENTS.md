@@ -20,6 +20,7 @@
 - ドキュメント監査や構造改善を処理する: `skills/line-emoji-doc-auditor/SKILL.md`
 - 作業結果を継続改善ループへ接続する: `skills/line-emoji-factory-evolver/SKILL.md`
 - local skill の新設・改修・整理を行う: `skills/line-emoji-skill-builder/SKILL.md`
+- ブランドごとの監査SKILLを作成する: `skills/line-emoji-brand-audit-skill-builder/SKILL.md`
 
 ## Canonical Sources
 - 公式仕様と運用事実: `rules/line-platform-baseline.md`
@@ -47,6 +48,7 @@
 - 制作ハンドオフ出力: `templates/production-handoff-template.md`
 - release QA 出力: `templates/release-checklist-template.md`
 - 品質台帳出力: `templates/quality-ledger-template.md`
+- ブランド別監査SKILL出力: `templates/brand-audit-skill-template.md`
 - factory 改善台帳出力: `templates/factory-improvement-ledger-template.md`
 - アイデア探索 batch 出力: `templates/idea-batch-template.md`
 - 具体会話検証出力: `templates/usage-validation-template.md`
@@ -61,4 +63,4 @@
 - 正本ファイルを参照して判断する。
 - 案を広げるだけでなく、切る・変換する・磨く判断を行う。
 - ブランド固有修正と factory 修正を切り分ける。
-- 必要なら、ブランド設定、初期release設計、制作基盤、制作ハンドオフ、品質管理、継続改善、skill 改修、専用AI制作指示まで設計する。
+- 必要なら、ブランド設定、初期release設計、制作基盤、制作ハンドオフ、品質管理、継続改善、skill 改修、ブランド別監査SKILL、専用AI制作指示まで設計する。

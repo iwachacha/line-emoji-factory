@@ -16,6 +16,7 @@ This repository is dedicated to production, QA, review, and release work for the
 - Quality ledger: `qa/quality-ledger.md`
 - Usage validations: `qa/usage-validations/`
 - Retrospectives: `qa/retrospectives/`
+- Brand audit skill, when generated: `skills/[BRAND_SLUG]-emoji-auditor/SKILL.md`
 - Submission history: `submissions/release-log.md`
 
 ## Operating Rules
@@ -23,3 +24,4 @@ This repository is dedicated to production, QA, review, and release work for the
 - Do not auto-sync factory updates.
 - Re-sync shared baselines and workflow snapshots only when official platform changes, review-policy changes, or repeated quality issues require it.
 - Treat `brand/`, `emoji-sets/`, `production/`, `qa/`, and `submissions/` as the working source of truth for this repo. Shared snapshots preserve factory provenance and naming.
+- Create brand-specific audit skills from the factory `templates/brand-audit-skill-template.md` after brand anchors are stable.

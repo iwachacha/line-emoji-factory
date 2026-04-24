@@ -1,0 +1,4 @@
+interface:
+  display_name: "LINE絵文字ブランド監査SKILL作成"
+  short_description: "ブランド別の絵文字監査SKILLを共通品質で作るスキル"
+  default_prompt: "Use $line-emoji-brand-audit-skill-builder to ブランド別の絵文字監査SKILLを作成する。"
