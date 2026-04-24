@@ -3,22 +3,22 @@ factory_base_version: "2026-04-24"
 template_schema_version: "1.0"
 
 brand:
-  slug: "your-brand-slug"
-  name: "YOUR_BRAND_NAME"
-  stage: "design-ready"
-  owner: "owner-name"
+  slug: "yurugauge"
+  name: "ゆるゲージ"
+  stage: "final-qa-ready"
+  owner: "line-emoji-factory"
 
 product:
   item_type: "static-emoji"
   package_type: "emoji"
-  initial_set_count: 8
+  initial_set_count: 16
   animation: false
 
 production:
   fixed_pipeline: "gpt-image2-rough-to-claude-design"
   rough_board_dir: "production/rough-boards"
   handoff_dir: "production/handoffs"
-  final_asset_dir: "production/finals"
+  final_asset_dir: "production/finals/release-001"
   release_spec_dir: "emoji-sets/releases"
   prompt_bundle_dir: "prompts"
 
@@ -30,10 +30,10 @@ quality:
   release_log_path: "submissions/release-log.md"
 
 strategy:
-  split_reason: "独立制作と継続運用が必要になったため"
+  split_reason: "市場調査から商品化までの一連の試走対象として独立制作したため"
   release_policy: "manual"
   sync_policy: "snapshot"
-  premium_horizon: "unknown"
+  premium_horizon: "180日以降に実績を見て判断"
 
 references:
   market_research_path: "references/market/idea-batch-001.md"
@@ -54,3 +54,4 @@ source:
   production_brief_path: "brand/brand-production-brief.md"
   system_prompt_path: "brand/brand-system-prompt.md"
   active_release_spec_path: "emoji-sets/releases/release-001.md"
+

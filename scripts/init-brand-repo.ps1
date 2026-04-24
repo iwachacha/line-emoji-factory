@@ -64,6 +64,7 @@ if (-not $BrandName) {
 
 $dirs = @(
     "brand",
+    "references/market",
     "references/shared",
     "prompts",
     "production/rough-boards",
@@ -102,6 +103,7 @@ foreach ($item in $sharedFiles) {
 $brandSetting = Read-Utf8File (Join-Path $repoRoot "templates/brand-setting-template.md")
 $brandBrief = Read-Utf8File (Join-Path $repoRoot "templates/brand-production-brief-template.md")
 $brandRepoReadme = Read-Utf8File (Join-Path $repoRoot "templates/brand-repo-readme-template.md")
+$ideaBatchTemplate = Read-Utf8File (Join-Path $repoRoot "templates/idea-batch-template.md")
 $gptImage2Prompts = Read-Utf8File (Join-Path $repoRoot "templates/gpt-image2-rough-prompts-template.md")
 $claudeDesignPrompts = Read-Utf8File (Join-Path $repoRoot "templates/claude-design-prompts-template.md")
 $revisionPrompts = Read-Utf8File (Join-Path $repoRoot "templates/revision-prompts-template.md")
@@ -131,6 +133,7 @@ $replacements = @{
 
 $manifest = Apply-Replacements -Content $manifest -Replacements $replacements
 $brandRepoReadme = Apply-Replacements -Content $brandRepoReadme -Replacements $replacements
+$ideaBatchTemplate = Apply-Replacements -Content $ideaBatchTemplate -Replacements $replacements
 $gptImage2Prompts = Apply-Replacements -Content $gptImage2Prompts -Replacements $replacements
 $claudeDesignPrompts = Apply-Replacements -Content $claudeDesignPrompts -Replacements $replacements
 $revisionPrompts = Apply-Replacements -Content $revisionPrompts -Replacements $replacements
@@ -148,6 +151,7 @@ Write-Utf8File -Path (Join-Path $destRoot "brand/brand-setting.md") -Content $br
 Write-Utf8File -Path (Join-Path $destRoot "brand/brand-production-brief.md") -Content $brandBrief
 Write-Utf8File -Path (Join-Path $destRoot "brand/brand-system-prompt.md") -Content $brandPrompt
 Write-Utf8File -Path (Join-Path $destRoot "brand/brand-manifest.yaml") -Content $manifest
+Write-Utf8File -Path (Join-Path $destRoot "references/market/idea-batch-001.md") -Content $ideaBatchTemplate
 Write-Utf8File -Path (Join-Path $destRoot "prompts/gpt-image2-rough-prompts.md") -Content $gptImage2Prompts
 Write-Utf8File -Path (Join-Path $destRoot "prompts/claude-design-prompts.md") -Content $claudeDesignPrompts
 Write-Utf8File -Path (Join-Path $destRoot "prompts/revision-prompts.md") -Content $revisionPrompts

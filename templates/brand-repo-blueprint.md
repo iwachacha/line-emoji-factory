@@ -14,6 +14,8 @@ brand-repo/
 │   ├── brand-production-brief.md
 │   └── brand-system-prompt.md
 ├── references/
+│   ├── market/
+│   │   └── idea-batch-001.md
 │   └── shared/
 │       ├── evaluation-model.md
 │       ├── line-platform-baseline.md
@@ -66,6 +68,9 @@ brand-repo/
   - 工場本体から持ち出した rules / workflow snapshot。
   - snapshot 内のファイル参照名は factory 側の owner file 名を保持してよい。
   - brand repo で日常運用するときの正本は、`brand/`, `emoji-sets/`, `production/`, `qa/`, `submissions/` 側の実体文書とする。
+- `references/market/idea-batch-001.md`
+  - 採用時の市場観測と候補比較の snapshot。
+  - brand repo 側で広い探索を続けるためではなく、採用理由と真似しない線引きを後から確認するために残す。
 - `references/shared/evaluation-model.md`
   - brand repo 側で使う判定語彙の snapshot。
 - `references/shared/structure-constraints.md`
@@ -107,12 +112,14 @@ brand-repo/
 - そのブランド専用の prompt、rough board、handoff、QA、品質台帳
 - そのブランドの具体会話検証と節目振り返り
 - そのブランドの将来リリース計画
+- 採用時の市場観測 snapshot
 
 ## repo に残さないもの
 - 他ブランド比較
 - 工場本体の ideation メモ
 - 汎用 taxonomy や exploration log の全部
 - 中途候補の墓場
+- 採用されなかった市場探索 batch の全量
 
 ## 運用原則
 - brand repo は **制作と運用に特化** させる。
