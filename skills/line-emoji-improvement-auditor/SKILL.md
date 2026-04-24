@@ -23,7 +23,7 @@ brand 価値向上と factory 再利用価値を分けて判断する。
 9. `構造不成立` または `実装前提の誤認` に触れる改善は採らず、必要なら `../../workflows/transformation-workflow.md` へ戻す。
 10. 採用する改善は、まず brand 固有修正で足りるかを判定する。次のいずれかを満たすときだけ factory へ上げる。
    - 同種の論点が 2 release 以上または 2 ブランド以上で再発しうる。
-   - startup set / template / workflow / scaffold の項目欠落が原因である。
+   - fixed IP / startup set / sales package / template / workflow / scaffold の項目欠落が原因である。
    - quality ledger だけでは抑えきれず、共通 owner file を変えないと再発する。
 11. 採用する改善は最小修正で入れ、brand 側なら `quality-ledger` と `release-log` に反映し、factory 側なら依存する `templates/`, `skills/`, `AGENTS.md`, `PROJECT_MAP.md` を追随更新する。
 12. milestone 学習の圧縮が必要なら `../../workflows/release-retrospective-workflow.md` を使う。
@@ -36,6 +36,7 @@ brand 価値向上と factory 再利用価値を分けて判断する。
 - 組み合わせ補助枠は自動で却下しない。ただし少数か、単体意味が残るか、上段高頻度枠を圧迫しないかを必ず見る。
 - release 固有コンセプトがブランド説明の言い換えだけなら、商品改善としては弱いと見る。
 - 改善案が broad でも、既存の評価語彙と判定状態は増やさない。
+- 完成 asset を販売直前へ渡す改善では、final candidate と export-ready asset を混ぜない。
 - 台帳、workflow、skill が重くなりすぎたこと自体も改善論点として扱う。
 
 ## Output Rules

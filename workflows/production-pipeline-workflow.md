@@ -23,6 +23,7 @@
 
 ## 制作で固定する正本
 - ブランド核: `templates/brand-setting-template.md`
+- 固定IP条件: `templates/fixed-ip-bible-template.md`。固定IPを持つブランドだけ使う。
 - ブランド共通の制作実装条件: `templates/brand-production-brief-template.md`
 - release / set の範囲と差分計画: `templates/release-spec-template.md`
 - release / set ごとの受け渡し条件: `templates/production-handoff-template.md`
@@ -35,6 +36,7 @@
 - 共通固定条件は、公式仕様、構造成立、品質 gate、工程責務に置く。
 - ブランド可変域は、視覚記号、温度感、線、余白、装飾、差分語彙に置く。
 - release 可変域は、初期 set の買う理由、個数根拠、個別絵文字の用途に置く。
+- 固定IP条件は、キャラクターや記号体系のシルエット、権利、禁止 drift、量産時の同一性に置く。
 
 ## Stage 1: GPT-image2.0 ラフ生成
 ### 目的
@@ -98,6 +100,7 @@
 
 ## Quality Gate
 - 提出前と継続改善は `workflows/quality-control-workflow.md` を使う。
+- 販売直前の asset / metadata / 手作業提出メモは `workflows/sales-ready-package-workflow.md` を使う。
 - 生成結果の強弱は `workflows/usage-validation-workflow.md` で具体会話に通す。
 - 監査結果や運用上の学習は `workflows/continuous-improvement-workflow.md` へ戻す。
 - blocking 問題が `release-checklist` に残る間は提出しない。
@@ -110,13 +113,16 @@
 - quality ledger: `qa/quality-ledger.md`
 - rough board 置き場: `production/rough-boards/`
 - 完成データ置き場: `production/finals/`
+- 販売直前 asset 置き場: `production/export-ready/`
 - release log: `submissions/release-log.md`
+- sales package manifest: `submissions/sales-package-manifest.md`
 - prompt 蓄積: `prompts/`
 
 ## 回答や設計で必ず明示すること
 - rough stage で固定するもの
 - ClaudeDesign へ渡す単位
 - 絵文字ごとの差分軸
+- 固定IPとして守る造形条件
 - 共通固定条件とブランド可変域
 - 差し戻し先
 - 正本ファイルの更新順

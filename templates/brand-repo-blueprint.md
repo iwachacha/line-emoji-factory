@@ -10,7 +10,9 @@ brand-repo/
 ├── README.md
 ├── brand/
 │   ├── brand-manifest.yaml
+│   ├── brand-starter-kit.md
 │   ├── brand-setting.md
+│   ├── fixed-ip-bible.md（optional）
 │   ├── brand-production-brief.md
 │   └── brand-system-prompt.md
 ├── references/
@@ -22,9 +24,11 @@ brand-repo/
 │       ├── review-risk-rules.md
 │       ├── continuous-improvement-rules.md
 │       ├── brand-startup-set-workflow.md
+│       ├── fixed-ip-design-workflow.md
 │       ├── transformation-workflow.md
 │       ├── production-pipeline-workflow.md
 │       ├── quality-control-workflow.md
+│       ├── sales-ready-package-workflow.md
 │       ├── continuous-improvement-workflow.md
 │       ├── usage-validation-workflow.md
 │       └── release-retrospective-workflow.md
@@ -37,7 +41,9 @@ brand-repo/
 │   │   └── README.md
 │   ├── handoffs/
 │   │   └── release-001-handoff.md
-│   └── finals/
+│   ├── finals/
+│   │   └── README.md
+│   └── export-ready/
 │       └── README.md
 ├── emoji-sets/
 │   └── releases/
@@ -50,6 +56,7 @@ brand-repo/
 │   └── retrospectives/
 │       └── release-001.md
 └── submissions/
+    ├── sales-package-manifest.md
     └── release-log.md
 ```
 
@@ -59,6 +66,10 @@ brand-repo/
   - factory 由来の version、商品種別、package type、運用方針を置く。
 - `brand/brand-setting.md`
   - ブランドの核、視覚記号、派生方針の正本。
+- `brand/fixed-ip-bible.md`
+  - 固定IPとして運用するブランドだけが持つ、権利、造形、可変域、禁止 drift の正本。
+- `brand/brand-starter-kit.md`
+  - 共通コアと optional module の採否を記録する初期支援セット。
 - `brand/brand-production-brief.md`
   - 実制作と登録運用の正本。
 - `brand/brand-system-prompt.md`
@@ -79,6 +90,8 @@ brand-repo/
   - metadata、審査、権利、公開運用リスクで参照する snapshot。
 - `references/shared/brand-startup-set-workflow.md`
   - brand repo scaffold 時の最小一式と、共通固定条件 / ブランド可変域 / release 可変域の境界を確認する snapshot。
+- `references/shared/fixed-ip-design-workflow.md`
+  - キャラクター、モチーフ、記号体系を固定IPとして扱うための workflow snapshot。
 - `references/shared/transformation-workflow.md`
   - brand repo 側で構造後退が見えたときの戻し先になる変換フローの snapshot。
 - `references/shared/continuous-improvement-rules.md`
@@ -89,6 +102,8 @@ brand-repo/
   - brand repo 側で具体会話検証を行うための workflow snapshot。
 - `references/shared/release-retrospective-workflow.md`
   - brand repo 側で節目学習を短く圧縮するための workflow snapshot。
+- `references/shared/sales-ready-package-workflow.md`
+  - 手作業提出直前の asset、metadata、manifest を揃えるための workflow snapshot。
 - `prompts/*`
   - `GPT-image2.0` 用 rough prompt、`ClaudeDesign` 用仕上げ prompt、修正 prompt を蓄積する。
   - `brand-system-prompt`, `release-spec`, `production-handoff` から転記して使う。
@@ -98,6 +113,8 @@ brand-repo/
   - release / set ごとの handoff 正本を残す。
 - `production/finals/*`
   - 完成データの置き場を分ける。
+- `production/export-ready/*`
+  - ユーザーが手作業提出する直前の asset を置く。
 - `emoji-sets/releases/*`
   - リリース単位のセット仕様と差分計画を書く。
 - `qa/release-checklist.md`
@@ -110,12 +127,15 @@ brand-repo/
   - milestone ごとの短い振り返りを残す。
 - `submissions/release-log.md`
   - 提出、審査差し戻し、修正、再提出の履歴を残す。
+- `submissions/sales-package-manifest.md`
+  - export-ready asset、metadata、固定IP / 権利確認、手作業提出メモを残す。
 
 ## repo に残すべきもの
 - そのブランドだけに必要な決定
 - そのブランドの制作ログ
 - そのブランド専用の prompt、rough board、handoff、QA、品質台帳
 - そのブランドの具体会話検証と節目振り返り
+- そのブランドの export-ready asset と販売直前 manifest
 - そのブランドの将来リリース計画
 
 ## repo に残さないもの
@@ -127,7 +147,9 @@ brand-repo/
 ## 運用原則
 - brand repo は **制作と運用に特化** させる。
 - brand repo 側で共通ルールを再解釈しない。
+- 固定IPは optional module とし、コンセプト / 記号 / 実用品ブランドへ機械的に要求しない。
 - 共通固定条件、ブランド可変域、release 可変域を混ぜない。
 - 公式仕様更新があったら、snapshot を更新するかどうかを明示的に判断する。
 - rough / handoff / final の責務を混ぜない。
+- fixed IP、final candidate、export-ready asset の責務を混ぜない。
 - 再発問題や運用過重が見えたら、factory 側の継続改善へ戻す。

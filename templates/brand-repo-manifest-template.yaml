@@ -8,6 +8,13 @@ brand:
   stage: "design-ready"
   owner: "owner-name"
 
+support_modules:
+  fixed_ip_design: [FIXED_IP_ENABLED]
+  character_operation: false
+  concept_only_operation: [CONCEPT_ONLY_ENABLED]
+  animation_emoji: false
+  deco_letter: false
+
 product:
   item_type: "static-emoji"
   package_type: "emoji"
@@ -19,6 +26,7 @@ production:
   rough_board_dir: "production/rough-boards"
   handoff_dir: "production/handoffs"
   final_asset_dir: "production/finals"
+  export_ready_dir: "production/export-ready"
   release_spec_dir: "emoji-sets/releases"
   prompt_bundle_dir: "prompts"
 
@@ -28,6 +36,7 @@ quality:
   usage_validation_dir: "qa/usage-validations"
   retrospective_dir: "qa/retrospectives"
   release_log_path: "submissions/release-log.md"
+  sales_package_manifest_path: "submissions/sales-package-manifest.md"
 
 strategy:
   split_reason: "独立制作と継続運用が必要になったため"
@@ -44,16 +53,20 @@ references:
   review_risk_rules_snapshot_path: "references/shared/review-risk-rules.md"
   continuous_improvement_rules_snapshot_path: "references/shared/continuous-improvement-rules.md"
   brand_startup_set_workflow_snapshot_path: "references/shared/brand-startup-set-workflow.md"
+  fixed_ip_design_workflow_snapshot_path: "references/shared/fixed-ip-design-workflow.md"
   transformation_workflow_snapshot_path: "references/shared/transformation-workflow.md"
   production_pipeline_snapshot_path: "references/shared/production-pipeline-workflow.md"
   quality_control_snapshot_path: "references/shared/quality-control-workflow.md"
+  sales_ready_package_workflow_snapshot_path: "references/shared/sales-ready-package-workflow.md"
   continuous_improvement_workflow_snapshot_path: "references/shared/continuous-improvement-workflow.md"
   usage_validation_workflow_snapshot_path: "references/shared/usage-validation-workflow.md"
   release_retrospective_workflow_snapshot_path: "references/shared/release-retrospective-workflow.md"
 
 source:
   factory_repo: "line-emoji-factory"
+  starter_kit_path: "brand/brand-starter-kit.md"
   brand_setting_path: "brand/brand-setting.md"
+  fixed_ip_bible_path: "[FIXED_IP_BIBLE_PATH]"
   production_brief_path: "brand/brand-production-brief.md"
   system_prompt_path: "brand/brand-system-prompt.md"
   active_release_spec_path: "emoji-sets/releases/release-001.md"

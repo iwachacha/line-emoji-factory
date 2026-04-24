@@ -33,8 +33,10 @@
 - 市場調査つき探索の判断: `rules/idea-research-rules.md`
 - 相談運用フロー: `workflows/consultation-workflow.md`
 - ブランドスタートアップセット化: `workflows/brand-startup-set-workflow.md`
+- 固定IP設計: `workflows/fixed-ip-design-workflow.md`
 - 共通制作パイプライン: `workflows/production-pipeline-workflow.md`
 - 品質管理フロー: `workflows/quality-control-workflow.md`
+- 販売直前パッケージ化: `workflows/sales-ready-package-workflow.md`
 - 構造Fail時の変換: `workflows/transformation-workflow.md`
 - 継続改善フロー: `workflows/continuous-improvement-workflow.md`
 - 市場調査つき探索フロー: `workflows/idea-research-workflow.md`
@@ -43,6 +45,8 @@
 - 文書保守フロー: `workflows/framework-maintenance.md`
 - ブランド運用と分離戦略: `workflows/brand-lifecycle-workflow.md`
 - ブランド設定出力: `templates/brand-setting-template.md`
+- ブランドスターターキット出力: `templates/brand-starter-kit-template.md`
+- 固定IPバイブル出力: `templates/fixed-ip-bible-template.md`
 - ブランド固有の制作基盤: `templates/brand-production-brief-template.md`
 - 初期release設計出力: `templates/release-spec-template.md`
 - 制作ハンドオフ出力: `templates/production-handoff-template.md`
@@ -53,6 +57,8 @@
 - 具体会話検証出力: `templates/usage-validation-template.md`
 - release 振り返り出力: `templates/release-retrospective-template.md`
 - 公開 / 審査履歴出力: `templates/release-log-template.md`
+- 販売直前パッケージ出力: `templates/sales-package-manifest-template.md`
+- export-ready 置き場説明: `templates/export-ready-readme-template.md`
 - ブランド別リポジトリ設計: `templates/brand-repo-blueprint.md`
 - ブランド別リポジトリ manifest: `templates/brand-repo-manifest-template.yaml`
 - ブランド専用AI制作指示出力: `templates/brand-system-prompt-template.md`
@@ -63,4 +69,4 @@
 - 正本ファイルを参照して判断する。
 - 案を広げるだけでなく、切る・変換する・磨く判断を行う。
 - ブランド固有修正と factory 修正を切り分ける。
-- 必要なら、ブランド設定、ブランドスタートアップセット、初期release設計、制作基盤、制作ハンドオフ、品質管理、継続改善、skill 改修、専用AI制作指示まで設計する。
+- 必要なら、ブランド設定、固定IP設計、ブランドスタートアップセット、初期release設計、制作基盤、制作ハンドオフ、品質管理、販売直前パッケージ、継続改善、skill 改修、専用AI制作指示まで設計する。

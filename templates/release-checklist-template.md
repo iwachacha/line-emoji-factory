@@ -5,6 +5,7 @@ blocking 問題を通さないために使う。
 
 ## Gate 0: 設計前提
 - [ ] `brand-setting` が最新である
+- [ ] 固定IPとして運用する場合、`fixed-ip-bible` が最新である
 - [ ] `brand-production-brief` が最新である
 - [ ] `release-spec` が存在する
 - [ ] release の一言コンセプトとブランド内での役割が定義されている
@@ -21,6 +22,7 @@ blocking 問題を通さないために使う。
 - [ ] 差分軸が明確で、実質重複がない
 - [ ] 組み合わせ補助枠を入れる場合、数と役割が過剰でない
 - [ ] 単体送信でも文中使用でも死んでいない
+- [ ] 固定IPとして運用する場合、造形、可変域、禁止 drift を守っている
 
 ## Gate 2: rough / handoff
 - [ ] rough board が set 全体の方向を説明できる
@@ -46,8 +48,16 @@ blocking 問題を通さないために使う。
 ## Gate 4: metadata / review
 - [ ] タイトル、説明文、コピーライトが仕様に収まる
 - [ ] metadata と絵文字内容が一致している
+- [ ] 固定IPとして運用する場合、権利と出自が説明できる
 - [ ] Hard NG リスクがない
 - [ ] Revise 項目を放置していない
+
+## Gate 4.5: 販売直前パッケージ
+- [ ] export-ready asset と final candidate が分離されている
+- [ ] トークルームタブ画像とコンテンツ画像が揃っている
+- [ ] ファイル名が package type に合っている
+- [ ] `sales-package-manifest` が存在する
+- [ ] ユーザー手作業提出用の metadata と asset メモが揃っている
 
 ## Gate 5: 記録
 - [ ] quality ledger を更新した

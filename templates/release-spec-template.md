@@ -8,6 +8,7 @@
 - ブランド名:
 - release / set 名:
 - 参照するブランド設定:
+- 参照する固定IPバイブル: （固定IPを使う場合のみ）
 - 参照する制作基盤:
 - 判定状態:
 - 商品種別:
@@ -52,6 +53,7 @@
 - rough board の保存先:
 - handoff の保存先:
 - final の保存先:
+- export-ready の保存先:
 - 使用する prompt 束:
 
 ## 6. metadata / 審査メモ
@@ -60,6 +62,7 @@
 - コピーライト案:
 - サジェスト表示タグ候補:
 - 想定 review リスク:
+- 販売直前 manifest の保存先:
 
 ## 7. quality gate メモ
 - rough 前に止める問題:

@@ -68,16 +68,30 @@
 
 ### ブランドスタートアップセットを変える
 - 先に `workflows/brand-startup-set-workflow.md` を更新する。
-- 次に `templates/brand-setting-template.md`, `templates/brand-production-brief-template.md`, `templates/release-spec-template.md`, `templates/production-handoff-template.md` を整合させる。
+- 次に `templates/brand-starter-kit-template.md`, `templates/brand-setting-template.md`, `templates/fixed-ip-bible-template.md`, `templates/brand-production-brief-template.md`, `templates/release-spec-template.md`, `templates/production-handoff-template.md` を整合させる。
 - 次に `templates/brand-system-prompt-template.md` と工程別 prompt template を整合させる。
 - QA 初期化が変わるなら `templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md`, `templates/usage-validation-template.md` を更新する。
 - brand repo へ影響するなら `workflows/brand-lifecycle-workflow.md`, `templates/brand-repo-blueprint.md`, `templates/brand-repo-manifest-template.yaml`, `scripts/init-brand-repo.ps1` を更新する。
 - 入口が変わるなら `workflows/consultation-workflow.md`, `skills/line-emoji-producer/SKILL.md`, `PROJECT_MAP.md`, `AGENTS.md` を更新する。
 
+### 固定IP設計を変える
+- 先に `workflows/fixed-ip-design-workflow.md` を更新する。
+- 次に `templates/fixed-ip-bible-template.md` を更新する。
+- 次に `templates/brand-setting-template.md`, `templates/brand-production-brief-template.md`, `templates/brand-system-prompt-template.md`, 工程別 prompt template を整合させる。
+- 権利・審査の扱いが変わるなら `rules/review-risk-rules.md`, `templates/release-checklist-template.md`, `templates/sales-package-manifest-template.md` を更新する。
+- brand repo へ影響するなら `templates/brand-repo-blueprint.md`, `templates/brand-repo-manifest-template.yaml`, `scripts/init-brand-repo.ps1` を更新する。
+
 ### 品質管理フローを変える
 - 先に `workflows/quality-control-workflow.md` を更新する。
 - 次に `templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md` を更新する。
 - brand repo へ影響するなら `templates/brand-repo-blueprint.md`, `templates/brand-repo-manifest-template.yaml`, `scripts/init-brand-repo.ps1` を更新する。
+
+### 販売直前パッケージを変える
+- 先に `workflows/sales-ready-package-workflow.md` を更新する。
+- 次に `templates/sales-package-manifest-template.md`, `templates/release-checklist-template.md`, `templates/release-log-template.md`, `templates/export-ready-readme-template.md` を整合させる。
+- 公式仕様に関わるなら `rules/line-platform-baseline.md` と `rules/review-risk-rules.md` を先に確認する。
+- brand repo へ影響するなら `templates/brand-repo-blueprint.md`, `templates/brand-repo-manifest-template.yaml`, `scripts/init-brand-repo.ps1` を更新する。
+- 入口が変わるなら `workflows/consultation-workflow.md`, `skills/line-emoji-producer/SKILL.md`, `PROJECT_MAP.md`, `AGENTS.md` を更新する。
 
 ### テンプレート項目を変える
 - 先に `templates/brand-setting-template.md` を更新する。
@@ -117,10 +131,13 @@
 - `rules/line-platform-baseline.md` の事実が古くなっていないか。
 - ブランド設定だけで止まらず、必要なら `templates/brand-production-brief-template.md` まで落とせるか。
 - `Design Ready` 後に `workflows/brand-startup-set-workflow.md` で最小一式へ落とせるか。
+- 固定IPとして継続制作する場合に `workflows/fixed-ip-design-workflow.md` と `templates/fixed-ip-bible-template.md` で、権利、固定要素、可変域、禁止 drift を残せるか。
+- 固定IPが不要なブランドで、`templates/brand-starter-kit-template.md` に optional module の不採用理由を残せるか。
 - 共通固定条件、ブランド可変域、release 可変域が混線していないか。
 - 共通制作パイプラインが `workflows/production-pipeline-workflow.md`, `templates/brand-repo-blueprint.md`, `scripts/init-brand-repo.ps1` で揃っているか。
 - 工程別 prompt template が `templates/brand-system-prompt-template.md`, `templates/brand-production-brief-template.md`, `templates/production-handoff-template.md` から埋められるか。
 - 継続品質管理が `workflows/quality-control-workflow.md`, `templates/brand-repo-blueprint.md`, `scripts/init-brand-repo.ps1` で揃っているか。
+- 販売直前パッケージが `workflows/sales-ready-package-workflow.md`, `templates/sales-package-manifest-template.md`, `templates/brand-repo-blueprint.md`, `scripts/init-brand-repo.ps1` で揃っているか。
 - 継続改善ループが `rules/continuous-improvement-rules.md`, `workflows/continuous-improvement-workflow.md`, `templates/factory-improvement-ledger-template.md`, `skills/line-emoji-factory-evolver/SKILL.md` で揃っているか。
 - 市場調査つき探索が `rules/idea-research-rules.md`, `workflows/idea-research-workflow.md`, `templates/idea-batch-template.md`, `skills/line-emoji-producer/SKILL.md` で揃っているか。
 - 具体会話検証が `workflows/usage-validation-workflow.md`, `templates/usage-validation-template.md`, `workflows/quality-control-workflow.md` で揃っているか。

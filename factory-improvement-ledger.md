@@ -31,6 +31,15 @@
 - Evidence: `workflows/production-pipeline-workflow.md`, `templates/brand-production-brief-template.md`, `templates/gpt-image2-rough-prompts-template.md`, `templates/brand-repo-manifest-template.yaml`
 - Candidate owner file: `workflows/brand-startup-set-workflow.md`, `templates/brand-production-brief-template.md`, `templates/brand-system-prompt-template.md`, 工程別 prompt templates, `templates/brand-repo-manifest-template.yaml`, `scripts/init-brand-repo.ps1`
 - Next audit point: 次回の brand repo scaffold と初期 release 設計
+- ID: `FAC-2026-04-25-002`
+- Date: `2026-04-25`
+- Trigger: ブランド創出後に固定IP設計、実絵文字制作、LINE販売直前状態まで整える共通基盤が必要になった
+- Scope candidate: `factory common`
+- Observation: startup set は設計一式に強いが、固定IPの権利 / 造形 / 禁止 drift と、手作業提出直前の asset / metadata / manifest を切り分ける正本が不足していた
+- Affected layer: `固定IP / 商品 / 品質 / 販売直前パッケージ / scaffold`
+- Evidence: `templates/brand-setting-template.md`, `workflows/production-pipeline-workflow.md`, `workflows/quality-control-workflow.md`, `templates/release-checklist-template.md`, `templates/brand-repo-blueprint.md`
+- Candidate owner file: `workflows/fixed-ip-design-workflow.md`, `templates/fixed-ip-bible-template.md`, `workflows/sales-ready-package-workflow.md`, `templates/sales-package-manifest-template.md`, `scripts/init-brand-repo.ps1`
+- Next audit point: 次回の固定IPブランド制作と販売直前パッケージ生成
 
 ## 2. Active Interventions
 - ID: `FAC-2026-04-24-001`
@@ -51,6 +60,12 @@
 - Updated owner file: workflow / template / scaffold へ反映済み。一時 scaffold で snapshot、manifest 参照、実用 prompt 束の生成を確認済み
 - Verification method: 次回の実ブランド scaffold と初期 release 設計で、共通固定条件とブランド可変域が混線しないかを見る
 - Verify on: 次回 brand startup set 作成時
+- ID: `FAC-2026-04-25-002`
+- Hypothesis: fixed IP bible と sales package manifest を追加すれば、ブランド固有のIPらしさを保ちながら、手作業提出直前の asset / metadata まで再利用可能な品質で揃えられる
+- Intervention: fixed IP design workflow、sales-ready package workflow、対応 template、brand repo scaffold を追加・更新する
+- Updated owner file: fixed IP を任意 module として扱う startup set、fixed IP bible、sales-ready package、manifest、export-ready README、brand repo scaffold へ反映済み
+- Verification method: `scripts/init-brand-repo.ps1` を固定IPなし / `-IncludeFixedIp` ありの両方で実行し、starter kit、manifest、任意 fixed IP bible、export-ready README、sales package manifest、workflow snapshot の生成差分を確認済み
+- Verify on: 次回の実ブランド startup set 作成と販売直前パッケージ生成時
 
 ## 3. Verified Upgrades
 

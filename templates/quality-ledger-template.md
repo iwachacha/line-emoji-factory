@@ -8,7 +8,7 @@ release を跨いで管理する。
 - ID:
 - 初出 release:
 - 症状:
-- 影響レイヤー: `構造 / ブランド / 商品 / 審査 / 制作パイプライン / 運用`
+- 影響レイヤー: `構造 / ブランド / 固定IP / 商品 / 審査 / 制作パイプライン / 販売直前パッケージ / 運用`
 - 根本原因:
 - 直す owner file:
 - factory昇格候補:
@@ -37,8 +37,10 @@ release を跨いで管理する。
 - 工場本体へ戻すべき問題:
 - `workflows/production-pipeline-workflow.md` 更新候補:
 - `templates/brand-production-brief-template.md` 更新候補:
+- `templates/fixed-ip-bible-template.md` 更新候補:
 - `templates/production-handoff-template.md` 更新候補:
 - `templates/brand-system-prompt-template.md` 更新候補:
+- `templates/sales-package-manifest-template.md` 更新候補:
 - 工程別 prompt template 更新候補:
 - `skills/` 更新候補:
 - `scripts/init-brand-repo.ps1` 更新候補:

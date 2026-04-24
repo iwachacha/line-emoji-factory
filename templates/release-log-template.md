@@ -13,6 +13,7 @@
 - Release:
 - Submitted assets:
 - Metadata version:
+- Sales package manifest:
 - Result:
 - Reviewer notes:
 - Escalated to factory:
@@ -23,5 +24,6 @@
 - Date:
 - Release:
 - Public status:
+- Sales package manifest:
 - Remaining `Watch` items:
 - Next release へ持ち越す論点:

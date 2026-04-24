@@ -23,6 +23,16 @@
 
 リスクのある固有表現を避け、ブランド核と用途が残る代替表現へ変換してください。
 
+### 固定IP / 権利修正
+- 問題:
+- 参照する fixed IP bible:
+- 権利の所在:
+- 置き換える表現:
+- 残すIP核:
+- sales package manifest へ残す内容:
+
+権利の所在が曖昧な表現、既存IP寄せ、商標やロゴに見える表現を避け、固定IPバイブルに沿う造形へ戻してください。
+
 ## Quality Fixes
 ### 視認性
 - 主要要素:
@@ -60,3 +70,10 @@
 - brand local で閉じるか:
 - factory へ返すか:
 - 次 release で検証すること:
+
+## Sales Package Fixes
+- sales package manifest ID:
+- 修正対象 asset:
+- metadata 修正:
+- ファイル名 / サイズ / 容量修正:
+- ユーザー手作業提出前に再確認すること:
