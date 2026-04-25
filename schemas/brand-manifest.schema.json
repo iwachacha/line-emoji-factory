@@ -11,6 +11,7 @@
     "product",
     "market",
     "production",
+    "production_profile",
     "quality",
     "submission",
     "strategy",
@@ -117,6 +118,9 @@
     "production": {
       "$ref": "#/$defs/production"
     },
+    "production_profile": {
+      "$ref": "#/$defs/production_profile"
+    },
     "quality": {
       "$ref": "#/$defs/quality"
     },
@@ -212,6 +216,54 @@
         },
         "prompt_bundle_dir": {
           "type": "string"
+        }
+      }
+    },
+    "production_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "rough_stage",
+        "finalization_stage",
+        "revision_stage"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rough_stage": {
+          "$ref": "#/$defs/production_profile_stage"
+        },
+        "finalization_stage": {
+          "$ref": "#/$defs/production_profile_stage"
+        },
+        "revision_stage": {
+          "$ref": "#/$defs/production_profile_stage"
+        }
+      }
+    },
+    "production_profile_stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "purpose",
+        "required_outputs"
+      ],
+      "properties": {
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_outputs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
@@ -315,6 +367,7 @@
         "quality_control_workflow",
         "usage_validation_workflow",
         "asset_validation_rules",
+        "production_profile_rules",
         "submission_metadata_rules"
       ],
       "properties": {
@@ -340,6 +393,9 @@
           "type": "string"
         },
         "asset_validation_rules": {
+          "type": "string"
+        },
+        "production_profile_rules": {
           "type": "string"
         },
         "submission_metadata_rules": {

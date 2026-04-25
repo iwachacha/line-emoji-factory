@@ -98,6 +98,7 @@ $sharedFiles = @(
     @{ Source = "rules/emoji-product-rules.md"; Target = "references/shared/emoji-product-rules.md" },
     @{ Source = "rules/review-risk-rules.md"; Target = "references/shared/review-risk-rules.md" },
     @{ Source = "rules/asset-validation-rules.md"; Target = "references/shared/asset-validation-rules.md" },
+    @{ Source = "rules/production-profile-rules.md"; Target = "references/shared/production-profile-rules.md" },
     @{ Source = "rules/submission-metadata-rules.md"; Target = "references/shared/submission-metadata-rules.md" },
     @{ Source = "workflows/quality-control-workflow.md"; Target = "references/shared/quality-control-workflow.md" },
     @{ Source = "workflows/usage-validation-workflow.md"; Target = "references/shared/usage-validation-workflow.md" },
@@ -117,6 +118,7 @@ $schemaFiles = @(
     "schemas/production-handoff.schema.json",
     "schemas/quality-ledger.schema.json",
     "schemas/usage-validation.schema.json",
+    "schemas/post-release-metrics.schema.json",
     "schemas/ip-style-bible.schema.json",
     "schemas/reference-asset-register.schema.json"
 )

@@ -14,6 +14,7 @@ This repository is dedicated to production, QA, review, and release work for the
 - Active production handoff: `releases/release-001/production-handoff.md`
 - Active QA: `releases/release-001/qa/`
 - Active submission: `releases/release-001/submission/`
+- Production profile: `brand-manifest.yaml` `production_profile`
 
 ## Validation
 Run these from the factory repo root:
@@ -26,8 +27,8 @@ python ./tools/validate-metadata.py "<this-repo-path>/releases/release-001/submi
 When final images are ready:
 
 ```powershell
-python ./tools/validate-assets.py "<this-repo-path>/releases/release-001/submission/images" --expected-count 8
-python ./tools/package-release.py "<this-repo-path>" --expected-count 8
+python ./tools/package-release.py "<this-repo-path>" --release-id release-001 --target both --clean
+python ./tools/validate-assets.py "<this-repo-path>/releases/release-001/submission/line-upload/images" --expected-count [INITIAL_SET_COUNT] --stage submission
 ```
 
 ## Operating Rules

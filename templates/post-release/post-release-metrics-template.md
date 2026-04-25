@@ -1,5 +1,7 @@
 # Post Release Metrics
 
+Machine-readable records use `schemas/post-release-metrics.schema.json`.
+
 ## Release
 - Brand:
 - Release:

@@ -28,6 +28,7 @@ PATH_KEYS = {
     "observation_log",
     "production_brief_path",
     "prompt_bundle_dir",
+    "production_profile_rules",
     "quality_control_workflow",
     "quality_ledger_path",
     "reference_asset_register",
@@ -45,6 +46,12 @@ PATH_KEYS = {
     "tab_asset_path",
     "usage_validation_path",
     "usage_validation_workflow",
+}
+
+STANDARD_PRODUCTION_PROFILE_OUTPUTS = {
+    "rough_stage": {"rough_board", "per_emoji_intent", "failure_notes"},
+    "finalization_stage": {"final_assets", "correction_notes", "export_check"},
+    "revision_stage": {"revision_notes", "fixed_assets", "unresolved_watch_items"},
 }
 
 
@@ -119,6 +126,24 @@ def validate_release_contracts(brand_repo: Path, manifest: dict, release_id: str
     return errors
 
 
+def validate_production_profile_contract(manifest: dict) -> list[str]:
+    errors: list[str] = []
+    production_profile = manifest.get("production_profile", {})
+    profile_name = production_profile.get("name")
+    production_name = manifest.get("production", {}).get("profile")
+    if profile_name and production_name and profile_name != production_name:
+        errors.append(
+            f"production.profile must match production_profile.name: {production_name} != {profile_name}"
+        )
+
+    for stage_name, required_outputs in STANDARD_PRODUCTION_PROFILE_OUTPUTS.items():
+        outputs = set(production_profile.get(stage_name, {}).get("required_outputs", []))
+        missing = sorted(required_outputs - outputs)
+        if missing:
+            errors.append(f"production_profile.{stage_name}: missing required outputs: {', '.join(missing)}")
+    return errors
+
+
 def run_validator(cmd: list[str], cwd: Path) -> list[str]:
     completed = subprocess.run(cmd, cwd=cwd, text=True, capture_output=True)
     if completed.returncode == 0:
@@ -167,6 +192,7 @@ def main() -> int:
             raise ValueError(f"{manifest_path}: manifest root must be an object")
         errors.extend(validate_schema(manifest, schema_path, manifest_path))
         errors.extend(validate_paths(brand_repo, manifest))
+        errors.extend(validate_production_profile_contract(manifest))
         errors.extend(validate_release_contracts(brand_repo, manifest, args.release_id))
         errors.extend(validate_metadata_files(brand_repo, manifest, args.release_id, factory_root))
     except ValueError as exc:

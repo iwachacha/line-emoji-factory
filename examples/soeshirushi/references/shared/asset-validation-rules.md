@@ -1,43 +1,50 @@
-# 画像検査ルール
+# Asset Validation Rules
 
-このファイルは、LINE絵文字の完成画像を検査する判断基準の正本である。
-公式仕様の事実は `rules/line-platform-baseline.md` を正本にし、このファイルでは factory 内でどう止めるかを定義する。
+This file defines the mechanical gate for LINE emoji image assets.
 
-## 検査順序
-1. 公式仕様
-2. 小サイズ視認性
-3. セット整合性
-4. 申請直前の blocking 判定
+## Judgment Order
 
-## 機械検査で止めるもの
-- コンテンツ画像が `180 x 180 px` ではない。
-- トークルームタブ画像が `96 x 74 px` ではない。
-- PNG / APNG 以外である。
-- 背景透過がない。
-- RGB 系のカラーモードではない。
-- 1画像が `1MB` を超える。
-- ZIP が `20MB` を超える。
-- 通常絵文字のコンテンツ画像数が `8〜40` の範囲外である。
-- 指定した expected count と実画像数が一致しない。
+1. Structure: file type, dimensions, count, transparency, and submission names.
+2. Brand: visual consistency and readable expression.
+3. Product: usable small-format reactions for LINE conversations.
 
-## 警告として残すもの
-- dpi 情報がない、または 72dpi 未満の疑いがある。
-- ファイル名規則が release package 前提と揃っていない。
-- 余白が多すぎて、単体送信時に小さく見える。
-- 装飾が小サイズでつぶれる。
+## Static Emoji Requirements
 
-## 目視または半自動で見るもの
-- 表情差、記号差、姿勢差が明確か。
-- 最上段の高頻度絵文字が即読できるか。
-- 似すぎた差分や色違い水増しがないか。
-- 単体送信でも文中挿入でも意味が残るか。
-- ブランドの線、色、余白、温度感が揺れていないか。
+- Content image: `180 x 180` PNG.
+- Tab image: `96 x 74` PNG.
+- Content image count: `8`, `16`, `24`, `32`, or `40`.
+- Transparent background is required.
+- Fully transparent images fail.
+- Each image must be `1MB` or less.
+- A ZIP package must be `20MB` or less.
 
-## 判定
-- `Hard NG`: 公式仕様、透過、寸法、容量、個数の blocking 違反。
-- `Revise`: 視認性、差分明確性、セット整合性に修正が必要。
-- `Watch`: 今回は提出可能だが、次 release で再発を見る。
+## Animation Emoji Requirements
 
-## tool 接続
-- 最小機械検査は `tools/validate-assets.py` で行う。
-- 目視結果は `templates/submission/asset-validation-report-template.md` または release の `qa/quality-ledger.md` に残す。
+- Content image: `180 x 180` APNG with `.png` extension.
+- APNG file size must be `300KB` or less.
+- Frame count must be `5` to `20`.
+- Total animation duration must be `4` seconds or less.
+- Loop count must be `1` to `4`.
+- Tab image remains a static `96 x 74` PNG.
+- `tools/package-release.py` is still a static packaging pipeline. Do not package animation emoji until release packaging support is added.
+
+## Filename Rules
+
+- Production-stage filenames are not judged.
+- Submission-stage content filenames must be `001.png`, `002.png`, ...
+- Submission-stage tab image must be `tab.png`.
+
+## Preview Output
+
+The validator can generate a contact sheet for small-format readability review. The preview includes `180px`, `48px`, `32px`, and `24px` views for each content image.
+
+## Tool Contract
+
+Use `tools/validate-assets.py`.
+
+```powershell
+python tools/validate-assets.py path/to/images --expected-count 8 --stage production
+python tools/validate-assets.py path/to/submission/images --expected-count 8 --stage submission
+python tools/validate-assets.py path/to/apng --expected-count 8 --asset-type animation
+python tools/validate-assets.py path/to/submission/images --preview-contact-sheet report/contact-sheet.png
+```

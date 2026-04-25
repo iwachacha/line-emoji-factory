@@ -24,6 +24,7 @@ $snapshots = @(
     "rules/evaluation-model.md",
     "rules/continuous-improvement-rules.md",
     "rules/asset-validation-rules.md",
+    "rules/production-profile-rules.md",
     "rules/submission-metadata-rules.md",
     "workflows/production-pipeline-workflow.md",
     "workflows/quality-control-workflow.md",

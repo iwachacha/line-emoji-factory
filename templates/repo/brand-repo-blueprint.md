@@ -45,11 +45,14 @@ brand-repo/
   tools/
 ```
 
+`brand-manifest.yaml` includes `production_profile` as the machine-readable production stage contract.
+
 ## Production Assets
 
 - Put arbitrary-named final content PNGs in `production/finals/`.
 - Put the tab source PNG at `production/tab/source-tab.png`.
 - Do not manually name submission assets. `tools/package-release.py` creates `001.png`, `002.png`, ... and `tab.png`.
+- Keep rough, finalization, and revision outputs in `production_profile`; do not make a tool name the production source of truth.
 
 ## Submission Outputs
 

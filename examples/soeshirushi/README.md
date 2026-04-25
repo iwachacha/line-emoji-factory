@@ -2,6 +2,7 @@
 
 このディレクトリは design-stage example です。
 実画像と最終申請 package は未完了のため、production ready 例としては扱いません。
+factory の schema / tool / shared snapshot を埋め込んだ standalone generated repo sample として drift check します。
 
 ## Entry Points
 - Machine-readable manifest: `brand-manifest.yaml`
@@ -26,6 +27,7 @@
 ```powershell
 ./tools/validate-brand-repo.ps1 ".\examples\soeshirushi"
 python ./tools/validate-metadata.py ".\examples\soeshirushi\releases\release-001\submission\metadata.yaml"
+python ./tools/check-example-drift.py ".\examples\soeshirushi"
 ```
 
 ## Operating Rules

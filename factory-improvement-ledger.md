@@ -68,6 +68,12 @@
 - Verified: P1 asset validation として APNG 検査、contact sheet preview、metadata risk keyword 外部化テストを追加した
 - Verification method: `pytest`, `python tools/validate-assets.py ... --asset-type animation`, `python tools/validate-assets.py ... --preview-contact-sheet ...`
 - Remaining risk: animation release packaging は未実装のため、`tools/package-release.py` は static package 専用として維持する
+- ID: `FAC-2026-04-26-003`
+- Verified: P2 として APNG 検査の duration/static-negative coverage、post-release metrics schema、manifest / tool / scaffold への `production_profile` 接続、`examples/soeshirushi` の standalone drift check を実装した
+- Verification method: `python -m compileall tools`, `python tools/validate-schemas.py --check-schemas schemas`, `python tools/check-project-map-paths.py`, `python tools/check-example-drift.py examples/soeshirushi`, `pytest`, scaffold smoke, package smoke
+- Owner files updated: `schemas/brand-manifest.schema.json`, `schemas/post-release-metrics.schema.json`, `tools/validate-brand-repo.py`, `tools/check-example-drift.py`, `tools/init-brand-repo.ps1`, `templates/repo/brand-repo-manifest-template.yaml`, `examples/soeshirushi/`, `.github/workflows/validate.yml`
+- Remaining risk: animation release packaging は引き続き未実装で、実販売データを使う post-release metrics は公開後データが入るまで monitor only
+- Push status: this work is intended to be committed and pushed after final validation
 
 ## 4. Skill Evolution
 - ID: `FAC-2026-04-25-001`

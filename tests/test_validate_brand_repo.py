@@ -40,3 +40,16 @@ def test_fixed_ip_missing_ip_file_fails(tmp_path):
     result = run_brand_repo(brand)
     assert result.returncode != 0
     assert "ip-style-bible.md" in result.stderr
+
+
+def test_production_profile_contract_is_validated(tmp_path):
+    brand = create_brand_repo(tmp_path)
+    manifest_path = brand / "brand-manifest.yaml"
+    manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
+    manifest["production_profile"]["rough_stage"]["required_outputs"].remove("rough_board")
+    write_yaml(manifest_path, manifest)
+
+    result = run_brand_repo(brand)
+    assert result.returncode != 0
+    assert "production_profile.rough_stage" in result.stderr
+    assert "rough_board" in result.stderr

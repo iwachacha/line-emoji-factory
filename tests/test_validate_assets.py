@@ -167,3 +167,49 @@ def test_animation_apng_validation(tmp_path):
     )
     assert result.returncode != 0
     assert "transparent background not detected" in result.stderr
+
+    too_long = tmp_path / "animation-too-long"
+    for index in range(1, 9):
+        write_apng(too_long / f"{index:03}.png", frame_count=5, duration=900, loop=1)
+    write_png(too_long / "tab.png", (96, 74))
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "validate-assets.py",
+            too_long,
+            "--expected-count",
+            "8",
+            "--stage",
+            "submission",
+            "--asset-type",
+            "animation",
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert "APNG duration exceeds 4 seconds" in result.stderr
+
+    static_files = tmp_path / "animation-static"
+    for index in range(1, 9):
+        write_png(static_files / f"{index:03}.png", (180, 180))
+    write_png(static_files / "tab.png", (96, 74))
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "validate-assets.py",
+            static_files,
+            "--expected-count",
+            "8",
+            "--stage",
+            "submission",
+            "--asset-type",
+            "animation",
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert "APNG animation not detected" in result.stderr

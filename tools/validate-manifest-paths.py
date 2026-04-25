@@ -28,6 +28,7 @@ PATH_KEYS = {
     "brand_positioning_path",
     "character_expression_matrix",
     "production_brief_path",
+    "production_profile_rules",
     "system_prompt_path",
     "active_release_spec_path",
     "reference_asset_register",
