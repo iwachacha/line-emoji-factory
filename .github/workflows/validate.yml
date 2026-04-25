@@ -1,0 +1,71 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install validation dependencies
+        run: python -m pip install --upgrade pyyaml jsonschema pillow
+
+      - name: Check schema files
+        run: python tools/validate-schemas.py --check-schemas schemas
+
+      - name: Check PowerShell syntax
+        shell: pwsh
+        run: |
+          Get-ChildItem -Recurse -Filter *.ps1 | ForEach-Object {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$tokens, [ref]$errors) | Out-Null
+            if ($errors.Count -gt 0) {
+              $errors | ForEach-Object { Write-Error "$($_.Extent.File):$($_.Extent.StartLineNumber): $($_.Message)" }
+              exit 1
+            }
+          }
+
+      - name: Scaffold smoke test
+        shell: pwsh
+        run: |
+          $dest = Join-Path $env:RUNNER_TEMP "smoke-brand"
+          ./tools/init-brand-repo.ps1 -BrandSlug "smoke-brand" -BrandName "Smoke Brand" -Destination $dest
+          ./tools/validate-brand-repo.ps1 $dest
+
+      - name: Validate generated metadata
+        run: python tools/validate-metadata.py "$RUNNER_TEMP/smoke-brand/releases/release-001/submission/metadata.yaml"
+
+      - name: Asset validator smoke test
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          root = Path("asset-smoke")
+          root.mkdir(exist_ok=True)
+          for i in range(8):
+              Image.new("RGBA", (180, 180), (0, 0, 0, 0)).save(root / f"{i + 1:03}.png", dpi=(72, 72))
+          PY
+          python tools/validate-assets.py asset-smoke --expected-count 8
+
+      - name: Package smoke test
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          root = Path(__import__("os").environ["RUNNER_TEMP"]) / "smoke-brand" / "releases" / "release-001" / "production" / "finals"
+          root.mkdir(parents=True, exist_ok=True)
+          for i in range(8):
+              Image.new("RGBA", (180, 180), (0, 0, 0, 0)).save(root / f"{i + 1:03}.png", dpi=(72, 72))
+          PY
+          python tools/package-release.py "$RUNNER_TEMP/smoke-brand" --expected-count 8

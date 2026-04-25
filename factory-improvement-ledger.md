@@ -10,8 +10,8 @@
 - Scope candidate: `factory common`
 - Observation: brand 改善や QA はあっても、factory 全体を継続改善し、重くなりすぎた仕組みを自分で削る導線が薄かった
 - Affected layer: `品質 / 市場探索 / skill / 文書`
-- Evidence: `workflows/quality-control-workflow.md`, `skills/line-emoji-improvement-auditor/SKILL.md`, `PROJECT_MAP.md` だけでは、作業後の学習閉路と軽量化判断が分散していた
-- Candidate owner file: `rules/continuous-improvement-rules.md`, `workflows/continuous-improvement-workflow.md`, `skills/line-emoji-factory-evolver/SKILL.md`
+- Evidence: `workflows/quality-control-workflow.md`, 旧 `skills/line-emoji-improvement-auditor/SKILL.md`, `PROJECT_MAP.md` だけでは、作業後の学習閉路と軽量化判断が分散していた
+- Candidate owner file: `rules/continuous-improvement-rules.md`, `workflows/continuous-improvement-workflow.md`, `skills/line-emoji-factory-auditor/SKILL.md`
 - Next audit point: 次回の探索相談、次回の改善監査、次回の doc audit
 - ID: `FAC-2026-04-24-002`
 - Date: `2026-04-24`
@@ -19,9 +19,27 @@
 - Scope candidate: `factory common`
 - Observation: quality ledger だけでは `どの会話で句読点に負けるか` と `何を削って軽く保つか` が薄く、brand 実例から基盤不足が見えた
 - Affected layer: `商品 / 品質 / 運用`
-- Evidence: `sandbox/soeshirushi/qa/quality-ledger.md`, `sandbox/soeshirushi/emoji-sets/releases/release-001.md`, `sandbox/soeshirushi/production/handoffs/release-001-handoff.md`
-- Candidate owner file: `workflows/usage-validation-workflow.md`, `templates/usage-validation-template.md`, `workflows/release-retrospective-workflow.md`, `templates/release-retrospective-template.md`
+- Evidence: `examples/soeshirushi/releases/release-001/qa/quality-ledger.md`, `examples/soeshirushi/releases/release-001/release-spec.md`, `examples/soeshirushi/releases/release-001/production-handoff.md`
+- Candidate owner file: `workflows/usage-validation-workflow.md`, `templates/qa/usage-validation-template.md`, `workflows/release-retrospective-workflow.md`, `templates/qa/release-retrospective-template.md`
 - Next audit point: `release-001` rough 後
+- ID: `FAC-2026-04-25-001`
+- Date: `2026-04-25`
+- Trigger: 他AIによる factory 改善提案を監査し、実装に落とす必要があった
+- Scope candidate: `factory common`
+- Observation: factory が思想と文書に寄っており、schema / validator / scaffold / CI / submission 前検査の機械的な抑止力が不足していた
+- Affected layer: `構造 / 商品 / 品質 / skill / tool`
+- Evidence: `line-emoji-factory-improvement-proposal.md`, `README.md`, 旧 `scripts/init-brand-repo.ps1`, 旧 `skills/line-emoji-producer/SKILL.md`
+- Candidate owner file: `docs/factory-improvement-adoption-2026-04-25.md`, `PROJECT_MAP.md`, `tools/`, `schemas/`, `skills/line-emoji-factory-auditor/SKILL.md`
+- Next audit point: scaffold smoke test と次回 brand repo 生成
+- ID: `FAC-2026-04-25-002`
+- Date: `2026-04-25`
+- Trigger: 改善案の全実装完了と push まで求められた
+- Scope candidate: `factory common`
+- Observation: P0で段階化した template 階層化、P1/P2 skill、release packager、post-release 学習、soeshirushi 新 scaffold 移行まで閉じる必要があった
+- Affected layer: `構造 / 商品 / skill / tool / CI`
+- Evidence: `docs/factory-improvement-adoption-2026-04-25.md`
+- Candidate owner file: `templates/`, `skills/`, `tools/package-release.py`, `workflows/release-packaging-workflow.md`, `workflows/post-release-learning-workflow.md`
+- Next audit point: 実画像あり brand repo で package-release を実行する時
 
 ## 2. Active Interventions
 - ID: `FAC-2026-04-24-001`
@@ -38,8 +56,24 @@
 - Verify on: `release-001 / rough`
 
 ## 3. Verified Upgrades
+- ID: `FAC-2026-04-25-001`
+- Verified: P0 の基盤改善として、採用判断文書、README、schema、validator、CI、router / auditor skill、固定IP入口、market / submission template、example 移動を実装した
+- Verification method: `tools/init-brand-repo.ps1` で生成し、`tools/validate-brand-repo.ps1` と schema / metadata validation を通す
+- Remaining risk: 実画像ありの申請 package と公開後 metrics は、実運用データが入るまで monitor only
+- ID: `FAC-2026-04-25-002`
+- Verified: template canonical path の完全階層化、P1/P2 skill 追加、release package tool、post-release 学習、CI保守 workflow、soeshirushi の新 scaffold 構造移行を実装した
+- Verification method: schema validation、PowerShell syntax、YAML parse、scaffold smoke、brand repo validation、metadata validation、asset validation、package smoke、example validation、diff check
+- Remaining risk: 実販売データを使う post-release 分析は、公開後データが入るまで monitor only
 
 ## 4. Skill Evolution
+- ID: `FAC-2026-04-25-001`
+- Change: 旧 `line-emoji-producer` を `line-emoji-router` へ置換し、旧 doc / improvement / evolver / skill-builder 系入口を `line-emoji-factory-auditor` へ統合した
+- Reason: 実務1 + メタ4の構造では、画像検査、申請監査、固定IP統制の入口が弱く、同じ概念を別名で増やしていた
+- Next review: 次回の通常相談、画像検査、申請前監査で router と auditor の責務が過不足ないかを見る
+- ID: `FAC-2026-04-25-002`
+- Change: P1/P2 実務 skill を追加し、router から市場観測、ブランド抽出、set設計、制作管理、package、公開後分析へ接続できるようにした
+- Reason: factory を `考える` だけでなく、`作る / 検査する / 提出する / 学ぶ` へ閉じるため
+- Next review: 次回の release package 作成と公開後分析で skill の粒度を確認する
 
 ## 5. Market / Diversity Memory
 

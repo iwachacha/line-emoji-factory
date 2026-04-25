@@ -1,0 +1,4 @@
+interface:
+  display_name: "LINE絵文字申請package"
+  short_description: "申請用package、ZIP、checksumを作るスキル"
+  default_prompt: "Use $line-emoji-release-packager to LINE絵文字releaseを申請用packageにする。"

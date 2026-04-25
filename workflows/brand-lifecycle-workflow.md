@@ -32,10 +32,10 @@
 
 ### Stage 2: 設計確定直前
 - `Design Ready` 候補が見えた。
-- `templates/brand-setting-template.md` と `templates/brand-production-brief-template.md` を埋める。
-- `templates/release-spec-template.md` を埋める。
-- 必要なら `templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md` を初期化する。
-- 必要なら `templates/production-handoff-template.md` の初版を埋める。
+- `templates/brand/brand-setting-template.md` と `templates/brand/brand-production-brief-template.md` を埋める。
+- `templates/release/release-spec-template.md` を埋める。
+- 必要なら `templates/qa/release-checklist-template.md`, `templates/qa/quality-ledger-template.md`, `templates/release/release-log-template.md` を初期化する。
+- 必要なら `templates/release/production-handoff-template.md` の初版を埋める。
 - まだ工場本体に置く。
 
 ### Stage 3: 独立運用開始
@@ -89,12 +89,12 @@
 - `workflows/continuous-improvement-workflow.md` の snapshot
 - `workflows/usage-validation-workflow.md` の snapshot
 - `workflows/release-retrospective-workflow.md` の snapshot
-- `templates/brand-setting-template.md` から埋めたブランド設定
-- `templates/brand-production-brief-template.md` から埋めた制作基盤
-- `templates/release-spec-template.md` から埋めた release spec
-- `templates/production-handoff-template.md` から埋めた release handoff
-- `templates/brand-system-prompt-template.md` から埋めた専用AI制作指示
-- `templates/brand-repo-manifest-template.yaml` から埋めた manifest
+- `templates/brand/brand-setting-template.md` から埋めたブランド設定
+- `templates/brand/brand-production-brief-template.md` から埋めた制作基盤
+- `templates/release/release-spec-template.md` から埋めた release spec
+- `templates/release/production-handoff-template.md` から埋めた release handoff
+- `templates/brand/brand-system-prompt-template.md` から埋めた専用AI制作指示
+- `templates/repo/brand-repo-manifest-template.yaml` から埋めた manifest
 
 ### 推奨
 - prompt 集
@@ -114,12 +114,12 @@
 ## 実現方法
 ### 第一推奨
 - この工場 repo を正本に保つ。
-- `scripts/init-brand-repo.ps1` でブランド repo を scaffold する。
+- `tools/init-brand-repo.ps1` でブランド repo を scaffold する。
 - scaffold 時に必要な snapshot とテンプレートだけをコピーする。
 
 ### 第二推奨
 - 手動で brand repo を作る。
-- ただし `templates/brand-repo-blueprint.md` と manifest に従う。
+- ただし `templates/repo/brand-repo-blueprint.md` と manifest に従う。
 
 ### 非推奨
 - 工場 repo をそのまま fork してブランド repo にする。

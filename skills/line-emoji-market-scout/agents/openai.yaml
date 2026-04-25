@@ -1,0 +1,4 @@
+interface:
+  display_name: "LINE絵文字市場観測"
+  short_description: "市場観測と模倣禁止境界を証跡化するスキル"
+  default_prompt: "Use $line-emoji-market-scout to LINE絵文字の市場観測を行う。"

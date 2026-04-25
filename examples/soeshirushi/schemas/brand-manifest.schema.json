@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://line-emoji-factory.local/schemas/brand-manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "factory_base_version",
+    "template_schema_version",
+    "brand",
+    "product",
+    "market",
+    "production",
+    "quality",
+    "submission",
+    "strategy",
+    "snapshots",
+    "source",
+    "releases"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "factory_base_version": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "template_schema_version": { "type": "string" },
+    "brand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slug", "name", "type", "stage", "owner"],
+      "properties": {
+        "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "name": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "enum": ["generic", "fixed_ip", "collaboration"] },
+        "stage": { "type": "string", "enum": ["idea", "revise", "design-ready", "production", "submitted", "released", "retired"] },
+        "owner": { "type": "string" }
+      }
+    },
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item_type", "package_type", "initial_set_count", "animation"],
+      "properties": {
+        "item_type": { "type": "string", "enum": ["static-emoji", "animation-emoji"] },
+        "package_type": { "type": "string" },
+        "initial_set_count": { "type": "integer", "enum": [8, 16, 24, 32, 40] },
+        "animation": { "type": "boolean" }
+      }
+    },
+    "market": { "$ref": "#/$defs/pathMap" },
+    "production": { "$ref": "#/$defs/pathMap" },
+    "quality": { "$ref": "#/$defs/pathMap" },
+    "submission": { "$ref": "#/$defs/pathMap" },
+    "strategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["split_reason", "release_policy", "sync_policy", "premium_horizon"],
+      "properties": {
+        "split_reason": { "type": "string" },
+        "release_policy": { "type": "string", "enum": ["manual", "automated", "unknown"] },
+        "sync_policy": { "type": "string", "enum": ["snapshot", "manual-sync", "unknown"] },
+        "premium_horizon": { "type": "string" }
+      }
+    },
+    "snapshots": { "$ref": "#/$defs/pathMap" },
+    "source": { "$ref": "#/$defs/pathMap" },
+    "releases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "spec", "handoff", "checklist", "submission"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^release-\\d{3}$" },
+          "status": { "type": "string", "enum": ["draft", "in-production", "qa", "submitted", "released", "retired"] },
+          "spec": { "type": "string" },
+          "handoff": { "type": "string" },
+          "checklist": { "type": "string" },
+          "submission": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "pathMap": {
+      "type": "object",
+      "additionalProperties": { "type": ["string", "boolean", "integer", "array"] }
+    }
+  }
+}

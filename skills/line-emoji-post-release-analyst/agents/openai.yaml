@@ -1,0 +1,4 @@
+interface:
+  display_name: "LINE絵文字公開後分析"
+  short_description: "公開後データを次releaseとfactory改善へ戻すスキル"
+  default_prompt: "Use $line-emoji-post-release-analyst to LINE絵文字release後の学習を整理する。"

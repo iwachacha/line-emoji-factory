@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://line-emoji-factory.local/schemas/release-spec.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "release", "set"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status", "brand", "concept", "role"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^release-\\d{3}$" },
+        "status": { "type": "string", "enum": ["draft", "in-production", "qa", "submitted", "released", "retired"] },
+        "brand": { "type": "string" },
+        "concept": { "type": "string" },
+        "role": { "type": "string" }
+      }
+    },
+    "set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count", "count_reason", "high_frequency_slots"],
+      "properties": {
+        "count": { "type": "integer", "enum": [8, 16, 24, 32, 40] },
+        "count_reason": { "type": "string" },
+        "high_frequency_slots": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "slots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "purpose", "single_send_meaning", "inline_role"],
+            "properties": {
+              "id": { "type": "string" },
+              "purpose": { "type": "string" },
+              "single_send_meaning": { "type": "string" },
+              "inline_role": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

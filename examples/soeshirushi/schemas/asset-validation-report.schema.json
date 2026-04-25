@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://line-emoji-factory.local/schemas/asset-validation-report.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "target", "result", "issues"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "target": { "type": "string" },
+    "result": { "type": "string", "enum": ["pass", "fail", "warn"] },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "message"],
+        "properties": {
+          "severity": { "type": "string", "enum": ["error", "warning"] },
+          "path": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    }
+  }
+}

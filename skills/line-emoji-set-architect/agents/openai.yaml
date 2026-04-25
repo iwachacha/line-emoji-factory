@@ -1,0 +1,4 @@
+interface:
+  display_name: "LINE絵文字セット設計"
+  short_description: "LINE絵文字セット構成とslotを設計するスキル"
+  default_prompt: "Use $line-emoji-set-architect to LINE絵文字の初回セットを設計する。"

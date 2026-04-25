@@ -1,4 +1,0 @@
-interface:
-  display_name: "LINE絵文字改善監査"
-  short_description: "既存ブランドや release 改善の採否を判定するスキル"
-  default_prompt: "Use $line-emoji-improvement-auditor to LINE絵文字ブランドや release の改善案を監査し、採用・保留・却下と反映先を決める。"

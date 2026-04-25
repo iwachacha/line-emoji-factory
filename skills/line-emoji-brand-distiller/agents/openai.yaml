@@ -1,0 +1,4 @@
+interface:
+  display_name: "LINE絵文字ブランド抽出"
+  short_description: "市場観測やアイデアからブランド核を抽出するスキル"
+  default_prompt: "Use $line-emoji-brand-distiller to LINE絵文字ブランド核を設計する。"

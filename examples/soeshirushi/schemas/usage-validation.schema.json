@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://line-emoji-factory.local/schemas/usage-validation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "release", "cases"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "release": { "type": "string", "pattern": "^release-\\d{3}$" },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["context", "emoji_use", "baseline", "judgment"],
+        "properties": {
+          "context": { "type": "string" },
+          "emoji_use": { "type": "string" },
+          "baseline": { "type": "string" },
+          "judgment": { "type": "string", "enum": ["win", "lose", "watch"] }
+        }
+      }
+    }
+  }
+}

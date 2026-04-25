@@ -1,4 +1,0 @@
-interface:
-  display_name: "LINE絵文字ブランド運用"
-  short_description: "LINE絵文字ブランドの探索・評価・設計を支援するスキル"
-  default_prompt: "Use $line-emoji-producer to このリポジトリ内で LINE絵文字ブランドを探索・評価・設計する。"

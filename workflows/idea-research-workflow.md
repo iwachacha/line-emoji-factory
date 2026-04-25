@@ -14,7 +14,7 @@
 - 探索の判断基準: `rules/idea-research-rules.md`
 - 構造の判定: `rules/structure-constraints.md`
 - ブランド / 商品の確認: `rules/brand-creation-rules.md`, `rules/emoji-product-rules.md`
-- 記録枠: `templates/idea-batch-template.md`
+- 記録枠: `templates/market/idea-batch-template.md`
 - 継続改善: `workflows/continuous-improvement-workflow.md`
 
 ## 標準手順
@@ -45,7 +45,7 @@
 7. `rules/structure-constraints.md` で予備判定を行い、明確な `Fail` は切る。
 8. 核が残る `Fail` は `workflows/transformation-workflow.md` へ送る。
 9. 残った候補だけを、軽く `ブランド / 商品` の順で見る。
-10. `templates/idea-batch-template.md` に、
+10. `templates/market/idea-batch-template.md` に、
     `市場観測 / 回転軸 / 候補群 / 昇格候補 / 次回の偏り対策`
     を残す。
 11. 探索の癖や運用上の詰まりが見えたら `workflows/continuous-improvement-workflow.md` を起動する。

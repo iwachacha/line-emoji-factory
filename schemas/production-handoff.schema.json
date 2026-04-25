@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://line-emoji-factory.local/schemas/production-handoff.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "release", "handoff"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "release": { "type": "string", "pattern": "^release-\\d{3}$" },
+    "handoff": {
+      "type": "object",
+      "required": ["keep", "trim", "drift", "slot_fixes"],
+      "properties": {
+        "keep": { "type": "array", "items": { "type": "string" } },
+        "trim": { "type": "array", "items": { "type": "string" } },
+        "drift": { "type": "array", "items": { "type": "string" } },
+        "slot_fixes": { "type": "array", "items": { "type": "object" } }
+      }
+    }
+  }
+}

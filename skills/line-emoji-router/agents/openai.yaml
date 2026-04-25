@@ -1,0 +1,4 @@
+interface:
+  display_name: "LINE絵文字 router"
+  short_description: "LINE絵文字相談を適切な専門入口へ振り分けるスキル"
+  default_prompt: "Use $line-emoji-router to このリポジトリ内で LINE絵文字相談の入口を判定する。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "LINE絵文字画像検査"
+  short_description: "LINE絵文字画像の仕様と視認性を検査するスキル"
+  default_prompt: "Use $line-emoji-asset-validator to LINE絵文字の完成画像を検査する。"

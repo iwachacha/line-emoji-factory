@@ -13,15 +13,15 @@
 7. 構造通過後に `rules/brand-taxonomy.md` と `rules/brand-creation-rules.md` でブランド判断を行う。
 8. その後 `rules/emoji-product-rules.md` と `rules/review-risk-rules.md` で商品判断を行う。
 9. 最後に `rules/evaluation-model.md` の判定状態へ落とす。
-10. `Design Ready` なら `templates/brand-setting-template.md` を埋める。
+10. `Design Ready` なら `templates/brand/brand-setting-template.md` を埋める。
 11. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で共通制作フローを固定する。
-12. ブランド固有の制作基盤が必要なら `templates/brand-production-brief-template.md` を埋める。
-13. 初期 release / set が必要なら `templates/release-spec-template.md` を埋める。
-14. 品質管理が必要なら `workflows/quality-control-workflow.md` を起動し、`templates/release-checklist-template.md`, `templates/quality-ledger-template.md`, `templates/release-log-template.md` を初期化する。
-15. release / set ごとの handoff が必要なら `templates/production-handoff-template.md` を埋める。
-16. 実会話での勝ち筋確認が必要なら `workflows/usage-validation-workflow.md` と `templates/usage-validation-template.md` を使う。
-17. 専用AI制作指示が必要なら `templates/brand-system-prompt-template.md` を埋める。
-18. milestone 学習を圧縮するなら `workflows/release-retrospective-workflow.md` と `templates/release-retrospective-template.md` を使う。
+12. ブランド固有の制作基盤が必要なら `templates/brand/brand-production-brief-template.md` を埋める。
+13. 初期 release / set が必要なら `templates/release/release-spec-template.md` を埋める。
+14. 品質管理が必要なら `workflows/quality-control-workflow.md` を起動し、`templates/qa/release-checklist-template.md`, `templates/qa/quality-ledger-template.md`, `templates/release/release-log-template.md` を初期化する。
+15. release / set ごとの handoff が必要なら `templates/release/production-handoff-template.md` を埋める。
+16. 実会話での勝ち筋確認が必要なら `workflows/usage-validation-workflow.md` と `templates/qa/usage-validation-template.md` を使う。
+17. 専用AI制作指示が必要なら `templates/brand/brand-system-prompt-template.md` を埋める。
+18. milestone 学習を圧縮するなら `workflows/release-retrospective-workflow.md` と `templates/qa/release-retrospective-template.md` を使う。
 19. 継続改善や作業後の学習が必要なら `workflows/continuous-improvement-workflow.md` へ接続する。
 
 ## モード判定

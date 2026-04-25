@@ -1,0 +1,71 @@
+schema_version: "1.0"
+factory_base_version: "2026-04-25"
+template_schema_version: "1.0"
+
+brand:
+  slug: "your-brand-slug"
+  name: "YOUR_BRAND_NAME"
+  type: "generic"
+  stage: "design-ready"
+  owner: "owner-name"
+
+product:
+  item_type: "static-emoji"
+  package_type: "emoji"
+  initial_set_count: 8
+  animation: false
+
+market:
+  observation_log: "market/market-observation-log.md"
+  category_gap_map: "market/category-gap-map.md"
+
+production:
+  profile: "rough-to-final"
+  release_root: "releases"
+  active_release: "release-001"
+  final_asset_dir: "releases/release-001/production/finals"
+  prompt_bundle_dir: "releases/release-001/prompts"
+
+quality:
+  release_checklist_path: "releases/release-001/qa/release-checklist.md"
+  quality_ledger_path: "releases/release-001/qa/quality-ledger.md"
+  usage_validation_path: "releases/release-001/qa/usage-validation.md"
+  retrospective_path: "releases/release-001/qa/release-retrospective.md"
+  release_log_path: "releases/release-001/release-log.md"
+
+submission:
+  metadata_path: "releases/release-001/submission/metadata.yaml"
+  images_dir: "releases/release-001/submission/images"
+  checklist_path: "releases/release-001/submission/submission-checklist.md"
+  audit_report_path: "releases/release-001/submission/submission-audit-report.md"
+
+strategy:
+  split_reason: "独立制作と継続運用が必要になったため"
+  release_policy: "manual"
+  sync_policy: "snapshot"
+  premium_horizon: "unknown"
+
+snapshots:
+  line_platform_baseline: "references/shared/line-platform-baseline.md"
+  structure_constraints: "references/shared/structure-constraints.md"
+  emoji_product_rules: "references/shared/emoji-product-rules.md"
+  review_risk_rules: "references/shared/review-risk-rules.md"
+  evaluation_model: "references/shared/evaluation-model.md"
+  quality_control_workflow: "references/shared/quality-control-workflow.md"
+  usage_validation_workflow: "references/shared/usage-validation-workflow.md"
+
+source:
+  factory_repo: "line-emoji-factory"
+  brand_setting_path: "brand/brand-setting.md"
+  brand_positioning_path: "brand/brand-positioning.md"
+  production_brief_path: "brand/brand-production-brief.md"
+  system_prompt_path: "brand/brand-system-prompt.md"
+  active_release_spec_path: "releases/release-001/release-spec.md"
+
+releases:
+  - id: "release-001"
+    status: "draft"
+    spec: "releases/release-001/release-spec.md"
+    handoff: "releases/release-001/production-handoff.md"
+    checklist: "releases/release-001/qa/release-checklist.md"
+    submission: "releases/release-001/submission"
