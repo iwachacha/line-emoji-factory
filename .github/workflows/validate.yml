@@ -29,6 +29,9 @@ jobs:
       - name: Check project map paths
         run: python tools/check-project-map-paths.py
 
+      - name: Check example drift
+        run: python tools/check-example-drift.py examples/soeshirushi
+
       - name: Check PowerShell syntax
         shell: pwsh
         run: |

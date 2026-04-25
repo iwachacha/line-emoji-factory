@@ -118,6 +118,7 @@ def create_brand_repo(
         "references/shared/quality-control-workflow.md",
         "references/shared/usage-validation-workflow.md",
         "references/shared/asset-validation-rules.md",
+        "references/shared/production-profile-rules.md",
         "references/shared/submission-metadata-rules.md",
         f"releases/{release_id}/release-spec.md",
         f"releases/{release_id}/production-handoff.md",
@@ -162,6 +163,21 @@ def create_brand_repo(
             "final_asset_dir": f"releases/{release_id}/production/finals",
             "prompt_bundle_dir": f"releases/{release_id}/prompts",
         },
+        "production_profile": {
+            "name": "rough-to-final",
+            "rough_stage": {
+                "purpose": "structure and set-direction exploration",
+                "required_outputs": ["rough_board", "per_emoji_intent", "failure_notes"],
+            },
+            "finalization_stage": {
+                "purpose": "final asset production",
+                "required_outputs": ["final_assets", "correction_notes", "export_check"],
+            },
+            "revision_stage": {
+                "purpose": "slot-level corrections",
+                "required_outputs": ["revision_notes", "fixed_assets", "unresolved_watch_items"],
+            },
+        },
         "quality": {
             "release_checklist_path": f"releases/{release_id}/qa/release-checklist.md",
             "quality_ledger_path": f"releases/{release_id}/qa/quality-ledger.md",
@@ -191,6 +207,7 @@ def create_brand_repo(
             "quality_control_workflow": "references/shared/quality-control-workflow.md",
             "usage_validation_workflow": "references/shared/usage-validation-workflow.md",
             "asset_validation_rules": "references/shared/asset-validation-rules.md",
+            "production_profile_rules": "references/shared/production-profile-rules.md",
             "submission_metadata_rules": "references/shared/submission-metadata-rules.md",
         },
         "source": {

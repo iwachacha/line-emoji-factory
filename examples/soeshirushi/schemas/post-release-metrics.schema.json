@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://line-emoji-factory.local/schemas/post-release-metrics.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release",
+    "metrics",
+    "interpretation"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "brand",
+        "release_id",
+        "public_date",
+        "review_result"
+      ],
+      "properties": {
+        "brand": {
+          "type": "string",
+          "minLength": 1
+        },
+        "release_id": {
+          "type": "string",
+          "pattern": "^release-\\d{3}$"
+        },
+        "public_date": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "review_result": {
+          "type": "string",
+          "enum": [
+            "approved",
+            "rejected",
+            "resubmitted",
+            "pending",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "views",
+        "clicks",
+        "purchases",
+        "conversion_notes",
+        "refund_complaint_notes",
+        "premium_eligibility_date"
+      ],
+      "properties": {
+        "views": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "clicks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "purchases": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "conversion_notes": {
+          "type": "string"
+        },
+        "refund_complaint_notes": {
+          "type": "string"
+        },
+        "premium_eligibility_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sold_because",
+        "did_not_sell_because",
+        "review_friction",
+        "usage_drift"
+      ],
+      "properties": {
+        "sold_because": {
+          "type": "string"
+        },
+        "did_not_sell_because": {
+          "type": "string"
+        },
+        "review_friction": {
+          "type": "string"
+        },
+        "usage_drift": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

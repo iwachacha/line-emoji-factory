@@ -65,8 +65,10 @@ The generated submission outputs are intentionally split:
 - `tools/validate-metadata.py`: LINE metadata length, emoji, copyright, and review-risk warning checks.
 - `tools/package-release.py`: creates static line-upload and internal archive packages.
 - `tools/check-project-map-paths.py`: validates path references in `PROJECT_MAP.md`.
+- `tools/check-example-drift.py`: verifies standalone examples have current embedded schemas, tools, and shared snapshots.
 
 Animation APNG validation is available through `tools/validate-assets.py --asset-type animation`. Animation release packaging is not implemented in `tools/package-release.py` yet.
+Generated brand manifests include `production_profile` so rough, finalization, and revision outputs stay explicit and tool-neutral.
 
 ## Validation
 
@@ -74,12 +76,13 @@ Animation APNG validation is available through `tools/validate-assets.py --asset
 python -m compileall tools
 python tools/validate-schemas.py --check-schemas schemas
 python tools/check-project-map-paths.py
+python tools/check-example-drift.py examples/soeshirushi
 pytest
 ```
 
 ## Example
 
-`examples/soeshirushi` is a design-stage reference. It is not production-ready and does not contain final submission images.
+`examples/soeshirushi` is a standalone generated repo sample at design stage. It is drift-checked against current embedded schemas, tools, and shared snapshots, but it is not production-ready and does not contain final submission images.
 
 ## Operating Rule
 

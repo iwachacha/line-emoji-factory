@@ -17,6 +17,7 @@ python -m pip install -r requirements-dev.txt
 ```
 
 Use `-InitialSetCount` with one of `8`, `16`, `24`, `32`, or `40`.
+The generated manifest also contains `production_profile`, which keeps rough, finalization, and revision outputs explicit without making a specific tool the source of truth.
 
 For fixed IP projects, add:
 
@@ -105,3 +106,11 @@ python ./tools/validate-assets.py ".\brands\my-brand\releases\release-001\produc
 ```
 
 Animation APNG validation checks frame count, duration, loop count, dimensions, transparency, and file size. `package-release.py` still packages static emoji only.
+
+## Example Drift Check
+
+`examples/soeshirushi` is a standalone generated repo sample. Check that its embedded schemas, tools, and shared snapshots match the factory sources:
+
+```powershell
+python ./tools/check-example-drift.py ".\examples\soeshirushi"
+```

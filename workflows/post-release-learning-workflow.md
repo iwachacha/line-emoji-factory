@@ -11,6 +11,7 @@
 - 継続改善: `rules/continuous-improvement-rules.md`
 - 品質管理: `workflows/quality-control-workflow.md`
 - 出力: `templates/post-release/post-release-metrics-template.md`, `templates/post-release/next-release-recommendation-template.md`
+- schema: `schemas/post-release-metrics.schema.json`
 
 ## 標準手順
 1. 公開日、審査結果、差し戻し理由、販売指標を記録する。

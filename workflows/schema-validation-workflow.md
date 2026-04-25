@@ -13,6 +13,7 @@
 - brand manifest: `schemas/brand-manifest.schema.json`
 - submission metadata: `schemas/submission-metadata.schema.json`
 - release spec: `schemas/release-spec.schema.json`
+- post-release metrics: `schemas/post-release-metrics.schema.json`
 
 ## 標準手順
 1. 検証対象が factory template か、生成済み brand repo かを分ける。

@@ -8,6 +8,7 @@
 - submission metadata
 - asset validation report
 - market observation
+- post-release metrics
 - IP style bible
 - reference asset register
 

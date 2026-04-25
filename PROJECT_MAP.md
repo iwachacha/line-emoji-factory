@@ -140,3 +140,5 @@
 - `tools/package-release.py`: creates separated `submission/line-upload/images.zip` and `submission/internal-archive/package.zip`.
 - `tools/validate-assets.py`: validates static PNG and APNG assets and can generate contact sheet previews.
 - `tools/check-project-map-paths.py`: verifies path references in this map.
+- `tools/check-example-drift.py`: verifies standalone example repos have current embedded schemas, tools, and shared snapshots.
+- `schemas/post-release-metrics.schema.json`: validates machine-readable post-release metrics records.
