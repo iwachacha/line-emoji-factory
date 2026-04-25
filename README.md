@@ -42,6 +42,15 @@ python ./tools/package-release.py ".\brands\my-brand" `
 ./tools/validate-brand-repo.ps1 ".\brands\my-brand"
 ```
 
+Generate a readability contact sheet after packaging:
+
+```powershell
+python ./tools/validate-assets.py ".\brands\my-brand\releases\release-001\submission\line-upload\images" `
+  --expected-count 8 `
+  --stage submission `
+  --preview-contact-sheet ".\brands\my-brand\releases\release-001\qa\contact-sheet.png"
+```
+
 The generated submission outputs are intentionally split:
 
 - `submission/line-upload/images.zip`: LINE upload ZIP. Images only.
@@ -52,10 +61,12 @@ The generated submission outputs are intentionally split:
 - `tools/init-brand-repo.ps1`: scaffold a brand repo.
 - `tools/validate-brand-repo.py`: manifest-driven brand repo validation.
 - `tools/validate-brand-repo.ps1`: PowerShell wrapper for the Python validator.
-- `tools/validate-assets.py`: static emoji image validation, including submission filename checks.
+- `tools/validate-assets.py`: static PNG and APNG validation, submission filename checks, and contact sheet previews.
 - `tools/validate-metadata.py`: LINE metadata length, emoji, copyright, and review-risk warning checks.
-- `tools/package-release.py`: creates line-upload and internal archive packages.
+- `tools/package-release.py`: creates static line-upload and internal archive packages.
 - `tools/check-project-map-paths.py`: validates path references in `PROJECT_MAP.md`.
+
+Animation APNG validation is available through `tools/validate-assets.py --asset-type animation`. Animation release packaging is not implemented in `tools/package-release.py` yet.
 
 ## Validation
 

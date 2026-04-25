@@ -27,6 +27,36 @@ def write_png(path: Path, size: tuple[int, int], *, fully_transparent: bool = Fa
     image.save(path, dpi=(72, 72))
 
 
+def write_apng(
+    path: Path,
+    *,
+    size: tuple[int, int] = (180, 180),
+    frame_count: int = 5,
+    duration: int = 100,
+    loop: int = 1,
+    alpha: bool = True,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    frames = []
+    for index in range(frame_count):
+        mode = "RGBA" if alpha else "RGB"
+        background = (0, 0, 0, 0) if alpha else (255, 255, 255)
+        image = Image.new(mode, size, background)
+        draw = ImageDraw.Draw(image)
+        offset = min(index * 3, 24)
+        fill = (30, 30, 30, 255) if alpha else (30, 30, 30)
+        draw.ellipse((24 + offset, 24, size[0] - 24, size[1] - 24 - offset), fill=fill)
+        frames.append(image)
+    frames[0].save(
+        path,
+        save_all=True,
+        append_images=frames[1:],
+        duration=[duration] * frame_count,
+        loop=loop,
+        format="PNG",
+    )
+
+
 def valid_metadata() -> dict:
     return {
         "schema_version": "1.0",

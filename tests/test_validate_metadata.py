@@ -45,3 +45,26 @@ def test_promotion_keyword_is_warning(tmp_path):
     assert result.returncode == 0, result.stderr
     assert "warning:" in result.stderr
     assert "review-risk keyword" in result.stderr
+
+
+def test_review_risk_keywords_can_be_externalized(tmp_path):
+    data = valid_metadata()
+    data["description"] = "Includes a custom-watch term."
+    metadata_path = tmp_path / "metadata.yaml"
+    keywords_path = tmp_path / "keywords.yaml"
+    write_yaml(metadata_path, data)
+    write_yaml(keywords_path, {"keywords": ["custom-watch"]})
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "validate-metadata.py",
+            metadata_path,
+            "--risk-keywords",
+            keywords_path,
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "custom-watch" in result.stderr

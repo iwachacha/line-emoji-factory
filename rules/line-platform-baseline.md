@@ -14,6 +14,16 @@ This file records the factory's current operational interpretation of LINE Creat
 - One image file: `1MB` or less.
 - ZIP upload: `20MB` or less.
 
+## Animation Emoji Baseline
+
+- Content images use APNG files with `.png` extension.
+- Content APNG size: `180 x 180` px.
+- One APNG file: `300KB` or less.
+- Frame count: `5` to `20`.
+- Total duration: `4` seconds or less.
+- Loop count: `1` to `4`.
+- Static packaging remains the only supported package flow in this repo until animation release packaging is added.
+
 ## Metadata Baseline
 
 - Creator name: 50 LINE-count characters or fewer.

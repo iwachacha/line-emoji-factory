@@ -79,7 +79,8 @@ Outputs:
 ./tools/validate-brand-repo.ps1 ".\brands\my-brand"
 python ./tools/validate-assets.py ".\brands\my-brand\releases\release-001\submission\line-upload\images" `
   --expected-count 8 `
-  --stage submission
+  --stage submission `
+  --preview-contact-sheet ".\brands\my-brand\releases\release-001\qa\contact-sheet.png"
 ```
 
 Common failures:
@@ -91,3 +92,16 @@ Common failures:
 - Submission filename not `001.png`, `002.png`, ...
 - Metadata title, description, creator name, or copyright exceeds LINE limits
 - Copyright contains non-ASCII characters
+
+## Animation Assets
+
+Validate APNG content images directly:
+
+```powershell
+python ./tools/validate-assets.py ".\brands\my-brand\releases\release-001\production\finals" `
+  --expected-count 8 `
+  --asset-type animation `
+  --tab-image ".\brands\my-brand\releases\release-001\production\tab\source-tab.png"
+```
+
+Animation APNG validation checks frame count, duration, loop count, dimensions, transparency, and file size. `package-release.py` still packages static emoji only.

@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import subprocess
 
-from conftest import PYTHON, ROOT, run_cmd_args, write_png
+from PIL import Image
+
+from conftest import PYTHON, ROOT, run_cmd_args, write_apng, write_png
 
 
 def test_submission_filenames_are_strict(tmp_path):
@@ -60,6 +62,106 @@ def test_fully_transparent_and_no_alpha_fail(tmp_path):
 
     result = subprocess.run(
         run_cmd_args(PYTHON, ROOT / "tools" / "validate-assets.py", no_alpha, "--expected-count", "8"),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert "transparent background not detected" in result.stderr
+
+
+def test_contact_sheet_preview_is_generated(tmp_path):
+    images = tmp_path / "images"
+    for index in range(1, 9):
+        write_png(images / f"{index:03}.png", (180, 180))
+    write_png(images / "tab.png", (96, 74))
+    contact_sheet = tmp_path / "report" / "contact-sheet.png"
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "validate-assets.py",
+            images,
+            "--expected-count",
+            "8",
+            "--stage",
+            "submission",
+            "--preview-contact-sheet",
+            contact_sheet,
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr
+    assert contact_sheet.exists()
+    with Image.open(contact_sheet) as preview:
+        assert preview.size[0] >= 180 + 48 + 32 + 24
+        assert preview.size[1] >= 180 * 8
+
+
+def test_animation_apng_validation(tmp_path):
+    images = tmp_path / "animation"
+    for index in range(1, 9):
+        write_apng(images / f"{index:03}.png", frame_count=5, duration=100, loop=1)
+    write_png(images / "tab.png", (96, 74))
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "validate-assets.py",
+            images,
+            "--expected-count",
+            "8",
+            "--stage",
+            "submission",
+            "--asset-type",
+            "animation",
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr
+
+    bad = tmp_path / "animation-bad"
+    for index in range(1, 9):
+        write_apng(bad / f"{index:03}.png", frame_count=4, duration=100, loop=0)
+    write_png(bad / "tab.png", (96, 74))
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "validate-assets.py",
+            bad,
+            "--expected-count",
+            "8",
+            "--stage",
+            "submission",
+            "--asset-type",
+            "animation",
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert "APNG frame count" in result.stderr
+    assert "APNG loop count" in result.stderr
+
+    no_alpha = tmp_path / "animation-no-alpha"
+    for index in range(1, 9):
+        write_apng(no_alpha / f"{index:03}.png", frame_count=5, duration=100, loop=1, alpha=False)
+    write_png(no_alpha / "tab.png", (96, 74))
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "validate-assets.py",
+            no_alpha,
+            "--expected-count",
+            "8",
+            "--stage",
+            "submission",
+            "--asset-type",
+            "animation",
+        ),
         text=True,
         capture_output=True,
     )

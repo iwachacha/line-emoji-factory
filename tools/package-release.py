@@ -78,7 +78,7 @@ def resolve_asset_type(manifest: dict, cli_asset_type: str | None) -> str:
     if cli_asset_type and cli_asset_type != manifest_asset_type:
         raise ValueError(f"--asset-type {cli_asset_type} does not match manifest product.item_type {manifest_type}")
     if asset_type == "animation":
-        raise ValueError("animation emoji packaging is not supported yet")
+        raise ValueError("animation emoji packaging is not supported yet; validate APNG assets with validate-assets.py")
     return asset_type
 
 

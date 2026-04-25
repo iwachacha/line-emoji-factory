@@ -64,6 +64,10 @@
 - Verified: template canonical path の完全階層化、P1/P2 skill 追加、release package tool、post-release 学習、CI保守 workflow、soeshirushi の新 scaffold 構造移行を実装した
 - Verification method: schema validation、PowerShell syntax、YAML parse、scaffold smoke、brand repo validation、metadata validation、asset validation、package smoke、example validation、diff check
 - Remaining risk: 実販売データを使う post-release 分析は、公開後データが入るまで monitor only
+- ID: `FAC-2026-04-26-002`
+- Verified: P1 asset validation として APNG 検査、contact sheet preview、metadata risk keyword 外部化テストを追加した
+- Verification method: `pytest`, `python tools/validate-assets.py ... --asset-type animation`, `python tools/validate-assets.py ... --preview-contact-sheet ...`
+- Remaining risk: animation release packaging は未実装のため、`tools/package-release.py` は static package 専用として維持する
 
 ## 4. Skill Evolution
 - ID: `FAC-2026-04-25-001`
