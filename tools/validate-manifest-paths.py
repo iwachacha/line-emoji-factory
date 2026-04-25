@@ -22,11 +22,16 @@ PATH_KEYS = {
     "images_dir",
     "checklist_path",
     "audit_report_path",
+    "asset_validation_rules",
+    "approval_log",
     "brand_setting_path",
     "brand_positioning_path",
+    "character_expression_matrix",
     "production_brief_path",
     "system_prompt_path",
     "active_release_spec_path",
+    "reference_asset_register",
+    "style_bible",
     "line_platform_baseline",
     "structure_constraints",
     "emoji_product_rules",
@@ -34,6 +39,7 @@ PATH_KEYS = {
     "evaluation_model",
     "quality_control_workflow",
     "usage_validation_workflow",
+    "submission_metadata_rules",
 }
 
 

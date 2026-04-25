@@ -4,7 +4,7 @@ template_schema_version: "1.0"
 
 brand:
   slug: "soeshirushi"
-  name: "そえしるし"
+  name: "Soeshirushi"
   type: "generic"
   stage: "design-ready"
   owner: "factory-validation"
@@ -35,12 +35,13 @@ quality:
 
 submission:
   metadata_path: "releases/release-001/submission/metadata.yaml"
-  images_dir: "releases/release-001/submission/images"
   checklist_path: "releases/release-001/submission/submission-checklist.md"
   audit_report_path: "releases/release-001/submission/submission-audit-report.md"
+  line_upload_dir: "releases/release-001/submission/line-upload"
+  internal_archive_dir: "releases/release-001/submission/internal-archive"
 
 strategy:
-  split_reason: "初期制作と品質記録をブランド単位で独立管理するため"
+  split_reason: "Example brand repo for design-stage validation."
   release_policy: "manual"
   sync_policy: "snapshot"
   premium_horizon: "review-after-180-days"
@@ -53,6 +54,8 @@ snapshots:
   evaluation_model: "references/shared/evaluation-model.md"
   quality_control_workflow: "references/shared/quality-control-workflow.md"
   usage_validation_workflow: "references/shared/usage-validation-workflow.md"
+  asset_validation_rules: "references/shared/asset-validation-rules.md"
+  submission_metadata_rules: "references/shared/submission-metadata-rules.md"
 
 source:
   factory_repo: "line-emoji-factory"

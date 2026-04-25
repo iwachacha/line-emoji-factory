@@ -5,14 +5,14 @@ template_schema_version: "1.0"
 brand:
   slug: "your-brand-slug"
   name: "YOUR_BRAND_NAME"
-  type: "generic"
+  type: "[BRAND_TYPE]"
   stage: "design-ready"
   owner: "owner-name"
 
 product:
   item_type: "static-emoji"
   package_type: "emoji"
-  initial_set_count: 8
+  initial_set_count: [INITIAL_SET_COUNT]
   animation: false
 
 market:
@@ -35,12 +35,13 @@ quality:
 
 submission:
   metadata_path: "releases/release-001/submission/metadata.yaml"
-  images_dir: "releases/release-001/submission/images"
   checklist_path: "releases/release-001/submission/submission-checklist.md"
   audit_report_path: "releases/release-001/submission/submission-audit-report.md"
+  line_upload_dir: "releases/release-001/submission/line-upload"
+  internal_archive_dir: "releases/release-001/submission/internal-archive"
 
 strategy:
-  split_reason: "独立制作と継続運用が必要になったため"
+  split_reason: "Brand-specific production and QA are managed outside the factory repo."
   release_policy: "manual"
   sync_policy: "snapshot"
   premium_horizon: "unknown"
@@ -53,6 +54,8 @@ snapshots:
   evaluation_model: "references/shared/evaluation-model.md"
   quality_control_workflow: "references/shared/quality-control-workflow.md"
   usage_validation_workflow: "references/shared/usage-validation-workflow.md"
+  asset_validation_rules: "references/shared/asset-validation-rules.md"
+  submission_metadata_rules: "references/shared/submission-metadata-rules.md"
 
 source:
   factory_repo: "line-emoji-factory"
@@ -61,6 +64,12 @@ source:
   production_brief_path: "brand/brand-production-brief.md"
   system_prompt_path: "brand/brand-system-prompt.md"
   active_release_spec_path: "releases/release-001/release-spec.md"
+
+ip:
+  style_bible: "brand/ip/ip-style-bible.md"
+  reference_asset_register: "brand/ip/reference-asset-register.md"
+  approval_log: "brand/ip/ip-approval-log.md"
+  character_expression_matrix: "brand/ip/character-expression-matrix.md"
 
 releases:
   - id: "release-001"

@@ -18,10 +18,16 @@ jobs:
           python-version: "3.12"
 
       - name: Install validation dependencies
-        run: python -m pip install --upgrade pyyaml jsonschema pillow
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Compile tools
+        run: python -m compileall tools
 
       - name: Check schema files
         run: python tools/validate-schemas.py --check-schemas schemas
+
+      - name: Check project map paths
+        run: python tools/check-project-map-paths.py
 
       - name: Check PowerShell syntax
         shell: pwsh
@@ -40,32 +46,50 @@ jobs:
         shell: pwsh
         run: |
           $dest = Join-Path $env:RUNNER_TEMP "smoke-brand"
-          ./tools/init-brand-repo.ps1 -BrandSlug "smoke-brand" -BrandName "Smoke Brand" -Destination $dest
+          ./tools/init-brand-repo.ps1 -BrandSlug "smoke-brand" -BrandName "Smoke Brand" -Destination $dest -InitialSetCount 8
           ./tools/validate-brand-repo.ps1 $dest
 
       - name: Validate generated metadata
         run: python tools/validate-metadata.py "$RUNNER_TEMP/smoke-brand/releases/release-001/submission/metadata.yaml"
 
-      - name: Asset validator smoke test
+      - name: Test suite
+        run: pytest
+
+      - name: Asset validator negative smoke test
         run: |
           python - <<'PY'
           from pathlib import Path
           from PIL import Image
-          root = Path("asset-smoke")
+          root = Path("asset-negative")
           root.mkdir(exist_ok=True)
           for i in range(8):
               Image.new("RGBA", (180, 180), (0, 0, 0, 0)).save(root / f"{i + 1:03}.png", dpi=(72, 72))
           PY
-          python tools/validate-assets.py asset-smoke --expected-count 8
+          if python tools/validate-assets.py asset-negative --expected-count 8; then
+            echo "fully transparent images unexpectedly passed"
+            exit 1
+          fi
 
       - name: Package smoke test
         run: |
           python - <<'PY'
           from pathlib import Path
           from PIL import Image
-          root = Path(__import__("os").environ["RUNNER_TEMP"]) / "smoke-brand" / "releases" / "release-001" / "production" / "finals"
-          root.mkdir(parents=True, exist_ok=True)
+          base = Path(__import__("os").environ["RUNNER_TEMP"]) / "smoke-brand" / "releases" / "release-001" / "production"
+          finals = base / "finals"
+          tab = base / "tab"
+          finals.mkdir(parents=True, exist_ok=True)
+          tab.mkdir(parents=True, exist_ok=True)
           for i in range(8):
-              Image.new("RGBA", (180, 180), (0, 0, 0, 0)).save(root / f"{i + 1:03}.png", dpi=(72, 72))
+              img = Image.new("RGBA", (180, 180), (0, 0, 0, 0))
+              for x in range(35, 145):
+                  for y in range(35, 145):
+                      img.putpixel((x, y), (0, 0, 0, 255))
+              img.save(finals / f"source-{i + 1}.png", dpi=(72, 72))
+          tab_img = Image.new("RGBA", (96, 74), (0, 0, 0, 0))
+          for x in range(15, 81):
+              for y in range(15, 59):
+                  tab_img.putpixel((x, y), (0, 0, 0, 255))
+          tab_img.save(tab / "source-tab.png", dpi=(72, 72))
           PY
-          python tools/package-release.py "$RUNNER_TEMP/smoke-brand" --expected-count 8
+          python tools/package-release.py "$RUNNER_TEMP/smoke-brand" --release-id release-001 --target both --clean

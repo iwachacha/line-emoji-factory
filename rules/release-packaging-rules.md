@@ -1,32 +1,47 @@
-# release packaging ルール
+# Release Packaging Rules
 
-このファイルは、LINE申請用 package を作るときの判断基準の正本である。
+This file defines the current factory contract for release packaging.
 
-## package 前提
-- release spec と final assets が対応している。
-- submission metadata が schema と metadata validator に通る。
-- content images が asset validator に通る。
-- submission checklist と submission audit report が更新されている。
+## Judgment Order
 
-## 必須構造
+1. Structure: package layout must match the LINE upload and internal archive separation.
+2. Brand: packaging must preserve source-to-submission traceability.
+3. Product: output must be usable for submission without mixing internal files into the upload ZIP.
+
+## Required Outputs
+
 ```text
 releases/<release-id>/submission/
-  metadata.yaml
-  images/
-  package.zip
-  package-checksums.txt
-  submission-checklist.md
-  submission-audit-report.md
+  line-upload/
+    images.zip
+    images/
+      tab.png
+      001.png
+      002.png
+  internal-archive/
+    package.zip
+    metadata.yaml
+    package-report.md
+    asset-map.json
+    package-checksums.txt
 ```
 
-## Hard NG
-- final asset が release spec の count と一致しない。
-- content image が `180 x 180 px` ではない。
-- metadata が文字数・copyright 条件を満たさない。
-- `package.zip` が 20MB を超える。
-- 審査前 checklist の blocking 項目が未解決。
+## Line Upload ZIP
 
-## 完了条件
-- `tools/package-release.py` が成功する。
-- `package.zip` と checksum が生成される。
-- `release-log.md` に package 作成日と対象 release が残る。
+- Contains images only.
+- Must not contain `metadata.yaml`, reports, asset maps, checksums, release logs, or internal notes.
+- Content image filenames are normalized to `001.png`, `002.png`, ...
+- The tab image filename is `tab.png`.
+
+## Internal Archive
+
+- May contain the line-upload ZIP, metadata, package report, asset map, checksums, manifest snapshot, and release spec snapshot.
+- Exists for review, traceability, and future release learning.
+
+## Tool Contract
+
+- `tools/package-release.py BRAND_REPO --release-id release-001 --target both --clean`
+- Production final filenames may be arbitrary.
+- `asset-map.json` records source filenames and normalized submission filenames.
+- `--clean` recreates `submission/line-upload/` and `submission/internal-archive/`.
+- Animation emoji packaging is unsupported until a dedicated APNG validator is added.

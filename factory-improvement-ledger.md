@@ -85,3 +85,11 @@
 - Next review date:
 
 ## 7. Deferred / Rejected
+# 2026-04-26 P0 Implementation Note
+
+- ID: `FAC-2026-04-26-001`
+- Scope: `package / validation / schema / CI / docs`
+- Change: split LINE upload image ZIP from internal archive, made brand validation manifest-driven, hardened asset and metadata validators, added pytest negative gates, and synchronized quickstart docs.
+- Owner files updated: `tools/`, `schemas/brand-manifest.schema.json`, `rules/line-platform-baseline.md`, `rules/asset-validation-rules.md`, `rules/release-packaging-rules.md`, `README.md`, `docs/quickstart.md`, `PROJECT_MAP.md`, `AGENTS.md`.
+- Verification target: `python -m compileall tools`, `python tools/validate-schemas.py --check-schemas schemas`, `python tools/check-project-map-paths.py`, `pytest`, package smoke, brand repo validation smoke.
+- Push status: not attempted in this working turn unless explicitly requested.

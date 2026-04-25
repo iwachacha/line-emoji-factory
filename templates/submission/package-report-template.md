@@ -1,18 +1,23 @@
 # Package Report
 
 ## Target
-- Brand:
+
+- Brand repo:
 - Release:
-- Package date:
+- Target:
+- Created at:
 
 ## Files
-- Images:
-- Metadata:
-- Package zip:
+
+- Content image count:
+- Line upload ZIP:
+- Internal archive ZIP:
+- Asset map:
 - Checksum file:
 
 ## Validation
-- Asset validation:
+
 - Metadata validation:
-- Zip size:
+- Asset validation:
+- ZIP size:
 - Result:

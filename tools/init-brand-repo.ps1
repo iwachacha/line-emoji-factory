@@ -5,7 +5,13 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$Destination,
 
-    [string]$BrandName = ""
+    [string]$BrandName = "",
+
+    [ValidateSet("8", "16", "24", "32", "40")]
+    [int]$InitialSetCount = 8,
+
+    [ValidateSet("generic", "fixed_ip", "collaboration")]
+    [string]$BrandType = "generic"
 )
 
 Set-StrictMode -Version Latest
@@ -74,8 +80,9 @@ $dirs = @(
     "releases/$releaseId/prompts",
     "releases/$releaseId/production/rough-boards",
     "releases/$releaseId/production/finals",
+    "releases/$releaseId/production/tab",
     "releases/$releaseId/qa",
-    "releases/$releaseId/submission/images",
+    "releases/$releaseId/submission",
     "schemas",
     "tools"
 )
@@ -143,6 +150,8 @@ $replacements["[CREATOR_NAME]"] = $BrandName
 $replacements["[TITLE]"] = $BrandName
 $replacements["[DESCRIPTION]"] = "LINE emoji for $BrandName."
 $replacements["[COPYRIGHT]"] = $copyright
+$replacements["[INITIAL_SET_COUNT]"] = [string]$InitialSetCount
+$replacements["[BRAND_TYPE]"] = $BrandType
 
 function Write-Template {
     param(

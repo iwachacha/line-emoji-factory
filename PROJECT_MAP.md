@@ -131,3 +131,11 @@
 - 同じ概念を別名で増やす
 - 学習の仕組みを、運用価値より重くする
 - schema や validator を文書だけで置き、CI や scaffold に接続しない
+# Current Implementation Addendum
+
+- `requirements-dev.txt`: local and CI validation dependencies.
+- `tests/`: pytest coverage for packaging, asset validation, metadata validation, and manifest-driven brand repo validation.
+- `tools/validate-brand-repo.py`: canonical manifest-driven validator.
+- `tools/validate-brand-repo.ps1`: PowerShell wrapper.
+- `tools/package-release.py`: creates separated `submission/line-upload/images.zip` and `submission/internal-archive/package.zip`.
+- `tools/check-project-map-paths.py`: verifies path references in this map.

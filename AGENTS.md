@@ -91,3 +91,8 @@
 - 案を広げるだけでなく、切る・変換する・磨く判断を行う。
 - ブランド固有修正と factory 修正を切り分ける。
 - 必要なら、ブランド設定、初期release設計、制作基盤、制作ハンドオフ、品質管理、継続改善、skill 改修、専用AI制作指示、schema 検証、申請前監査まで設計する。
+# Agent Reading Order Addendum
+
+For implementation work, read in this order: `AGENTS.md`, `PROJECT_MAP.md`, the relevant `skills/*/SKILL.md`, relevant `rules/`, relevant `workflows/`, relevant `templates/`, `schemas/`, then `tools/`.
+
+Completion status must include changed owner files, validation results, known unfinished items, and push status. Push is only a completion condition when credentials and permissions are available.
