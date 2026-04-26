@@ -99,9 +99,12 @@ def test_package_release_requires_tab_image(tmp_path):
     assert "tab image does not exist" in result.stderr
 
 
-def test_package_release_uses_release_specific_metadata(tmp_path):
+def test_release_002_package_uses_release_002_metadata(tmp_path):
     brand = create_two_release_brand_repo(tmp_path, with_assets=True)
+    release_001 = brand / "releases" / "release-001"
     release_002 = brand / "releases" / "release-002"
+    release_001_metadata = yaml.safe_load((release_001 / "submission" / "metadata.yaml").read_text(encoding="utf-8"))
+    release_002_metadata = yaml.safe_load((release_002 / "submission" / "metadata.yaml").read_text(encoding="utf-8"))
 
     result = subprocess.run(
         run_cmd_args(
@@ -122,4 +125,8 @@ def test_package_release_uses_release_specific_metadata(tmp_path):
     internal_zip = release_002 / "submission" / "internal-archive" / "package.zip"
     with zipfile.ZipFile(internal_zip) as archive:
         packaged_metadata = yaml.safe_load(archive.read("metadata.yaml").decode("utf-8"))
+    print(f"release-001 metadata title: {release_001_metadata['title']}")
+    print(f"release-002 metadata title: {release_002_metadata['title']}")
+    print(f"release-002 package internal archive metadata title: {packaged_metadata['title']}")
     assert packaged_metadata["title"] == "Release Two Emoji"
+    print("release-002 title assertion passed")
