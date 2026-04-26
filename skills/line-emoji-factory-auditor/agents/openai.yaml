@@ -1,4 +1,4 @@
 interface:
-  display_name: "LINE絵文字 factory 監査"
+  display_name: "LINE絵文字/スタンプ factory 監査"
   short_description: "factory 改善採否、文書、workflow、skill、schema/tool/CI を監査するスキル"
-  default_prompt: "Use $line-emoji-factory-auditor to LINE絵文字 factory の改善案を監査し、反映先と検証方法を決める。"
+  default_prompt: "Use $line-emoji-factory-auditor to LINE絵文字/スタンプ factory の改善案を監査し、反映先と検証方法を決める。"

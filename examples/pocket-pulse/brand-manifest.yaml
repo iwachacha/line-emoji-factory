@@ -1,0 +1,114 @@
+schema_version: "1.0"
+factory_base_version: "2026-04-25"
+template_schema_version: "1.0"
+
+brand:
+  slug: "pocket-pulse"
+  name: "Pocket Pulse"
+  type: "generic"
+  stage: "design-ready"
+  owner: "factory-audit"
+
+product:
+  item_type: "static-emoji"
+  package_type: "emoji"
+  supported_item_types:
+    - "static-emoji"
+    - "static-sticker"
+  initial_set_count: 8
+  animation: false
+
+market:
+  observation_log: "market/market-observation-log.md"
+  category_gap_map: "market/category-gap-map.md"
+
+production:
+  profile: "rough-to-final"
+  release_root: "releases"
+  active_release: "release-001"
+  final_asset_dir: "releases/release-001/production/finals"
+  prompt_bundle_dir: "releases/release-001/prompts"
+
+production_profile:
+  name: "rough-to-final"
+  rough_stage:
+    purpose: "structure and set-direction exploration"
+    required_outputs:
+      - "rough_board"
+      - "per_item_intent"
+      - "failure_notes"
+  finalization_stage:
+    purpose: "final asset production"
+    required_outputs:
+      - "final_assets"
+      - "correction_notes"
+      - "export_check"
+  revision_stage:
+    purpose: "slot-level corrections"
+    required_outputs:
+      - "revision_notes"
+      - "fixed_assets"
+      - "unresolved_watch_items"
+
+quality:
+  release_checklist_path: "releases/release-001/qa/release-checklist.md"
+  quality_ledger_path: "releases/release-001/qa/quality-ledger.md"
+  usage_validation_path: "releases/release-001/qa/usage-validation.md"
+  retrospective_path: "releases/release-001/qa/release-retrospective.md"
+  release_log_path: "releases/release-001/release-log.md"
+
+submission:
+  metadata_path: "releases/release-001/submission/metadata.yaml"
+  checklist_path: "releases/release-001/submission/submission-checklist.md"
+  audit_report_path: "releases/release-001/submission/submission-audit-report.md"
+  line_upload_dir: "releases/release-001/submission/line-upload"
+  internal_archive_dir: "releases/release-001/submission/internal-archive"
+
+strategy:
+  split_reason: "Audit brand for validating static emoji and static sticker support in one brand repo."
+  release_policy: "manual"
+  sync_policy: "snapshot"
+  premium_horizon: "review-after-static-sticker-release"
+
+snapshots:
+  line_platform_baseline: "references/shared/line-platform-baseline.md"
+  structure_constraints: "references/shared/structure-constraints.md"
+  emoji_product_rules: "references/shared/emoji-product-rules.md"
+  sticker_product_rules: "references/shared/sticker-product-rules.md"
+  review_risk_rules: "references/shared/review-risk-rules.md"
+  evaluation_model: "references/shared/evaluation-model.md"
+  quality_control_workflow: "references/shared/quality-control-workflow.md"
+  usage_validation_workflow: "references/shared/usage-validation-workflow.md"
+  asset_validation_rules: "references/shared/asset-validation-rules.md"
+  production_profile_rules: "references/shared/production-profile-rules.md"
+  submission_metadata_rules: "references/shared/submission-metadata-rules.md"
+
+source:
+  factory_repo: "line-emoji-factory"
+  brand_setting_path: "brand/brand-setting.md"
+  brand_positioning_path: "brand/brand-positioning.md"
+  production_brief_path: "brand/brand-production-brief.md"
+  system_prompt_path: "brand/brand-system-prompt.md"
+  active_release_spec_path: "releases/release-001/release-spec.md"
+
+releases:
+  - id: "release-001"
+    status: "draft"
+    item_type: "static-emoji"
+    package_type: "emoji"
+    set_count: 8
+    animation: false
+    spec: "releases/release-001/release-spec.md"
+    handoff: "releases/release-001/production-handoff.md"
+    checklist: "releases/release-001/qa/release-checklist.md"
+    submission: "releases/release-001/submission"
+  - id: "release-002"
+    status: "draft"
+    item_type: "static-sticker"
+    package_type: "sticker"
+    set_count: 8
+    animation: false
+    spec: "releases/release-002/release-spec.md"
+    handoff: "releases/release-002/production-handoff.md"
+    checklist: "releases/release-002/qa/release-checklist.md"
+    submission: "releases/release-002/submission"

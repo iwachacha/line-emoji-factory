@@ -1,9 +1,9 @@
 ---
 name: line-emoji-factory-auditor
-description: LINE絵文字 factory 全体の改善採否、文書監査、workflow 監査、skill 監査、schema/tool/CI 改善を扱う統合監査入口。
+description: LINE絵文字 / スタンプ factory 全体の改善採否、文書監査、workflow 監査、skill 監査、schema/tool/CI 改善を扱う統合監査入口。
 ---
 
-# LINE絵文字 factory auditor
+# LINE絵文字 / スタンプ factory auditor
 
 ## Modes
 

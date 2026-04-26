@@ -130,3 +130,39 @@ def test_release_002_package_uses_release_002_metadata(tmp_path):
     print(f"release-002 package internal archive metadata title: {packaged_metadata['title']}")
     assert packaged_metadata["title"] == "Release Two Emoji"
     print("release-002 title assertion passed")
+
+
+def test_package_release_supports_static_stickers(tmp_path):
+    brand = create_brand_repo(tmp_path, item_type="static-sticker", with_assets=True)
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "package-release.py",
+            brand,
+            "--release-id",
+            "release-001",
+            "--target",
+            "both",
+            "--clean",
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr
+
+    submission = brand / "releases" / "release-001" / "submission"
+    line_zip = submission / "line-upload" / "images.zip"
+    with zipfile.ZipFile(line_zip) as archive:
+        names = set(archive.namelist())
+    assert "01.png" in names
+    assert "08.png" in names
+    assert "main.png" in names
+    assert "tab.png" in names
+    assert "001.png" not in names
+
+    asset_map = json.loads((submission / "internal-archive" / "asset-map.json").read_text(encoding="utf-8"))
+    assert asset_map["item_type"] == "static-sticker"
+    assert asset_map["content_images"][0]["submission"].endswith("01.png")
+    assert asset_map["main_image"]["submission"].endswith("main.png")
+    assert asset_map["tab_image"]["submission"].endswith("tab.png")

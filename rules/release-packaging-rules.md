@@ -1,6 +1,6 @@
 # Release Packaging Rules
 
-This file defines the current factory contract for release packaging.
+This file defines the current factory contract for emoji and sticker release packaging.
 
 ## Judgment Order
 
@@ -18,6 +18,10 @@ releases/<release-id>/submission/
       tab.png
       001.png
       002.png
+      # static stickers additionally include:
+      main.png
+      01.png
+      02.png
   internal-archive/
     package.zip
     metadata.yaml
@@ -30,8 +34,10 @@ releases/<release-id>/submission/
 
 - Contains images only.
 - Must not contain `metadata.yaml`, reports, asset maps, checksums, release logs, or internal notes.
-- Content image filenames are normalized to `001.png`, `002.png`, ...
+- Static emoji content image filenames are normalized to `001.png`, `002.png`, ...
+- Static sticker content image filenames are normalized to `01.png`, `02.png`, ...
 - The tab image filename is `tab.png`.
+- The static sticker main image filename is `main.png`.
 
 ## Internal Archive
 
@@ -44,4 +50,5 @@ releases/<release-id>/submission/
 - Production final filenames may be arbitrary.
 - `asset-map.json` records source filenames and normalized submission filenames.
 - `--clean` recreates `submission/line-upload/` and `submission/internal-archive/`.
-- Animation emoji packaging is unsupported until a dedicated APNG validator is added.
+- Animation emoji packaging is unsupported until a dedicated package contract is added.
+- Animated, custom, message, big, pop-up, and effect sticker packaging are unsupported until their package contracts are added.

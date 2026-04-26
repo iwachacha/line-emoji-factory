@@ -1,6 +1,6 @@
 # [BRAND_NAME]
 
-This repository is dedicated to production, QA, review, and release work for the LINE emoji brand `[BRAND_NAME]`.
+This repository is dedicated to production, QA, review, and release work for the LINE emoji / sticker brand `[BRAND_NAME]`.
 
 ## Entry Points
 - Machine-readable manifest: `brand-manifest.yaml`

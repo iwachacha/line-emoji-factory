@@ -1,4 +1,4 @@
-# LINE絵文字ブランド基盤 プロジェクトマップ
+# LINE絵文字 / スタンプブランド基盤 プロジェクトマップ
 
 このリポジトリの正本は、番号付きドキュメントではなく、
 `AGENTS.md / PROJECT_MAP.md / rules/ / workflows/ / templates/ / schemas/ / tools/ / skills/`
@@ -17,7 +17,7 @@
 - `docs/`
   - 人間向けの quickstart、architecture、運用ガイドを持つ。判断基準の正本にはしない。
 - `rules/`
-  - 何を守るかを定義する。公式仕様、構造、評価語彙、商品、リスク、schema、IP、市場観測の判断基準を持つ。
+  - 何を守るかを定義する。公式仕様、構造、評価語彙、絵文字商品、スタンプ商品、リスク、schema、IP、市場観測の判断基準を持つ。
 - `workflows/`
   - どう進めるかを定義する。相談、制作、品質管理、検査、申請前監査、継続改善、固定IP運用の手順を持つ。
 - `templates/`
@@ -38,6 +38,8 @@
 - 公式仕様と運用事実: `rules/line-platform-baseline.md`
 - 構造分類: `rules/structure-constraints.md`
 - ブランド主型 / 副型 / 補助タグ / 採用枠: `rules/brand-taxonomy.md`
+- 絵文字商品判断: `rules/emoji-product-rules.md`
+- スタンプ商品判断: `rules/sticker-product-rules.md`
 - 継続改善の昇格判断: `rules/continuous-improvement-rules.md`
 - 市場調査つき探索の判断: `rules/idea-research-rules.md`
 - 画像検査判断: `rules/asset-validation-rules.md`
@@ -101,9 +103,9 @@
 12. 改善採否、文書監査、workflow / skill の整理なら `skills/line-emoji-factory-auditor/SKILL.md` を使う。
 7. 通常運用では `workflows/consultation-workflow.md` に従ってモードを決める。
 8. 探索モードで新規案出しや市場調査が必要なら `workflows/idea-research-workflow.md` を起動する。
-9. 先に `rules/line-platform-baseline.md` と `rules/structure-constraints.md` で、公式仕様と構造成立性を判定する。
+9. 先に `rules/line-platform-baseline.md` と `rules/structure-constraints.md` で、item type、公式仕様、構造成立性を判定する。
 10. 構造でFailしたら `workflows/transformation-workflow.md` に沿って変換案を出す。
-11. 構造を通過した案だけ、ブランドと商品を順に評価する。
+11. 構造を通過した案だけ、ブランドと item type 別の商品を順に評価する。
 12. `Design Ready` まで達したら、`templates/brand/brand-setting-template.md` を埋める。
 13. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で共通制作フローを固定する。
 14. 初期 release / set を切るなら `templates/release/release-spec-template.md` を埋める。

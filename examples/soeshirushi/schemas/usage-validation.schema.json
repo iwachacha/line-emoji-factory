@@ -11,9 +11,14 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["context", "emoji_use", "baseline", "judgment"],
+        "required": ["context", "baseline", "judgment"],
+        "anyOf": [
+          { "required": ["item_use"] },
+          { "required": ["emoji_use"] }
+        ],
         "properties": {
           "context": { "type": "string" },
+          "item_use": { "type": "string" },
           "emoji_use": { "type": "string" },
           "baseline": { "type": "string" },
           "judgment": { "type": "string", "enum": ["win", "lose", "watch"] }

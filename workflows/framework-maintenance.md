@@ -25,7 +25,7 @@
 ### 公式仕様や販売運用の事実を更新する
 - 先に `rules/line-platform-baseline.md` を更新する。
 - `最終確認日` を更新する。
-- 影響がある `rules/structure-constraints.md`, `rules/emoji-product-rules.md`, `rules/review-risk-rules.md`, `templates/brand/brand-production-brief-template.md` を追随更新する。
+- 影響がある `rules/structure-constraints.md`, `rules/emoji-product-rules.md`, `rules/sticker-product-rules.md`, `rules/review-risk-rules.md`, `templates/brand/brand-production-brief-template.md` を追随更新する。
 
 ### 既存概念を改名する
 - 正本ファイルを先に更新する。

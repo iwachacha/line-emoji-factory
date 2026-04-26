@@ -1,10 +1,10 @@
 # 市場調査つきアイデア探索ワークフロー
 
-このファイルは、LINE絵文字の新しいブランド案や絵文字案を、
+このファイルは、LINE絵文字 / スタンプの新しいブランド案や item 案を、
 市場観測つきで多様に出しつつ偏りを抑える標準手順を定義する。
 
 ## 起動条件
-- 新しいブランド案や絵文字案が必要。
+- 新しいブランド案や item 案が必要。
 - 直近の探索が似たテーマや温度感に寄っている。
 - 市場の混雑と空白を見ながら探索したい。
 - 安定枠だけでなく、尖った候補も混ぜて比較したい。
@@ -13,7 +13,7 @@
 - 相談入口: `workflows/consultation-workflow.md`
 - 探索の判断基準: `rules/idea-research-rules.md`
 - 構造の判定: `rules/structure-constraints.md`
-- ブランド / 商品の確認: `rules/brand-creation-rules.md`, `rules/emoji-product-rules.md`
+- ブランド / 商品の確認: `rules/brand-creation-rules.md`, `rules/emoji-product-rules.md`, `rules/sticker-product-rules.md`
 - 記録枠: `templates/market/idea-batch-template.md`
 - 継続改善: `workflows/continuous-improvement-workflow.md`
 

@@ -1,0 +1,11 @@
+schema_version: "1.0"
+locale: "en"
+creator_name: "PocketPulseLab"
+title: "Pocket Pulse Stickers"
+description: "Soft status stickers for daily coordination."
+copyright: "PocketPulse"
+suggest_tags:
+  - "ok"
+  - "thanks"
+  - "work"
+  - "daily"

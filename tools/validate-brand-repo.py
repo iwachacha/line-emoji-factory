@@ -25,6 +25,8 @@ PATH_KEYS = {
     "handoff",
     "line_platform_baseline",
     "line_upload_dir",
+    "main_asset_dir",
+    "main_asset_path",
     "metadata_path",
     "observation_log",
     "production_brief_path",
@@ -39,6 +41,7 @@ PATH_KEYS = {
     "review_risk_rules",
     "spec",
     "structure_constraints",
+    "sticker_product_rules",
     "style_bible",
     "submission_metadata_rules",
     "submission",
@@ -51,9 +54,15 @@ PATH_KEYS = {
 }
 
 STANDARD_PRODUCTION_PROFILE_OUTPUTS = {
-    "rough_stage": {"rough_board", "per_emoji_intent", "failure_notes"},
+    "rough_stage": {"rough_board", "failure_notes"},
     "finalization_stage": {"final_assets", "correction_notes", "export_check"},
     "revision_stage": {"revision_notes", "fixed_assets", "unresolved_watch_items"},
+}
+ROUGH_INTENT_OUTPUTS = {"per_item_intent", "per_emoji_intent"}
+ITEM_PACKAGE_TYPES = {
+    "static-emoji": "emoji",
+    "animation-emoji": "emoji",
+    "static-sticker": "sticker",
 }
 
 
@@ -112,6 +121,7 @@ def validate_release_contracts(brand_repo: Path, manifest: dict, release_id: str
 
     for release in releases:
         rid = release.get("id", "<unknown>")
+        item_type = str(release.get("item_type") or manifest.get("product", {}).get("item_type", "static-emoji"))
         submission = brand_repo / str(release.get("submission", ""))
         metadata = submission / "metadata.yaml"
         if not submission.exists():
@@ -124,7 +134,36 @@ def validate_release_contracts(brand_repo: Path, manifest: dict, release_id: str
             target = release_root / rel_dir
             if not target.exists():
                 errors.append(f"release {rid}: missing directory: {target.relative_to(brand_repo).as_posix()}")
+        if item_type == "static-sticker":
+            target = release_root / "production/main"
+            if not target.exists():
+                errors.append(f"release {rid}: missing directory: {target.relative_to(brand_repo).as_posix()}")
 
+    return errors
+
+
+def validate_product_contract(manifest: dict) -> list[str]:
+    errors: list[str] = []
+    product = manifest.get("product", {})
+    product_item_type = str(product.get("item_type", ""))
+    product_package_type = str(product.get("package_type", ""))
+    supported = product.get("supported_item_types", [])
+    if product_item_type in ITEM_PACKAGE_TYPES and product_package_type != ITEM_PACKAGE_TYPES[product_item_type]:
+        errors.append(
+            f"product.package_type must match product.item_type: {product_package_type} != {ITEM_PACKAGE_TYPES[product_item_type]}"
+        )
+    if supported and product_item_type and product_item_type not in supported:
+        errors.append("product.item_type must be listed in product.supported_item_types")
+
+    for release in manifest.get("releases", []):
+        rid = release.get("id", "<unknown>")
+        item_type = str(release.get("item_type") or product_item_type)
+        package_type = str(release.get("package_type") or product_package_type)
+        if supported and item_type not in supported:
+            errors.append(f"release {rid}: item_type {item_type} is not listed in product.supported_item_types")
+        expected_package = ITEM_PACKAGE_TYPES.get(item_type)
+        if expected_package and package_type != expected_package:
+            errors.append(f"release {rid}: package_type must match item_type: {package_type} != {expected_package}")
     return errors
 
 
@@ -143,6 +182,9 @@ def validate_production_profile_contract(manifest: dict) -> list[str]:
         missing = sorted(required_outputs - outputs)
         if missing:
             errors.append(f"production_profile.{stage_name}: missing required outputs: {', '.join(missing)}")
+    rough_outputs = set(production_profile.get("rough_stage", {}).get("required_outputs", []))
+    if not (rough_outputs & ROUGH_INTENT_OUTPUTS):
+        errors.append("production_profile.rough_stage: missing required output: per_item_intent")
     return errors
 
 
@@ -171,7 +213,7 @@ def validate_metadata_files(brand_repo: Path, manifest: dict, release_id: str | 
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Validate a manifest-driven LINE emoji brand repo.")
+    parser = argparse.ArgumentParser(description="Validate a manifest-driven LINE emoji or sticker brand repo.")
     parser.add_argument("brand_repo", type=Path)
     parser.add_argument("--release-id")
     parser.add_argument("--factory-root", type=Path, default=Path(__file__).resolve().parents[1])
@@ -194,6 +236,7 @@ def main() -> int:
             raise ValueError(f"{manifest_path}: manifest root must be an object")
         errors.extend(validate_schema(manifest, schema_path, manifest_path))
         errors.extend(validate_paths(brand_repo, manifest))
+        errors.extend(validate_product_contract(manifest))
         errors.extend(validate_production_profile_contract(manifest))
         errors.extend(validate_release_contracts(brand_repo, manifest, args.release_id))
         errors.extend(validate_metadata_files(brand_repo, manifest, args.release_id, factory_root))

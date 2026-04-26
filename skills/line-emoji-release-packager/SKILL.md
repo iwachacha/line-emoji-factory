@@ -3,7 +3,7 @@ name: line-emoji-release-packager
 description: final assets と metadata からLINE申請用packageを作り、検証、ZIP、checksum、release log更新へ接続する入口。
 ---
 
-# LINE絵文字 release packager
+# LINE絵文字 / スタンプ release packager
 
 ## Workflow
 

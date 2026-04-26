@@ -12,6 +12,9 @@ brand:
 product:
   item_type: "static-emoji"
   package_type: "emoji"
+  supported_item_types:
+    - "static-emoji"
+    - "static-sticker"
   initial_set_count: 8
   animation: false
 
@@ -32,7 +35,7 @@ production_profile:
     purpose: "structure and set-direction exploration"
     required_outputs:
       - "rough_board"
-      - "per_emoji_intent"
+      - "per_item_intent"
       - "failure_notes"
   finalization_stage:
     purpose: "final asset production"
@@ -71,6 +74,7 @@ snapshots:
   line_platform_baseline: "references/shared/line-platform-baseline.md"
   structure_constraints: "references/shared/structure-constraints.md"
   emoji_product_rules: "references/shared/emoji-product-rules.md"
+  sticker_product_rules: "references/shared/sticker-product-rules.md"
   review_risk_rules: "references/shared/review-risk-rules.md"
   evaluation_model: "references/shared/evaluation-model.md"
   quality_control_workflow: "references/shared/quality-control-workflow.md"
@@ -90,6 +94,10 @@ source:
 releases:
   - id: "release-001"
     status: "draft"
+    item_type: "static-emoji"
+    package_type: "emoji"
+    set_count: 8
+    animation: false
     spec: "releases/release-001/release-spec.md"
     handoff: "releases/release-001/production-handoff.md"
     checklist: "releases/release-001/qa/release-checklist.md"

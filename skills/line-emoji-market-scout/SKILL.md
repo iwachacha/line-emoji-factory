@@ -1,9 +1,9 @@
 ---
 name: line-emoji-market-scout
-description: LINE絵文字の市場観測、カテゴリ混雑、空白、模倣禁止境界を整理し、brand distillation に渡す証跡を作る入口。
+description: LINE絵文字 / スタンプの市場観測、カテゴリ混雑、空白、模倣禁止境界を整理し、brand distillation に渡す証跡を作る入口。
 ---
 
-# LINE絵文字 market scout
+# LINE絵文字 / スタンプ market scout
 
 ## Workflow
 

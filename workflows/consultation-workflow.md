@@ -11,7 +11,7 @@
 5. `rules/structure-constraints.md` で構造を判定する。
 6. 構造で `Fail` したら `workflows/transformation-workflow.md` へ送る。
 7. 構造通過後に `rules/brand-taxonomy.md` と `rules/brand-creation-rules.md` でブランド判断を行う。
-8. その後 `rules/emoji-product-rules.md` と `rules/review-risk-rules.md` で商品判断を行う。
+8. その後、item type に応じて `rules/emoji-product-rules.md` または `rules/sticker-product-rules.md` と `rules/review-risk-rules.md` で商品判断を行う。
 9. 最後に `rules/evaluation-model.md` の判定状態へ落とす。
 10. `Design Ready` なら `templates/brand/brand-setting-template.md` を埋める。
 11. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で共通制作フローを固定する。
@@ -118,7 +118,7 @@
 - 商品コンセプト
 - ブランド内での役割
 - 初期セット個数の根拠
-- 最上段に置く高頻度絵文字
+- 最上段に置く高頻度アイテム
 - 主力枠と補助枠の配分
 - 差分の軸
 - metadata 下書き

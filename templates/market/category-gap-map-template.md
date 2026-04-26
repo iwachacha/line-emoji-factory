@@ -13,7 +13,7 @@
 ## Sparse Areas
 - Pattern:
 - Why open:
-- LINE emoji usage hypothesis:
+- LINE item usage hypothesis:
 
 ## Candidate Position
 - Differentiation axis:

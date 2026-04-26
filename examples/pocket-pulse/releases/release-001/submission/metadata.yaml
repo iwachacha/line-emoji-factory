@@ -1,0 +1,11 @@
+schema_version: "1.0"
+locale: "en"
+creator_name: "PocketPulseLab"
+title: "Pocket Pulse Emoji"
+description: "Tiny status signals for everyday replies."
+copyright: "PocketPulse"
+suggest_tags:
+  - "ok"
+  - "thanks"
+  - "work"
+  - "daily"

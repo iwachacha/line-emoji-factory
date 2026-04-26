@@ -1,4 +1,4 @@
 interface:
-  display_name: "LINE絵文字固定IP統制"
+  display_name: "LINE絵文字/スタンプ固定IP統制"
   short_description: "固定IP案件の許諾範囲、参照素材、承認ログを統制するスキル"
-  default_prompt: "Use $line-emoji-ip-governor to 固定IPを使うLINE絵文字制作を統制する。"
+  default_prompt: "Use $line-emoji-ip-governor to 固定IPを使うLINE絵文字/スタンプ制作を統制する。"

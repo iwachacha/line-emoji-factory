@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://line-emoji-factory.local/schemas/reference-asset-register.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "assets"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "source", "rights_holder", "license_scope"],
+        "properties": {
+          "id": { "type": "string" },
+          "source": { "type": "string" },
+          "rights_holder": { "type": "string" },
+          "license_scope": { "type": "string" },
+          "ai_generation_use": { "type": "string", "enum": ["allowed", "prohibited", "restricted", "unknown"] }
+        }
+      }
+    }
+  }
+}

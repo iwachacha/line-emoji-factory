@@ -208,6 +208,35 @@ def test_visual_quality_warnings_cover_duplicates_and_low_detail(tmp_path):
     assert "low color variety" in result.stderr
 
 
+def test_visual_quality_near_duplicate_ignores_clear_color_variants(tmp_path):
+    images = tmp_path / "color-variants"
+    images.mkdir()
+    colors = [
+        (41, 178, 166, 255),
+        (245, 190, 66, 255),
+        (83, 183, 102, 255),
+        (239, 116, 108, 255),
+        (76, 137, 211, 255),
+        (145, 111, 214, 255),
+        (223, 75, 88, 255),
+        (127, 137, 145, 255),
+    ]
+    for index, color in enumerate(colors, start=1):
+        image = Image.new("RGBA", (180, 180), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(image)
+        draw.ellipse((28, 28, 152, 152), fill=color, outline=(30, 30, 30, 255), width=8)
+        draw.rectangle((58, 132, 122, 158), fill=(255, 255, 255, 255), outline=(30, 30, 30, 255), width=3)
+        image.save(images / f"{index:03}.png", dpi=(72, 72))
+
+    result = subprocess.run(
+        run_cmd_args(PYTHON, ROOT / "tools" / "validate-assets.py", images, "--expected-count", "8"),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "near-duplicate image content" not in result.stderr
+
+
 def test_contact_sheet_preview_is_generated(tmp_path):
     images = tmp_path / "images"
     for index in range(1, 9):
@@ -352,3 +381,80 @@ def test_animation_apng_validation(tmp_path):
     )
     assert result.returncode != 0
     assert "APNG animation not detected" in result.stderr
+
+
+def test_static_sticker_submission_assets_validate(tmp_path):
+    images = tmp_path / "stickers"
+    for index in range(1, 9):
+        write_png(images / f"{index:02}.png", (300, 240))
+    write_png(images / "main.png", (240, 240))
+    write_png(images / "tab.png", (96, 74))
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "validate-assets.py",
+            images,
+            "--expected-count",
+            "8",
+            "--stage",
+            "submission",
+            "--asset-type",
+            "static-sticker",
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr
+
+
+def test_static_sticker_rejects_oversize_odd_and_missing_main(tmp_path):
+    odd = tmp_path / "odd"
+    for index in range(1, 9):
+        size = (301, 240) if index == 1 else (300, 240)
+        write_png(odd / f"{index:02}.png", size)
+    write_png(odd / "main.png", (240, 240))
+    write_png(odd / "tab.png", (96, 74))
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "validate-assets.py",
+            odd,
+            "--expected-count",
+            "8",
+            "--stage",
+            "submission",
+            "--asset-type",
+            "static-sticker",
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert "must be even numbers" in result.stderr
+
+    oversize = tmp_path / "oversize"
+    for index in range(1, 9):
+        size = (372, 320) if index == 1 else (300, 240)
+        write_png(oversize / f"{index:02}.png", size)
+    write_png(oversize / "tab.png", (96, 74))
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "validate-assets.py",
+            oversize,
+            "--expected-count",
+            "8",
+            "--stage",
+            "submission",
+            "--asset-type",
+            "static-sticker",
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert "expected no larger than 370x320" in result.stderr
+    assert "main image does not exist" in result.stderr

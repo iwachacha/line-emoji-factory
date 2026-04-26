@@ -3,7 +3,7 @@ name: line-emoji-production-director
 description: rough、finalization、revision、handoff を工程profileとして管理し、制作物とrelease specを接続する入口。
 ---
 
-# LINE絵文字 production director
+# LINE絵文字 / スタンプ production director
 
 ## Workflow
 

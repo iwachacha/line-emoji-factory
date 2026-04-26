@@ -8,5 +8,5 @@
 - Expression:
 - Allowed:
 - Prohibited drift:
-- LINE emoji usage:
+- LINE item usage:
 - Review required:

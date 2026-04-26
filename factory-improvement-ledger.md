@@ -74,6 +74,21 @@
 - Owner files updated: `schemas/brand-manifest.schema.json`, `schemas/post-release-metrics.schema.json`, `tools/validate-brand-repo.py`, `tools/check-example-drift.py`, `tools/init-brand-repo.ps1`, `templates/repo/brand-repo-manifest-template.yaml`, `examples/soeshirushi/`, `.github/workflows/validate.yml`
 - Remaining risk: animation release packaging は引き続き未実装で、実販売データを使う post-release metrics は公開後データが入るまで monitor only
 - Push status: this work is intended to be committed and pushed after final validation
+- ID: `FAC-2026-04-26-004`
+- Verified: factory scope を絵文字限定から `static-emoji` / `static-sticker` 両対応へ拡張し、brand は両対応可能、release は1つの item type を選ぶ契約にした
+- Verification method: 公式スタンプ仕様確認、schema validation、data file check、example drift check、example brand repo validation、pytest、integrity gate
+- Owner files updated: `rules/line-platform-baseline.md`, `rules/sticker-product-rules.md`, `schemas/brand-manifest.schema.json`, `tools/validate-assets.py`, `tools/package-release.py`, `tools/init-brand-repo.ps1`, `templates/`, `workflows/`, `skills/`, `examples/soeshirushi/`
+- Remaining risk: animated/custom/message/BIG/pop-up/effect stickers は未対応。価格 tier と収益条件は LINE 側で変わりうるため、release 前に公式画面で再確認する
+- Push status: not attempted in this working turn unless explicitly requested
+
+- ID: `FAC-2026-04-26-005`
+- Verified: dual-format audit brand `examples/pocket-pulse` was created with one static emoji release and one static sticker release, final PNG assets, LINE upload ZIPs, internal archives, metadata, QA ledgers, usage validation, audit reports, and contact sheets.
+- Verification method: official LINE sticker guideline re-check, package smoke for both releases, metadata validation with warnings as errors, asset validation with ZIP checks, contact-sheet visual review, brand repo validation, example drift checks, and full integrity/test gates before push.
+- Owner files updated: `examples/pocket-pulse/`, `tools/validate-assets.py`, `tests/test_validate_assets.py`, `PROJECT_MAP.md`, `workflows/release-packaging-workflow.md`, `factory-improvement-ledger.md`.
+- Improvement found during audit: perceptual near-duplicate warnings over-fired on branded color variants because grayscale average hashing ignored meaningful color differences.
+- Fix: `tools/validate-assets.py` now gates near-duplicate warnings on both perceptual hash distance and mean RGB difference, while keeping exact duplicate detection intact.
+- Remaining risk: `examples/pocket-pulse` is an audit artifact, not a market-approved commercial release; live LINE Store category comparison is still required before real submission.
+- Push status: pending final validation and push in this working turn.
 
 ## 4. Skill Evolution
 - ID: `FAC-2026-04-25-001`

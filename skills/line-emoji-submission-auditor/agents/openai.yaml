@@ -1,4 +1,4 @@
 interface:
-  display_name: "LINE絵文字申請前監査"
+  display_name: "LINE絵文字/スタンプ申請前監査"
   short_description: "LINE申請前に画像、metadata、審査リスクを監査するスキル"
-  default_prompt: "Use $line-emoji-submission-auditor to LINE絵文字 release の申請前監査を行う。"
+  default_prompt: "Use $line-emoji-submission-auditor to LINE絵文字/スタンプ release の申請前監査を行う。"

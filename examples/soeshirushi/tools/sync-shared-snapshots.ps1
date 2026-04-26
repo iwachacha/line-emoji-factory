@@ -20,6 +20,7 @@ $snapshots = @(
     "rules/line-platform-baseline.md",
     "rules/structure-constraints.md",
     "rules/emoji-product-rules.md",
+    "rules/sticker-product-rules.md",
     "rules/review-risk-rules.md",
     "rules/evaluation-model.md",
     "rules/continuous-improvement-rules.md",

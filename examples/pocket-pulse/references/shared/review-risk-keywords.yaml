@@ -1,0 +1,38 @@
+hard_ng:
+  external_services:
+    - Discord
+    - Slack
+    - WhatsApp
+    - Telegram
+    - Messenger
+    - Facebook
+    - Instagram
+    - TikTok
+    - YouTube
+    - Twitter
+    - X
+
+review:
+  promotion:
+    - 発売
+    - 新発売
+    - 予約
+    - セール
+    - キャンペーン
+    - 期間限定
+    - 無料
+    - プレゼント
+    - 割引
+    - campaign
+    - discount
+    - free
+    - giveaway
+    - sale
+  personal_targeting:
+    - 専用
+    - さんへ
+    - ちゃんへ
+    - くんへ
+  corporate_logo_like:
+    - ロゴ
+    - 公式

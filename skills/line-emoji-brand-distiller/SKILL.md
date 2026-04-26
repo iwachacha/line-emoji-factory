@@ -1,9 +1,9 @@
 ---
 name: line-emoji-brand-distiller
-description: 市場観測やアイデアから、LINE絵文字ブランド核、positioning、production brief へ落とす入口。
+description: 市場観測やアイデアから、LINE絵文字 / スタンプブランド核、positioning、production brief へ落とす入口。
 ---
 
-# LINE絵文字 brand distiller
+# LINE絵文字 / スタンプ brand distiller
 
 ## Workflow
 

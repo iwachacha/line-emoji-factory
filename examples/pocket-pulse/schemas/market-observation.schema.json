@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://line-emoji-factory.local/schemas/market-observation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "observation", "findings", "imitation_boundary", "opportunity"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "observation": {
+      "type": "object",
+      "required": ["date", "platform", "search_query", "locale", "category"],
+      "additionalProperties": false,
+      "properties": {
+        "date": { "type": "string" },
+        "platform": { "type": "string" },
+        "search_query": { "type": "string" },
+        "locale": { "type": "string" },
+        "category": { "type": "string" }
+      }
+    },
+    "findings": { "type": "object" },
+    "imitation_boundary": { "type": "object" },
+    "opportunity": { "type": "object" }
+  }
+}

@@ -80,7 +80,7 @@
 - `rules/evaluation-model.md` の snapshot
 - `rules/line-platform-baseline.md` の snapshot
 - `rules/structure-constraints.md` の snapshot
-- `rules/emoji-product-rules.md` の snapshot
+- `rules/emoji-product-rules.md` と `rules/sticker-product-rules.md` の snapshot
 - `rules/review-risk-rules.md` の snapshot
 - `rules/continuous-improvement-rules.md` の snapshot
 - `workflows/transformation-workflow.md` の snapshot

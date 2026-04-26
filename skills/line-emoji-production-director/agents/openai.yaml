@@ -1,4 +1,4 @@
 interface:
-  display_name: "LINE絵文字制作管理"
+  display_name: "LINE絵文字/スタンプ制作管理"
   short_description: "rough、final、revision、handoffを管理するスキル"
-  default_prompt: "Use $line-emoji-production-director to LINE絵文字制作工程を管理する。"
+  default_prompt: "Use $line-emoji-production-director to LINE絵文字/スタンプ制作工程を管理する。"

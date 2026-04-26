@@ -16,6 +16,48 @@ import yaml
 
 ALLOWED_TARGETS = {"line-upload", "internal-archive", "both"}
 ALLOWED_COUNTS = {8, 16, 24, 32, 40}
+ITEM_SPECS = {
+    "static-emoji": {
+        "package_type": "emoji",
+        "asset_type": "static-emoji",
+        "content_name_width": 3,
+        "zip_max_bytes": 20_000_000,
+        "companions": [
+            {
+                "key": "tab_image",
+                "source": Path("production/tab/source-tab.png"),
+                "submission": "tab.png",
+                "cli": "--tab-image",
+                "label": "tab image",
+            }
+        ],
+    },
+    "static-sticker": {
+        "package_type": "sticker",
+        "asset_type": "static-sticker",
+        "content_name_width": 2,
+        "zip_max_bytes": 60_000_000,
+        "companions": [
+            {
+                "key": "main_image",
+                "source": Path("production/main/source-main.png"),
+                "submission": "main.png",
+                "cli": "--main-image",
+                "label": "main image",
+            },
+            {
+                "key": "tab_image",
+                "source": Path("production/tab/source-tab.png"),
+                "submission": "tab.png",
+                "cli": "--tab-image",
+                "label": "tab image",
+            },
+        ],
+    },
+}
+UNSUPPORTED_PACKAGE_ITEM_TYPES = {
+    "animation-emoji": "animation emoji packaging is not supported yet; validate APNG assets with validate-assets.py",
+}
 
 
 def run(cmd: list[str], cwd: Path) -> None:
@@ -59,9 +101,9 @@ def resolve_release_id(manifest: dict, requested: str | None) -> str:
     return "release-001"
 
 
-def resolve_expected_count(manifest: dict, cli_count: int | None, actual_count: int) -> int:
-    manifest_count = manifest.get("product", {}).get("initial_set_count")
-    if cli_count is not None and manifest_count is not None and cli_count != manifest_count:
+def resolve_expected_count(manifest: dict, release_info: dict, cli_count: int | None, actual_count: int) -> int:
+    manifest_count = release_info.get("set_count", manifest.get("product", {}).get("initial_set_count"))
+    if cli_count is not None and manifest_count is not None and cli_count != int(manifest_count):
         raise ValueError(
             f"--expected-count {cli_count} does not match manifest product.initial_set_count {manifest_count}"
         )
@@ -71,15 +113,28 @@ def resolve_expected_count(manifest: dict, cli_count: int | None, actual_count: 
     return count
 
 
-def resolve_asset_type(manifest: dict, cli_asset_type: str | None) -> str:
-    manifest_type = str(manifest.get("product", {}).get("item_type", "static-emoji"))
-    manifest_asset_type = "animation" if "animation" in manifest_type else "static"
-    asset_type = cli_asset_type or manifest_asset_type
-    if cli_asset_type and cli_asset_type != manifest_asset_type:
-        raise ValueError(f"--asset-type {cli_asset_type} does not match manifest product.item_type {manifest_type}")
-    if asset_type == "animation":
-        raise ValueError("animation emoji packaging is not supported yet; validate APNG assets with validate-assets.py")
-    return asset_type
+def resolve_item_type(manifest: dict, release_info: dict, cli_item_type: str | None, cli_asset_type: str | None) -> str:
+    product = manifest.get("product", {})
+    product_item_type = str(product.get("item_type", "static-emoji"))
+    item_type = str(cli_item_type or release_info.get("item_type") or product_item_type)
+    supported = product.get("supported_item_types")
+    if supported and item_type not in supported:
+        raise ValueError(f"release item_type {item_type} is not listed in product.supported_item_types")
+    if item_type in UNSUPPORTED_PACKAGE_ITEM_TYPES:
+        raise ValueError(UNSUPPORTED_PACKAGE_ITEM_TYPES[item_type])
+    if item_type not in ITEM_SPECS:
+        raise ValueError(f"unsupported package item_type: {item_type}")
+
+    spec = ITEM_SPECS[item_type]
+    package_type = str(release_info.get("package_type") or product.get("package_type") or spec["package_type"])
+    if package_type != spec["package_type"]:
+        raise ValueError(f"package_type {package_type} does not match item_type {item_type}")
+
+    if cli_asset_type == "animation" and "animation" not in item_type:
+        raise ValueError(f"--asset-type animation does not match manifest item_type {item_type}")
+    if cli_asset_type == "static" and "animation" in item_type:
+        raise ValueError(f"--asset-type static does not match manifest item_type {item_type}")
+    return item_type
 
 
 def resolve_metadata_path(brand_repo: Path, manifest: dict, release_info: dict, release_id: str) -> Path:
@@ -117,14 +172,16 @@ def ensure_clean(target: Path, clean: bool) -> None:
 
 def copy_submission_images(
     finals: list[Path],
-    tab_source: Path,
+    companion_sources: dict[str, Path],
+    item_type: str,
     images_dir: Path,
     release_dir: Path,
 ) -> dict:
+    spec = ITEM_SPECS[item_type]
     images_dir.mkdir(parents=True, exist_ok=True)
     content_images: list[dict] = []
     for index, source in enumerate(finals, start=1):
-        target = images_dir / f"{index:03}.png"
+        target = images_dir / f"{index:0{spec['content_name_width']}}.png"
         shutil.copy2(source, target)
         content_images.append(
             {
@@ -134,16 +191,23 @@ def copy_submission_images(
             }
         )
 
-    tab_target = images_dir / "tab.png"
-    shutil.copy2(tab_source, tab_target)
-    return {
+    asset_map = {
         "release_id": release_dir.name,
+        "item_type": item_type,
         "content_images": content_images,
-        "tab_image": {
-            "source": rel(tab_source, release_dir),
-            "submission": rel(tab_target, release_dir),
-        },
+        "companion_images": {},
     }
+    for companion in spec["companions"]:
+        source = companion_sources[companion["key"]]
+        target = images_dir / companion["submission"]
+        shutil.copy2(source, target)
+        entry = {
+            "source": rel(source, release_dir),
+            "submission": rel(target, release_dir),
+        }
+        asset_map[companion["key"]] = entry
+        asset_map["companion_images"][companion["key"]] = entry
+    return asset_map
 
 
 def make_line_zip(line_upload_dir: Path, images: list[Path]) -> Path:
@@ -156,10 +220,11 @@ def make_line_zip(line_upload_dir: Path, images: list[Path]) -> Path:
     return package_path
 
 
-def asset_map_from_submission(line_images_dir: Path, release_id: str) -> dict:
+def asset_map_from_submission(line_images_dir: Path, release_id: str, item_type: str) -> dict:
+    companion_filenames = {companion["submission"] for companion in ITEM_SPECS[item_type]["companions"]}
     content_images = []
     for image in sorted(line_images_dir.glob("*.png")):
-        if image.name == "tab.png":
+        if image.name in companion_filenames:
             continue
         content_images.append(
             {
@@ -168,23 +233,29 @@ def asset_map_from_submission(line_images_dir: Path, release_id: str) -> dict:
                 "submission": f"submission/line-upload/images/{image.name}",
             }
         )
-    tab_image = line_images_dir / "tab.png"
-    return {
+    asset_map = {
         "release_id": release_id,
+        "item_type": item_type,
         "content_images": content_images,
-        "tab_image": {
-            "source": None,
-            "submission": "submission/line-upload/images/tab.png",
-        }
-        if tab_image.exists()
-        else None,
+        "companion_images": {},
     }
+    for companion in ITEM_SPECS[item_type]["companions"]:
+        image = line_images_dir / companion["submission"]
+        entry = {
+            "source": None,
+            "submission": f"submission/line-upload/images/{companion['submission']}",
+        } if image.exists() else None
+        asset_map[companion["key"]] = entry
+        if entry:
+            asset_map["companion_images"][companion["key"]] = entry
+    return asset_map
 
 
 def write_report(
     report_path: Path,
     brand_repo: Path,
     release_id: str,
+    item_type: str,
     target: str,
     images_zip: Path | None,
     internal_zip: Path | None,
@@ -197,6 +268,7 @@ def write_report(
         "## Target",
         f"- Brand repo: `{brand_repo.as_posix()}`",
         f"- Release: `{release_id}`",
+        f"- Item type: `{item_type}`",
         f"- Target: `{target}`",
         f"- Created at: `{created_at}`",
         "",
@@ -246,12 +318,13 @@ def make_internal_zip(
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Package a LINE emoji release for submission.")
+    parser = argparse.ArgumentParser(description="Package a LINE emoji or sticker release for submission.")
     parser.add_argument("brand_repo", type=Path)
     parser.add_argument("--release-id")
     parser.add_argument("--target", choices=sorted(ALLOWED_TARGETS), default="both")
     parser.add_argument("--clean", action="store_true")
     parser.add_argument("--expected-count", type=int, help="Deprecated. Use manifest product.initial_set_count.")
+    parser.add_argument("--item-type", choices=sorted(ITEM_SPECS), help="Override manifest item type for this package run.")
     parser.add_argument("--asset-type", choices=["static", "animation"], help="Deprecated. Use manifest product.item_type.")
     parser.add_argument("--factory-root", type=Path, default=Path(__file__).resolve().parents[1])
     args = parser.parse_args()
@@ -262,7 +335,6 @@ def main() -> int:
     release_info = manifest_release(manifest, release_id)
     release_dir = brand_repo / "releases" / release_id
     finals_dir = release_dir / "production" / "finals"
-    tab_source = release_dir / "production" / "tab" / "source-tab.png"
     submission_dir = release_dir / "submission"
     line_upload_dir = submission_dir / "line-upload"
     line_images_dir = line_upload_dir / "images"
@@ -276,14 +348,20 @@ def main() -> int:
     if not metadata.exists():
         print(f"metadata does not exist: {metadata}", file=sys.stderr)
         return 1
-    if not tab_source.exists():
-        print(f"tab image does not exist: {tab_source}", file=sys.stderr)
-        return 1
 
     finals = sorted(path for path in finals_dir.iterdir() if path.is_file() and path.suffix.lower() == ".png")
     try:
-        expected_count = resolve_expected_count(manifest, args.expected_count, len(finals))
-        asset_type = resolve_asset_type(manifest, args.asset_type)
+        item_type = resolve_item_type(manifest, release_info, args.item_type, args.asset_type)
+        spec = ITEM_SPECS[item_type]
+        companion_sources = {
+            companion["key"]: release_dir / companion["source"]
+            for companion in spec["companions"]
+        }
+        for companion in spec["companions"]:
+            source = companion_sources[companion["key"]]
+            if not source.exists():
+                raise ValueError(f"{companion['label']} does not exist: {source}")
+        expected_count = resolve_expected_count(manifest, release_info, args.expected_count, len(finals))
         if len(finals) != expected_count:
             raise ValueError(f"expected {expected_count} final PNG files, found {len(finals)}")
         if args.target in {"line-upload", "both"}:
@@ -296,27 +374,25 @@ def main() -> int:
 
     factory_root = args.factory_root.resolve()
     run([sys.executable, str(args.factory_root / "tools" / "validate-metadata.py"), str(metadata)], args.factory_root)
-    run(
-        [
-            sys.executable,
-            str(factory_root / "tools" / "validate-assets.py"),
-            str(finals_dir),
-            "--expected-count",
-            str(expected_count),
-            "--tab-image",
-            str(tab_source),
-            "--stage",
-            "production",
-            "--asset-type",
-            asset_type,
-        ],
-        factory_root,
-    )
+    production_validation_cmd = [
+        sys.executable,
+        str(factory_root / "tools" / "validate-assets.py"),
+        str(finals_dir),
+        "--expected-count",
+        str(expected_count),
+        "--stage",
+        "production",
+        "--asset-type",
+        spec["asset_type"],
+    ]
+    for companion in spec["companions"]:
+        production_validation_cmd.extend([companion["cli"], str(companion_sources[companion["key"]])])
+    run(production_validation_cmd, factory_root)
 
     asset_map: dict | None = None
     images_zip: Path | None = None
     if args.target in {"line-upload", "both"}:
-        asset_map = copy_submission_images(finals, tab_source, line_images_dir, release_dir)
+        asset_map = copy_submission_images(finals, companion_sources, item_type, line_images_dir, release_dir)
         run(
             [
                 sys.executable,
@@ -327,13 +403,13 @@ def main() -> int:
                 "--stage",
                 "submission",
                 "--asset-type",
-                asset_type,
+                spec["asset_type"],
             ],
             factory_root,
         )
         images_zip = make_line_zip(line_upload_dir, list(line_images_dir.glob("*.png")))
-        if images_zip.stat().st_size > 20_000_000:
-            print(f"line upload zip exceeds 20MB: {images_zip}", file=sys.stderr)
+        if images_zip.stat().st_size > spec["zip_max_bytes"]:
+            print(f"line upload zip exceeds {spec['zip_max_bytes'] // 1_000_000}MB: {images_zip}", file=sys.stderr)
             return 1
         run(
             [
@@ -345,7 +421,7 @@ def main() -> int:
                 "--stage",
                 "submission",
                 "--asset-type",
-                asset_type,
+                spec["asset_type"],
                 "--zip",
                 str(images_zip),
             ],
@@ -362,13 +438,13 @@ def main() -> int:
     if args.target in {"internal-archive", "both"}:
         internal_dir.mkdir(parents=True, exist_ok=True)
         if asset_map is None:
-            asset_map = asset_map_from_submission(line_images_dir, release_id)
+            asset_map = asset_map_from_submission(line_images_dir, release_id, item_type)
         asset_map_path = internal_dir / "asset-map.json"
         asset_map_path.write_text(json.dumps(asset_map, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         report_path = internal_dir / "package-report.md"
         checksum_path = internal_dir / "package-checksums.txt"
         internal_zip_path = internal_dir / "package.zip"
-        write_report(report_path, brand_repo, release_id, args.target, images_zip, internal_zip_path, expected_count)
+        write_report(report_path, brand_repo, release_id, item_type, args.target, images_zip, internal_zip_path, expected_count)
         write_checksums(checksum_path, [images_zip, metadata, asset_map_path, report_path])
         internal_zip = make_internal_zip(
             internal_dir,
@@ -381,8 +457,8 @@ def main() -> int:
             release_spec,
         )
         write_checksums(checksum_path, [images_zip, metadata, asset_map_path, report_path, internal_zip])
-        if internal_zip.stat().st_size > 20_000_000:
-            print(f"warning: internal archive exceeds 20MB: {internal_zip}", file=sys.stderr)
+        if internal_zip.stat().st_size > spec["zip_max_bytes"]:
+            print(f"warning: internal archive exceeds {spec['zip_max_bytes'] // 1_000_000}MB: {internal_zip}", file=sys.stderr)
 
     if images_zip:
         print(f"line upload zip created: {images_zip}")

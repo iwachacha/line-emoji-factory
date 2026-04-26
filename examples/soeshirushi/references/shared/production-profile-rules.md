@@ -15,7 +15,7 @@ production_profile:
     purpose: structure and set-direction exploration
     required_outputs:
       - rough_board
-      - per_emoji_intent
+      - per_item_intent
       - failure_notes
 
   finalization_stage:

@@ -19,7 +19,7 @@
 1. `release-spec` と `production-handoff` で、提出対象の範囲を確認する。
 2. `tools/validate-assets.py` で画像仕様を検査する。
 3. `tools/validate-metadata.py` で metadata を検査する。
-4. title / description / copyright が絵文字内容と一致しているか確認する。
+4. title / description / copyright が選択 item type の内容と一致しているか確認する。
 5. `rules/review-risk-rules.md` で Hard NG / Revise / Watch を確認する。
 6. `submission-checklist.md` と `submission-audit-report.md` を更新する。
 7. 差し戻しや再提出が発生したら `release-log.md` と `quality-ledger.md` に戻す。

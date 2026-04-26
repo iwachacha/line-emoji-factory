@@ -1,6 +1,6 @@
 # Brand Repo Blueprint
 
-Brand repos contain brand-specific production and release artifacts. The factory repo keeps shared rules, workflows, schemas, tools, and templates.
+Brand repos contain brand-specific production and release artifacts. The factory repo keeps shared rules, workflows, schemas, tools, and templates. A release chooses one LINE item type; a brand may be prepared for both emoji and stickers without forcing both to ship.
 
 ## Layout
 
@@ -30,6 +30,8 @@ brand-repo/
       production/
         rough-boards/
         finals/
+        main/
+          source-main.png
         tab/
           source-tab.png
       qa/
@@ -51,7 +53,10 @@ brand-repo/
 
 - Put arbitrary-named final content PNGs in `production/finals/`.
 - Put the tab source PNG at `production/tab/source-tab.png`.
-- Do not manually name submission assets. `tools/package-release.py` creates `001.png`, `002.png`, ... and `tab.png`.
+- For static sticker releases, put the main source PNG at `production/main/source-main.png`.
+- Do not manually name submission assets. `tools/package-release.py` creates item-type-specific submission filenames.
+- Static emoji submission filenames are `001.png`, `002.png`, ... and `tab.png`.
+- Static sticker submission filenames are `01.png`, `02.png`, ..., `main.png`, and `tab.png`.
 - Keep rough, finalization, and revision outputs in `production_profile`; do not make a tool name the production source of truth.
 
 ## Submission Outputs

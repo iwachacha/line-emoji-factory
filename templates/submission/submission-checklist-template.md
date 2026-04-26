@@ -2,7 +2,10 @@
 
 ## Assets
 - [ ] Content images are PNG/APNG.
-- [ ] Content images are 180 x 180 px.
+- [ ] Content images match the selected item type size.
+- [ ] Static emoji content images are 180 x 180 px.
+- [ ] Static sticker content images are no larger than 370 x 320 px and use even-numbered dimensions.
+- [ ] Static sticker main image is 240 x 240 px when included.
 - [ ] Tab image is 96 x 74 px when included.
 - [ ] Background is transparent.
 - [ ] File size is within LINE limits.

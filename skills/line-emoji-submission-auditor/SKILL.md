@@ -3,7 +3,7 @@ name: line-emoji-submission-auditor
 description: LINE申請前に画像、metadata、review risk、submission folder の完全性を監査する入口。asset validator、metadata validator、submission audit workflow へ接続する。
 ---
 
-# LINE絵文字 submission auditor
+# LINE絵文字 / スタンプ submission auditor
 
 ## Workflow
 

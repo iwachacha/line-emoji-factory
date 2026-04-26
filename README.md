@@ -1,6 +1,6 @@
 # line-emoji-factory
 
-LINE emoji brand ideas are evaluated and carried through structure, brand, product, production, validation, and submission packaging. The current packaging pipeline targets static emoji releases.
+LINE emoji and sticker brand ideas are evaluated and carried through structure, brand, product, production, validation, and submission packaging. The packaging pipeline targets static emoji and static sticker releases, while each release chooses one item type.
 
 ## Requirements
 
@@ -20,7 +20,8 @@ python -m pip install -r requirements-dev.txt
   -BrandName "My Brand" `
   -Destination ".\brands\my-brand" `
   -InitialSetCount 8 `
-  -BrandType generic
+  -BrandType generic `
+  -ProductItemType static-emoji
 
 ./tools/validate-brand-repo.ps1 ".\brands\my-brand"
 ```
@@ -32,7 +33,13 @@ brands/my-brand/releases/release-001/production/tab/source-tab.png
 brands/my-brand/releases/release-001/production/finals/*.png
 ```
 
-Production final filenames can be arbitrary. The package tool normalizes submission filenames to `001.png`, `002.png`, ... and `tab.png`.
+For static sticker releases, also add:
+
+```text
+brands/my-brand/releases/release-001/production/main/source-main.png
+```
+
+Production final filenames can be arbitrary. The package tool normalizes static emoji submission filenames to `001.png`, `002.png`, ... and `tab.png`; static sticker releases use `01.png`, `02.png`, ..., `main.png`, and `tab.png`.
 
 ```powershell
 python ./tools/package-release.py ".\brands\my-brand" `
@@ -65,13 +72,13 @@ The generated submission outputs are intentionally split:
 - `tools/check-data-files.py`: parses YAML, workflow YAML, JSON schema files, and dependency lines.
 - `tools/validate-brand-repo.py`: manifest-driven brand repo validation.
 - `tools/validate-brand-repo.ps1`: PowerShell wrapper for the Python validator.
-- `tools/validate-assets.py`: static PNG and APNG validation, submission filename checks, and contact sheet previews.
-- `tools/validate-metadata.py`: LINE metadata length, emoji, copyright, and review-risk warning checks.
-- `tools/package-release.py`: creates static line-upload and internal archive packages.
+- `tools/validate-assets.py`: static emoji, static sticker, and APNG emoji validation, submission filename checks, and contact sheet previews.
+- `tools/validate-metadata.py`: LINE metadata length, emoji-character, copyright, and review-risk warning checks.
+- `tools/package-release.py`: creates static emoji/sticker line-upload and internal archive packages.
 - `tools/check-project-map-paths.py`: validates path references in `PROJECT_MAP.md`.
 - `tools/check-example-drift.py`: verifies standalone examples have current embedded schemas, tools, and shared snapshots.
 
-Static emoji packaging is the primary supported release path. Animation APNG validation is available through `tools/validate-assets.py --asset-type animation`, but animation release packaging is not implemented in `tools/package-release.py` yet.
+Static emoji and static sticker packaging are the supported release paths. Animation APNG validation is available through `tools/validate-assets.py --asset-type animation-emoji`, but animation release packaging is not implemented in `tools/package-release.py` yet.
 Generated brand manifests include `production_profile` so rough, finalization, and revision outputs stay explicit and tool-neutral.
 
 ## Validation

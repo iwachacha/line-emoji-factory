@@ -188,7 +188,7 @@ def validate_metadata(
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Validate LINE emoji submission metadata.")
+    parser = argparse.ArgumentParser(description="Validate LINE emoji or sticker submission metadata.")
     parser.add_argument("metadata", type=Path)
     parser.add_argument(
         "--schema",

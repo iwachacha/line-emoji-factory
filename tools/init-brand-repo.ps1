@@ -11,7 +11,10 @@ param(
     [int]$InitialSetCount = 8,
 
     [ValidateSet("generic", "fixed_ip", "collaboration")]
-    [string]$BrandType = "generic"
+    [string]$BrandType = "generic",
+
+    [ValidateSet("static-emoji", "static-sticker")]
+    [string]$ProductItemType = "static-emoji"
 )
 
 Set-StrictMode -Version Latest
@@ -71,6 +74,8 @@ if (-not $BrandName) {
 $releaseId = "release-001"
 $initDate = Get-Date -Format "yyyy-MM-dd"
 $copyright = ($BrandSlug -replace "-", "")
+$packageType = if ($ProductItemType -eq "static-sticker") { "sticker" } else { "emoji" }
+$animation = "false"
 
 $dirs = @(
     "brand",
@@ -79,6 +84,7 @@ $dirs = @(
     "releases/$releaseId/prompts",
     "releases/$releaseId/production/rough-boards",
     "releases/$releaseId/production/finals",
+    "releases/$releaseId/production/main",
     "releases/$releaseId/production/tab",
     "releases/$releaseId/qa",
     "releases/$releaseId/submission",
@@ -101,6 +107,7 @@ $sharedFiles = @(
     @{ Source = "rules/line-platform-baseline.md"; Target = "references/shared/line-platform-baseline.md" },
     @{ Source = "rules/structure-constraints.md"; Target = "references/shared/structure-constraints.md" },
     @{ Source = "rules/emoji-product-rules.md"; Target = "references/shared/emoji-product-rules.md" },
+    @{ Source = "rules/sticker-product-rules.md"; Target = "references/shared/sticker-product-rules.md" },
     @{ Source = "rules/review-risk-rules.md"; Target = "references/shared/review-risk-rules.md" },
     @{ Source = "rules/review-risk-keywords.yaml"; Target = "references/shared/review-risk-keywords.yaml" },
     @{ Source = "rules/asset-validation-rules.md"; Target = "references/shared/asset-validation-rules.md" },
@@ -159,10 +166,13 @@ $replacements["[INIT_DATE]"] = $initDate
 $replacements["[RELEASE_ID]"] = $releaseId
 $replacements["[CREATOR_NAME]"] = $BrandName
 $replacements["[TITLE]"] = $BrandName
-$replacements["[DESCRIPTION]"] = "LINE emoji for $BrandName."
+$replacements["[DESCRIPTION]"] = "LINE item for $BrandName."
 $replacements["[COPYRIGHT]"] = $copyright
 $replacements["[INITIAL_SET_COUNT]"] = [string]$InitialSetCount
 $replacements["[BRAND_TYPE]"] = $BrandType
+$replacements["[ITEM_TYPE]"] = $ProductItemType
+$replacements["[PACKAGE_TYPE]"] = $packageType
+$replacements["[ANIMATION]"] = $animation
 
 function Write-Template {
     param(
@@ -230,5 +240,6 @@ ip:
 
 Write-Utf8File -Path (Join-Path $destRoot "releases/$releaseId/submission/line-upload/images/.gitkeep") -Content ""
 Write-Utf8File -Path (Join-Path $destRoot "releases/$releaseId/submission/internal-archive/.gitkeep") -Content ""
+Write-Utf8File -Path (Join-Path $destRoot "releases/$releaseId/production/main/.gitkeep") -Content ""
 
 Write-Host "Brand repo initialized at $destRoot"

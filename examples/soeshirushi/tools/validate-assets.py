@@ -10,13 +10,17 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 
-CONTENT_SIZE = (180, 180)
+EMOJI_CONTENT_SIZE = (180, 180)
+STICKER_CONTENT_MAX_SIZE = (370, 320)
+STICKER_MAIN_SIZE = (240, 240)
 TAB_SIZE = (96, 74)
 MAX_IMAGE_BYTES = 1_000_000
 MAX_ANIMATION_BYTES = 300_000
-MAX_ZIP_BYTES = 20_000_000
+EMOJI_MAX_ZIP_BYTES = 20_000_000
+STICKER_MAX_ZIP_BYTES = 60_000_000
 ALLOWED_COUNTS = {8, 16, 24, 32, 40}
 SUBMISSION_TAB_NAME = "tab.png"
+SUBMISSION_MAIN_NAME = "main.png"
 ANIMATION_MIN_FRAMES = 5
 ANIMATION_MAX_FRAMES = 20
 ANIMATION_MAX_DURATION_MS = 4_000
@@ -29,6 +33,37 @@ WARN_MARGIN_RATIO = 0.35
 LOW_CONTRAST_RANGE = 24
 LOW_COLOR_VARIETY_COUNT = 3
 NEAR_DUPLICATE_HASH_DISTANCE = 5
+NEAR_DUPLICATE_MEAN_ABS_DIFF = 4.0
+
+ASSET_TYPE_ALIASES = {
+    "static": "static-emoji",
+    "animation": "animation-emoji",
+}
+SUPPORTED_ASSET_TYPES = {"static-emoji", "animation-emoji", "static-sticker"}
+
+
+def normalize_asset_type(asset_type: str) -> str:
+    normalized = ASSET_TYPE_ALIASES.get(asset_type, asset_type)
+    if normalized not in SUPPORTED_ASSET_TYPES:
+        raise ValueError(f"unsupported asset type: {asset_type}")
+    return normalized
+
+
+def zip_limit(asset_type: str) -> int:
+    if asset_type == "static-sticker":
+        return STICKER_MAX_ZIP_BYTES
+    return EMOJI_MAX_ZIP_BYTES
+
+
+def content_filename_width(asset_type: str) -> int:
+    return 2 if asset_type == "static-sticker" else 3
+
+
+def companion_names(asset_type: str) -> set[str]:
+    names = {SUBMISSION_TAB_NAME}
+    if asset_type == "static-sticker":
+        names.add(SUBMISSION_MAIN_NAME)
+    return names
 
 
 def alpha_extrema(image: Image.Image) -> tuple[int, int] | None:
@@ -39,7 +74,14 @@ def alpha_extrema(image: Image.Image) -> tuple[int, int] | None:
     return None
 
 
-def validate_image(path: Path, expected_size: tuple[int, int], label: str) -> tuple[list[str], list[str]]:
+def validate_static_image(
+    path: Path,
+    label: str,
+    *,
+    expected_size: tuple[int, int] | None = None,
+    max_size: tuple[int, int] | None = None,
+    require_even_size: bool = False,
+) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
     if path.suffix.lower() != ".png":
@@ -51,8 +93,18 @@ def validate_image(path: Path, expected_size: tuple[int, int], label: str) -> tu
         with Image.open(path) as image:
             if getattr(image, "is_animated", False):
                 errors.append(f"{path}: APNG animation detected in static {label}")
-            if image.size != expected_size:
+            if expected_size and image.size != expected_size:
                 errors.append(f"{path}: expected {expected_size[0]}x{expected_size[1]}, got {image.size[0]}x{image.size[1]}")
+            if max_size:
+                if image.size[0] > max_size[0] or image.size[1] > max_size[1]:
+                    errors.append(
+                        f"{path}: expected no larger than {max_size[0]}x{max_size[1]}, "
+                        f"got {image.size[0]}x{image.size[1]}"
+                    )
+                if image.size[0] <= 0 or image.size[1] <= 0:
+                    errors.append(f"{path}: image dimensions must be positive")
+            if require_even_size and (image.size[0] % 2 != 0 or image.size[1] % 2 != 0):
+                errors.append(f"{path}: sticker image width and height must be even numbers")
             if image.mode not in {"RGB", "RGBA", "P", "LA"}:
                 errors.append(f"{path}: unsupported color mode {image.mode}")
             alpha = alpha_extrema(image)
@@ -158,8 +210,30 @@ def validate_animation_image(path: Path, expected_size: tuple[int, int], label: 
     return errors, warnings
 
 
-def submission_expected_names(expected_count: int) -> set[str]:
-    return {f"{index:03}.png" for index in range(1, expected_count + 1)}
+def validate_content_image(path: Path, asset_type: str) -> tuple[list[str], list[str]]:
+    if asset_type == "animation-emoji":
+        return validate_animation_image(path, EMOJI_CONTENT_SIZE, "content image")
+    if asset_type == "static-sticker":
+        return validate_static_image(
+            path,
+            "content image",
+            max_size=STICKER_CONTENT_MAX_SIZE,
+            require_even_size=True,
+        )
+    return validate_static_image(path, "content image", expected_size=EMOJI_CONTENT_SIZE)
+
+
+def validate_tab_image(path: Path) -> tuple[list[str], list[str]]:
+    return validate_static_image(path, "tab image", expected_size=TAB_SIZE)
+
+
+def validate_main_image(path: Path) -> tuple[list[str], list[str]]:
+    return validate_static_image(path, "main image", expected_size=STICKER_MAIN_SIZE)
+
+
+def submission_expected_names(expected_count: int, asset_type: str) -> set[str]:
+    width = content_filename_width(asset_type)
+    return {f"{index:0{width}}.png" for index in range(1, expected_count + 1)}
 
 
 def checkerboard(size: tuple[int, int], block: int = 8) -> Image.Image:
@@ -201,6 +275,28 @@ def average_hash(path: Path, size: int = 8) -> int:
 
 def hamming_distance(left: int, right: int) -> int:
     return (left ^ right).bit_count()
+
+
+def composited_rgb(path: Path) -> Image.Image:
+    image = first_frame(path)
+    background = Image.new("RGBA", image.size, (255, 255, 255, 255))
+    background.alpha_composite(image)
+    return background.convert("RGB")
+
+
+def mean_absolute_rgb_difference(left: Path, right: Path) -> float:
+    left_image = composited_rgb(left)
+    right_image = composited_rgb(right)
+    if left_image.size != right_image.size:
+        right_image = right_image.resize(left_image.size, Image.Resampling.LANCZOS)
+
+    total = 0
+    count = left_image.size[0] * left_image.size[1] * 3
+    for left_pixel, right_pixel in zip(left_image.getdata(), right_image.getdata(), strict=True):
+        total += abs(left_pixel[0] - right_pixel[0])
+        total += abs(left_pixel[1] - right_pixel[1])
+        total += abs(left_pixel[2] - right_pixel[2])
+    return total / count
 
 
 def visual_quality_warnings(path: Path) -> list[str]:
@@ -254,7 +350,8 @@ def collection_quality_warnings(images: list[Path]) -> list[str]:
             if visual_pixel_hash(path) == visual_pixel_hash(other_path):
                 continue
             distance = hamming_distance(signature, other_signature)
-            if distance <= NEAR_DUPLICATE_HASH_DISTANCE:
+            mean_abs_diff = mean_absolute_rgb_difference(path, other_path)
+            if distance <= NEAR_DUPLICATE_HASH_DISTANCE and mean_abs_diff <= NEAR_DUPLICATE_MEAN_ABS_DIFF:
                 warnings.append(f"{other_path}: near-duplicate image content resembles {path} (hash distance {distance})")
                 warned_near_duplicates.add(other_path)
     return warnings
@@ -288,12 +385,13 @@ def write_contact_sheet(images: list[Path], output: Path) -> None:
     sheet.convert("RGB").save(output)
 
 
-def validate_zip(path: Path, expected_count: int | None = None) -> list[str]:
+def validate_zip(path: Path, asset_type: str, expected_count: int | None = None) -> list[str]:
     errors: list[str] = []
     if not path.exists():
         return [f"{path}: zip file does not exist"]
-    if path.stat().st_size > MAX_ZIP_BYTES:
-        errors.append(f"{path}: exceeds 20MB")
+    max_zip_bytes = zip_limit(asset_type)
+    if path.stat().st_size > max_zip_bytes:
+        errors.append(f"{path}: exceeds {max_zip_bytes // 1_000_000}MB")
     if not zipfile.is_zipfile(path):
         errors.append(f"{path}: not a valid zip file")
         return errors
@@ -305,7 +403,7 @@ def validate_zip(path: Path, expected_count: int | None = None) -> list[str]:
             errors.append(f"{path}: line upload zip must contain only image files, found {name}")
     if expected_count is not None:
         filenames = {Path(name).name for name in names}
-        expected_names = submission_expected_names(expected_count) | {SUBMISSION_TAB_NAME}
+        expected_names = submission_expected_names(expected_count, asset_type) | companion_names(asset_type)
         extra = sorted(filenames - expected_names)
         missing = sorted(expected_names - filenames)
         for name in extra:
@@ -316,25 +414,38 @@ def validate_zip(path: Path, expected_count: int | None = None) -> list[str]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Validate LINE emoji image assets.")
+    parser = argparse.ArgumentParser(description="Validate LINE emoji or sticker image assets.")
     parser.add_argument("images_dir", type=Path)
     parser.add_argument("--expected-count", type=int)
     parser.add_argument("--tab-image", type=Path)
+    parser.add_argument("--main-image", type=Path)
     parser.add_argument("--zip", dest="zip_path", type=Path)
     parser.add_argument("--stage", choices=["production", "submission"], default="production")
-    parser.add_argument("--asset-type", choices=["static", "animation"], default="static")
+    parser.add_argument(
+        "--asset-type",
+        choices=["static", "animation", "static-emoji", "animation-emoji", "static-sticker"],
+        default="static-emoji",
+    )
     parser.add_argument("--preview-contact-sheet", type=Path)
     args = parser.parse_args()
 
     errors: list[str] = []
     warnings: list[str] = []
+    try:
+        asset_type = normalize_asset_type(args.asset_type)
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
 
     if not args.images_dir.exists():
         errors.append(f"{args.images_dir}: directory does not exist")
     else:
         tab_image = args.tab_image
+        main_image = args.main_image
         if args.stage == "submission" and tab_image is None:
             tab_image = args.images_dir / SUBMISSION_TAB_NAME
+        if args.stage == "submission" and asset_type == "static-sticker" and main_image is None:
+            main_image = args.images_dir / SUBMISSION_MAIN_NAME
 
         content_images = sorted(
             path
@@ -342,7 +453,9 @@ def main() -> int:
             if path.is_file()
             and path.suffix.lower() == ".png"
             and (tab_image is None or path.resolve() != tab_image.resolve())
+            and (main_image is None or path.resolve() != main_image.resolve())
             and path.name.lower() != SUBMISSION_TAB_NAME
+            and path.name.lower() != SUBMISSION_MAIN_NAME
         )
         count = len(content_images)
         expected_count = args.expected_count
@@ -353,7 +466,7 @@ def main() -> int:
             expected_count = count
 
         if args.stage == "submission" and expected_count is not None:
-            expected_names = submission_expected_names(expected_count)
+            expected_names = submission_expected_names(expected_count, asset_type)
             actual_names = {path.name for path in content_images}
             wrong_names = sorted(actual_names - expected_names)
             missing_names = sorted(expected_names - actual_names)
@@ -363,10 +476,7 @@ def main() -> int:
                 errors.append(f"{args.images_dir}: missing submission filename: {name}")
 
         for image_path in content_images:
-            if args.asset_type == "animation":
-                image_errors, image_warnings = validate_animation_image(image_path, CONTENT_SIZE, "content image")
-            else:
-                image_errors, image_warnings = validate_image(image_path, CONTENT_SIZE, "content image")
+            image_errors, image_warnings = validate_content_image(image_path, asset_type)
             errors.extend(image_errors)
             warnings.extend(image_warnings)
         warnings.extend(collection_quality_warnings(content_images))
@@ -375,7 +485,19 @@ def main() -> int:
             if not tab_image.exists():
                 errors.append(f"{tab_image}: tab image does not exist")
             else:
-                image_errors, image_warnings = validate_image(tab_image, TAB_SIZE, "tab image")
+                image_errors, image_warnings = validate_tab_image(tab_image)
+                errors.extend(image_errors)
+                warnings.extend(image_warnings)
+        elif args.stage == "submission" or asset_type == "static-sticker":
+            errors.append("tab image does not exist")
+
+        if asset_type == "static-sticker":
+            if main_image is None:
+                errors.append("main image does not exist")
+            elif not main_image.exists():
+                errors.append(f"{main_image}: main image does not exist")
+            else:
+                image_errors, image_warnings = validate_main_image(main_image)
                 errors.extend(image_errors)
                 warnings.extend(image_warnings)
 
@@ -386,12 +508,17 @@ def main() -> int:
                 errors.append(f"{args.preview_contact_sheet}: cannot write contact sheet: {exc}")
 
     if args.tab_image and not args.images_dir.exists():
-        image_errors, image_warnings = validate_image(args.tab_image, TAB_SIZE, "tab image")
+        image_errors, image_warnings = validate_tab_image(args.tab_image)
+        errors.extend(image_errors)
+        warnings.extend(image_warnings)
+
+    if args.main_image and not args.images_dir.exists():
+        image_errors, image_warnings = validate_main_image(args.main_image)
         errors.extend(image_errors)
         warnings.extend(image_warnings)
 
     if args.zip_path:
-        errors.extend(validate_zip(args.zip_path, args.expected_count if args.stage == "submission" else None))
+        errors.extend(validate_zip(args.zip_path, asset_type, args.expected_count if args.stage == "submission" else None))
 
     for warning in warnings:
         print(f"warning: {warning}", file=sys.stderr)

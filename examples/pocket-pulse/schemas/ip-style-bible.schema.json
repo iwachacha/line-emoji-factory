@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://line-emoji-factory.local/schemas/ip-style-bible.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scope", "allowed", "prohibited", "visual_invariants"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "scope": { "type": "object" },
+    "allowed": { "type": "object" },
+    "prohibited": { "type": "object" },
+    "visual_invariants": { "type": "object" }
+  }
+}

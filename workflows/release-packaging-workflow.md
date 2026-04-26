@@ -1,27 +1,40 @@
-# release packaging ワークフロー
+# Release Packaging Workflow
 
-このファイルは、申請用 package を作る標準手順を定義する。
+This workflow defines how the factory creates submission packages for static emoji and static sticker releases.
 
-## 起動条件
-- final assets が揃った。
-- metadata が確定した。
-- 申請前監査を通した。
+## Start Conditions
+- The release has a manifest entry with one concrete item type.
+- Final production PNGs exist under `releases/<release-id>/production/finals`.
+- Companion images exist for the selected item type:
+  - Static emoji: `production/tab/source-tab.png`.
+  - Static sticker: `production/main/source-main.png` and `production/tab/source-tab.png`.
+- Metadata exists at `releases/<release-id>/submission/metadata.yaml`.
 
-## 使う正本
-- package 判断: `rules/release-packaging-rules.md`
-- 申請前監査: `workflows/submission-audit-workflow.md`
-- tool: `tools/package-release.py`
+## Canonical Inputs
+- Packaging rules: `rules/release-packaging-rules.md`
+- Submission audit workflow: `workflows/submission-audit-workflow.md`
+- Tool: `tools/package-release.py`
 
-## 標準手順
-1. release spec の count と final assets の数を確認する。
-2. final assets を submission images へコピーする。
-3. metadata validator を実行する。
-4. asset validator を実行する。
-5. `package.zip` を作る。
-6. checksum を生成する。
-7. release log に package 作成を記録する。
+## Steps
+1. Confirm the release item type and package type from `brand-manifest.yaml`.
+2. Confirm the expected set count from the release entry.
+3. Run metadata validation.
+4. Run production asset validation for the selected item type.
+5. Copy final assets into `submission/line-upload/images/` with normalized LINE filenames.
+6. Validate normalized submission images and ZIP contents.
+7. Create `submission/line-upload/images.zip` with images only.
+8. Create `submission/internal-archive/asset-map.json`, `package-report.md`, and `package-checksums.txt`.
+9. Create `submission/internal-archive/package.zip` with metadata, report, asset map, checksums, manifest snapshot, and release spec snapshot.
+10. Record package creation and validation status in `release-log.md` and the QA ledger.
 
-## 完了条件
-- package zip と checksum が存在する。
-- validation が通っている。
-- release log が更新されている。
+## Item-Type Filename Rules
+- Static emoji content files become `001.png`, `002.png`, ... plus `tab.png`.
+- Static sticker content files become `01.png`, `02.png`, ... plus `main.png` and `tab.png`.
+
+## Completion Conditions
+- `submission/line-upload/images.zip` exists and contains images only.
+- `submission/internal-archive/package.zip` exists.
+- Metadata validation passed.
+- Asset validation passed for production and submission images.
+- ZIP size is under the current item-type limit.
+- Release log and QA records describe the package result.

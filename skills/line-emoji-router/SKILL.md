@@ -1,6 +1,6 @@
 ---
 name: line-emoji-router
-description: LINE emoji factory の通常入口。依頼内容を読み、構造、ブランド、商品、画像検査、申請前監査、release package、固定IP、公開後学習、factory監査のどの入口へ進めるかを決める。
+description: LINE emoji / sticker factory の通常入口。依頼内容を読み、構造、ブランド、商品、画像検査、申請前監査、release package、固定IP、公開後学習、factory監査のどの入口へ進めるかを決める。
 ---
 
 # line-emoji-router
@@ -13,7 +13,7 @@ description: LINE emoji factory の通常入口。依頼内容を読み、構造
 
 1. `../../PROJECT_MAP.md` を開き、正本範囲と責務境界を確認する。
 2. `../../workflows/consultation-workflow.md` を開き、通常相談、探索、評価、設計のどれに該当するかを決める。
-3. 先に `../../rules/line-platform-baseline.md` と `../../rules/structure-constraints.md` で、公式仕様と構造成立性を確認する。
+3. 先に `../../rules/line-platform-baseline.md` と `../../rules/structure-constraints.md` で、item type、公式仕様、構造成立性を確認する。
 4. 構造で `Fail` した場合は `../../workflows/transformation-workflow.md` へ進む。
 5. 市場観測が必要なら `../line-emoji-market-scout/SKILL.md` へ接続する。
 6. ブランド核抽出なら `../line-emoji-brand-distiller/SKILL.md` へ接続する。

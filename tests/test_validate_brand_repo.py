@@ -29,6 +29,25 @@ def test_generic_brand_does_not_require_ip_files(tmp_path):
     assert result.returncode == 0, result.stderr
 
 
+def test_static_sticker_brand_contract_passes(tmp_path):
+    brand = create_brand_repo(tmp_path, item_type="static-sticker")
+
+    result = run_brand_repo(brand)
+    assert result.returncode == 0, result.stderr
+
+
+def test_release_item_type_must_match_package_type(tmp_path):
+    brand = create_brand_repo(tmp_path, item_type="static-sticker")
+    manifest_path = brand / "brand-manifest.yaml"
+    manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
+    manifest["releases"][0]["package_type"] = "emoji"
+    write_yaml(manifest_path, manifest)
+
+    result = run_brand_repo(brand)
+    assert result.returncode != 0
+    assert "package_type must match item_type" in result.stderr
+
+
 def test_missing_required_snapshot_fails(tmp_path):
     brand = create_brand_repo(tmp_path)
     manifest_path = brand / "brand-manifest.yaml"

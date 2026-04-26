@@ -63,7 +63,7 @@ def valid_metadata() -> dict:
         "schema_version": "1.0",
         "locale": "ja",
         "creator_name": "Test Creator",
-        "title": "Test Emoji",
+        "title": "Test Item",
         "description": "Small reactions for testing.",
         "copyright": "TestCreator",
         "suggest_tags": ["test"],
@@ -81,8 +81,10 @@ def create_brand_repo(
     release_id: str = "release-001",
     count: int = 8,
     brand_type: str = "generic",
+    item_type: str = "static-emoji",
     with_assets: bool = False,
     with_tab: bool = True,
+    with_main: bool = True,
 ) -> Path:
     brand = root / "brand"
     release = brand / "releases" / release_id
@@ -92,6 +94,7 @@ def create_brand_repo(
         brand / "references" / "shared",
         release / "prompts",
         release / "production" / "finals",
+        release / "production" / "main",
         release / "production" / "tab",
         release / "qa",
         release / "submission",
@@ -113,6 +116,7 @@ def create_brand_repo(
         "references/shared/line-platform-baseline.md",
         "references/shared/structure-constraints.md",
         "references/shared/emoji-product-rules.md",
+        "references/shared/sticker-product-rules.md",
         "references/shared/review-risk-rules.md",
         "references/shared/evaluation-model.md",
         "references/shared/quality-control-workflow.md",
@@ -143,6 +147,7 @@ def create_brand_repo(
         (brand / file_name).write_text("ok\n", encoding="utf-8")
 
     write_yaml(release / "submission" / "metadata.yaml", valid_metadata())
+    package_type = "sticker" if item_type == "static-sticker" else "emoji"
 
     manifest = {
         "schema_version": "1.0",
@@ -156,8 +161,9 @@ def create_brand_repo(
             "owner": "tests",
         },
         "product": {
-            "item_type": "static-emoji",
-            "package_type": "emoji",
+            "item_type": item_type,
+            "package_type": package_type,
+            "supported_item_types": ["static-emoji", "static-sticker"],
             "initial_set_count": count,
             "animation": False,
         },
@@ -176,7 +182,7 @@ def create_brand_repo(
             "name": "rough-to-final",
             "rough_stage": {
                 "purpose": "structure and set-direction exploration",
-                "required_outputs": ["rough_board", "per_emoji_intent", "failure_notes"],
+                "required_outputs": ["rough_board", "per_item_intent", "failure_notes"],
             },
             "finalization_stage": {
                 "purpose": "final asset production",
@@ -211,6 +217,7 @@ def create_brand_repo(
             "line_platform_baseline": "references/shared/line-platform-baseline.md",
             "structure_constraints": "references/shared/structure-constraints.md",
             "emoji_product_rules": "references/shared/emoji-product-rules.md",
+            "sticker_product_rules": "references/shared/sticker-product-rules.md",
             "review_risk_rules": "references/shared/review-risk-rules.md",
             "evaluation_model": "references/shared/evaluation-model.md",
             "quality_control_workflow": "references/shared/quality-control-workflow.md",
@@ -231,6 +238,10 @@ def create_brand_repo(
             {
                 "id": release_id,
                 "status": "draft",
+                "item_type": item_type,
+                "package_type": package_type,
+                "set_count": count,
+                "animation": False,
                 "spec": f"releases/{release_id}/release-spec.md",
                 "handoff": f"releases/{release_id}/production-handoff.md",
                 "checklist": f"releases/{release_id}/qa/release-checklist.md",
@@ -248,8 +259,11 @@ def create_brand_repo(
     write_yaml(brand / "brand-manifest.yaml", manifest)
 
     if with_assets:
+        content_size = (300, 240) if item_type == "static-sticker" else (180, 180)
         for index in range(1, count + 1):
-            write_png(release / "production" / "finals" / f"source-{index}.png", (180, 180))
+            write_png(release / "production" / "finals" / f"source-{index}.png", content_size)
+        if item_type == "static-sticker" and with_main:
+            write_png(release / "production" / "main" / "source-main.png", (240, 240))
         if with_tab:
             write_png(release / "production" / "tab" / "source-tab.png", (96, 74))
 

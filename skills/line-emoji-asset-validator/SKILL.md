@@ -1,9 +1,9 @@
 ---
 name: line-emoji-asset-validator
-description: LINE絵文字の実画像を、公式仕様、視認性、セット整合性の順で検査する入口。tools/validate-assets.py と品質管理 workflow へ接続する。
+description: LINE絵文字 / スタンプの実画像を、公式仕様、視認性、セット整合性の順で検査する入口。tools/validate-assets.py と品質管理 workflow へ接続する。
 ---
 
-# LINE絵文字 asset validator
+# LINE絵文字 / スタンプ asset validator
 
 ## Workflow
 

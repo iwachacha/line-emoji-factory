@@ -3,7 +3,7 @@ name: line-emoji-post-release-analyst
 description: 公開後の販売、審査結果、使用driftを次releaseとfactory改善へ戻す入口。
 ---
 
-# LINE絵文字 post release analyst
+# LINE絵文字 / スタンプ post release analyst
 
 ## Workflow
 

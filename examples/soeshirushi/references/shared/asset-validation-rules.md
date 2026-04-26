@@ -1,12 +1,12 @@
 # Asset Validation Rules
 
-This file defines the mechanical gate for LINE emoji image assets.
+This file defines the mechanical gate for LINE emoji and sticker image assets.
 
 ## Judgment Order
 
 1. Structure: file type, dimensions, count, transparency, and submission names.
 2. Brand: visual consistency and readable expression.
-3. Product: usable small-format reactions for LINE conversations.
+3. Product: usable reactions for LINE conversations at the selected item size.
 
 ## Static Emoji Requirements
 
@@ -24,6 +24,25 @@ This file defines the mechanical gate for LINE emoji image assets.
 - Each image must be `1MB` or less.
 - A ZIP package must be `20MB` or less.
 
+## Static Sticker Requirements
+
+- Main image: `240 x 240` PNG.
+- Content image: PNG up to `370 x 320`.
+- Content image width and height must be even numbers.
+- Tab image: `96 x 74` PNG.
+- Content image count: `8`, `16`, `24`, `32`, or `40`.
+- Transparent background is required.
+- Fully transparent images fail.
+- Visible content below `15%` of the canvas fails as near-empty.
+- Visible content below `35%` of the canvas warns.
+- Any transparent margin above `35%` warns.
+- Around `10px` of margin is expected by the official guideline, but the validator treats extreme transparent margins as warnings instead of failing ordinary artwork.
+- Duplicate and near-duplicate content images warn because the set may not provide enough conversation coverage.
+- Low contrast visible content warns because it may collapse in LINE previews.
+- Low color variety warns as a production-review prompt, not as a structural failure.
+- Each image must be `1MB` or less.
+- A ZIP package must be `60MB` or less.
+
 ## Animation Emoji Requirements
 
 - Content image: `180 x 180` APNG with `.png` extension.
@@ -37,20 +56,23 @@ This file defines the mechanical gate for LINE emoji image assets.
 ## Filename Rules
 
 - Production-stage filenames are not judged.
-- Submission-stage content filenames must be `001.png`, `002.png`, ...
+- Emoji submission-stage content filenames must be `001.png`, `002.png`, ...
+- Sticker submission-stage content filenames must be `01.png`, `02.png`, ...
 - Submission-stage tab image must be `tab.png`.
+- Sticker submission-stage main image must be `main.png`.
 
 ## Preview Output
 
-The validator can generate a contact sheet for small-format readability review. The preview includes `180px`, `48px`, `32px`, and `24px` views for each content image.
+The validator can generate a contact sheet for readability review. The preview includes multiple downscaled views for each content image.
 
 ## Tool Contract
 
 Use `tools/validate-assets.py`.
 
 ```powershell
-python tools/validate-assets.py path/to/images --expected-count 8 --stage production
-python tools/validate-assets.py path/to/submission/line-upload/images --expected-count 8 --stage submission
-python tools/validate-assets.py path/to/apng --expected-count 8 --asset-type animation
+python tools/validate-assets.py path/to/images --expected-count 8 --stage production --asset-type static-emoji
+python tools/validate-assets.py path/to/submission/line-upload/images --expected-count 8 --stage submission --asset-type static-emoji
+python tools/validate-assets.py path/to/sticker-images --expected-count 8 --stage production --asset-type static-sticker --main-image path/to/main.png --tab-image path/to/tab.png
+python tools/validate-assets.py path/to/apng --expected-count 8 --asset-type animation-emoji
 python tools/validate-assets.py path/to/submission/line-upload/images --preview-contact-sheet report/contact-sheet.png
 ```
