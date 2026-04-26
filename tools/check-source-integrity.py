@@ -25,7 +25,6 @@ SOURCE_MARKDOWN_DIRS = {
 }
 YAML_DIRS = {
     ".github",
-    "examples",
     "rules",
     "templates",
 }

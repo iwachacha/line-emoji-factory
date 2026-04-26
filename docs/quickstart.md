@@ -139,11 +139,3 @@ python ./tools/validate-assets.py ".\brands\my-brand\releases\release-001\produc
 ```
 
 Animation APNG validation checks frame count, duration, loop count, dimensions, transparency, and file size. `package-release.py` packages static emoji and static sticker releases only.
-
-## Example Drift Check
-
-`examples/soeshirushi` is a standalone generated repo sample. Check that its embedded schemas, tools, and shared snapshots match the factory sources:
-
-```powershell
-python ./tools/check-example-drift.py ".\examples\soeshirushi"
-```

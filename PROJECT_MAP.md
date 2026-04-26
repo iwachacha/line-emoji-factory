@@ -28,8 +28,6 @@
   - scaffold、schema 検証、画像検査、metadata 検査、placeholder 検査を実行する。
 - `skills/`
   - 依頼の入口と、読む正本の順序を指示する。
-- `examples/`
-  - 参照例を置く。production ready ではなく段階を明示する。
 - `sandbox/`
   - 壊してよい実験場を置く。
 
@@ -157,7 +155,6 @@
 - `tools/package-release.py`: creates separated `submission/line-upload/images.zip` and `submission/internal-archive/package.zip`.
 - `tools/validate-assets.py`: validates static PNG and APNG assets and can generate contact sheet, chat preview, and report JSON outputs.
 - `tools/check-project-map-paths.py`: verifies path references in this map.
-- `tools/check-example-drift.py`: verifies standalone example repos have current embedded schemas, tools, and shared snapshots.
 - `schemas/post-release-metrics.schema.json`: validates machine-readable post-release metrics records.
 - `rules/visual-asset-quality-rules.md`: defines human/product visual QA for small-size LINE assets.
 - `workflows/series-development-workflow.md`: forces inheritance, differentiation, and catalog update for new series.

@@ -10,7 +10,6 @@
 - `schemas/`: 機械検証契約
 - `tools/`: 実行と検査
 - `skills/`: 入口と読む順序
-- `examples/`: 参照例
 - `sandbox/`: 壊してよい実験場
 
 ## Factory Flow

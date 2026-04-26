@@ -12,7 +12,6 @@ KNOWN_ROOT_FILES = {"AGENTS.md", "PROJECT_MAP.md", "README.md", "requirements-de
 KNOWN_PREFIXES = {
     ".github/",
     "docs/",
-    "examples/",
     "rules/",
     "schemas/",
     "scripts/",

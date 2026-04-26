@@ -22,7 +22,6 @@
 8. 監査、改善、doc audit、skill maintenance を `line-emoji-factory-auditor` に統合する。
 9. 固定IP運用を、権利侵害回避だけでなく許諾済みIPの制作統制として扱う。
 10. 市場調査を、気分ではなく観測証跡として残す。
-11. `sandbox/soeshirushi` を実験場ではなく design-stage example として扱う。
 
 ## 段階化したうえで実装したもの
 以下は初回P0では段階化したが、今回の追加実装で canonical path と入口を揃えた。
@@ -59,7 +58,6 @@
 - router / factory-auditor / P0 実務 skill の追加
 - fixed-IP governance の入口追加
 - market / submission の最小 template 追加
-- `soeshirushi` を example へ移動
 - factory improvement ledger の更新
 
 ## 実装完了後に残す監視点
