@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "brand": "Pocket Pulse",
+  "item_type_hypothesis": "static-emoji",
+  "set_count_hypothesis": 8,
+  "text_policy": "Do not generate text inside images.",
+  "items": []
+}

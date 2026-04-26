@@ -107,8 +107,8 @@ def check_markdown(path: Path, errors: list[str]) -> None:
 
 def check_requirements(path: Path, errors: list[str]) -> None:
     lines = [line.strip() for line in read_lines(path) if line.strip() and not line.strip().startswith("#")]
-    if len(lines) < 3:
-        errors.append("requirements-dev.txt: expected one dependency per line")
+    if len(lines) < 2:
+        errors.append("requirements-dev.txt: expected validation dependencies, one per line")
     for line in lines:
         if len(line.split()) > 1 or "," in line or ";" in line:
             errors.append(f"requirements-dev.txt: dependency line must contain one package only: {line}")

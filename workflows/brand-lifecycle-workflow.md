@@ -1,143 +1,153 @@
-# ブランド運用・分離ワークフロー
+# ブランドスタートアップ / 分離ワークフロー
 
-このファイルは、ブランド創出後に
-「工場本体に残すか」「ブランド別リポジトリへ分離するか」
-を決めるための正本である。
+このファイルは、初期ブランド構想を factory から切り離して、個別ブランドの startup repo として成立させるための正本である。
 
 ## 結論
-- デフォルトは **ハイブリッド運用** にする。
-- つまり、
-  - ブランド探索と初期設計はこの工場リポジトリで行う。
-  - `Design Ready` を超えて、継続制作・独立運用が必要になったブランドだけ別リポジトリへ分離する。
 
-## なぜ常時一元管理ではないか
-- 早期探索では速い。
-- ただしブランド数が増えると、資産、prompt、QA、リリース履歴が混ざる。
-- LLM運用時に別ブランドの文脈混入が起きやすい。
-- 将来的に外注、共同制作、商品化連携へ渡しにくい。
+デフォルトは **startup 分離** にする。
 
-## なぜ常時分離でもないか
-- 早期候補の段階で repo を切ると、失敗案にも運用コストが乗る。
-- 比較評価や変換を跨いだ判断が遅くなる。
-- 工場本体の学習や query 改善が蓄積しにくい。
+- factory repo は、比較、変換、評価、共通基盤改善を担当する。
+- 個別ブランド repo は、採用候補の文脈、canon、初回商品仮説、prompt seed を保持する。
+- QA、submission、release ledger は、実画像制作へ進むまで配布しない。
 
-## 推奨モデル
-### Stage 0: 探索前
-- まだブランド核がない。
-- 工場本体のみで扱う。
+## なぜ production repo を標準にしないか
 
-### Stage 1: 探索中
-- 候補出し、変換、比較を繰り返す。
-- 工場本体のみで扱う。
+- 初期ブランドにはまだ実画像、審査、公開履歴がない。
+- 最初から submission や QA を配ると、ブランド創出より運用管理が重くなる。
+- 世界観未固定の段階でrelease運用まで作ると、後から削る判断が遅れる。
+- ブランドごとに、キャラ型、モチーフ型、記号型、デコ文字型、固定IP型など必要な資産が違う。
 
-### Stage 2: 設計確定直前
-- `Design Ready` 候補が見えた。
-- `templates/brand/brand-setting-template.md` と `templates/brand/brand-production-brief-template.md` を埋める。
-- `templates/brand/brand-canon-template.md` を埋め、守る核と禁止 drift を固定する。
-- `templates/brand/brand-product-catalog-template.md` を初期化する。
-- 既存ブランドの新シリーズなら `templates/release/series-plan-template.md` を埋める。
-- `templates/release/release-spec-template.md` を埋める。
-- 必要なら `templates/qa/release-checklist-template.md`, `templates/qa/quality-ledger-template.md`, `templates/release/release-log-template.md` を初期化する。
-- 必要なら `templates/release/production-handoff-template.md` の初版を埋める。
-- まだ工場本体に置く。
+## Stage 0: Factory Exploration
 
-### Stage 3: 独立運用開始
-- 初期セットの制作を始める。
-- 同一ブランドで prompt、QA、品質台帳、リリース履歴、差分資産が増える。
-- この時点で別リポジトリへ分離する。
+- ブランド核がまだ揺れている。
+- 複数候補の比較、構造Fail時の変換、市場観測はfactory repoで行う。
+- この段階ではrepoを切らない。
 
-### Stage 4: 拡張・量産
-- 派生シリーズ、季節版、アニメ版、商品化連携が走る。
-- ブランド別リポジトリで継続運用する。
-- 新シリーズごとに product catalog を参照し、継承要素、差分、重複回避を記録する。
+## Stage 1: Startup Ready
 
-## 分離の判定条件
-次の条件を **4つ以上** 満たしたら分離を推奨する。
-- `Design Ready` に到達している。
-- `brand-setting` が埋まっている。
-- `brand-production-brief` が埋まっている。
-- `brand-canon` が埋まっている。
-- `brand-product-catalog` が初期化されている。
-- 初期 release spec がある。
-- 初期 release の handoff 文書がある。
-- 初期セット構成が固まっている。
-- ブランド固有の工程別 AI 指示を継続使用する見込みがある。
-- QA、品質台帳、審査ログをブランド別に蓄積したい。
-- 今後 2回以上のリリースや改訂を見込む。
-- 別の担当者や外部協力者に渡す可能性がある。
-- 商品化・ライセンス拡張の話が出ている。
+次の条件を満たしたら、startup repoへ分離する。
 
-## 工場本体に残すべき条件
-次のどれかに当たる間は、分離しない。
-- まだ `Revise` が大きい。
-- ブランド核が揺れている。
-- セット構成より先に比較や変換が必要。
-- 量産より前に、ブランド自体を切る可能性が高い。
+- 構造分類を仮置きできる。
+- LINE item type の最初の仮説がある。
+- ブランドを1文で言える。
+- Hard NG が見えていない。
+- 初回商品仮説、または初回set seedがある。
+- 今後このブランドだけのprompt、canon、item seedを持つ見込みがある。
 
-## 分離時の設計原則
-- **live dependency にしない。**
-- 工場本体のルールを submodule やシンボリックリンクで参照させない。
-- 分離時点の共通基盤を **snapshot として持ち出す。**
-- snapshot には `factory_base_version` と `template_schema_version` を残す。
-- 以後の共通基盤更新は、ブランド repo 側で **任意に取り込む。**
+## Stage 2: Startup Repo
 
-## 持ち出すべき共通基盤
-### 必須
-- `rules/evaluation-model.md` の snapshot
-- `rules/line-platform-baseline.md` の snapshot
-- `rules/structure-constraints.md` の snapshot
-- `rules/emoji-product-rules.md` と `rules/sticker-product-rules.md` の snapshot
-- `rules/review-risk-rules.md` の snapshot
-- `rules/continuous-improvement-rules.md` の snapshot
-- `workflows/transformation-workflow.md` の snapshot
-- `workflows/production-pipeline-workflow.md` の snapshot
-- `workflows/quality-control-workflow.md` の snapshot
-- `workflows/continuous-improvement-workflow.md` の snapshot
-- `workflows/usage-validation-workflow.md` の snapshot
-- `workflows/release-retrospective-workflow.md` の snapshot
-- `templates/brand/brand-setting-template.md` から埋めたブランド設定
-- `templates/brand/brand-canon-template.md` から埋めた brand canon
-- `templates/brand/brand-product-catalog-template.md` から埋めた product catalog
-- `templates/brand/brand-production-brief-template.md` から埋めた制作基盤
-- `templates/release/series-plan-template.md` から埋めた series plan
-- `templates/release/release-spec-template.md` から埋めた release spec
-- `templates/release/production-handoff-template.md` から埋めた release handoff
-- `templates/brand/brand-system-prompt-template.md` から埋めた専用AI制作指示
-- `templates/repo/brand-repo-manifest-template.yaml` から埋めた manifest
+`tools/init-brand-repo.ps1` の標準 `startup` mode でrepoを作る。
 
-### 推奨
-- prompt 集
-- 新シリーズごとの series plan
-- QA checklist
-- quality ledger
-- usage validation
+startup repoに配るもの:
+
+- brand setting
+- brand canon / IP guardrails
+- brand positioning
+- brand production brief seed
+- brand system prompt seed
+- product catalog seed
+- startup brief
+- startup checklist
+- character / motif data
+- item seed data
+- prompt library
+- market observation seed
+- fixed shared snapshots
+- lightweight validation tools
+
+startup repoに配らないもの:
+
+- final asset置き場
+- submission package置き場
+- release QA一式
 - release retrospective
-- 審査対応ログ
-- 提出履歴
+- package tool
+- asset validation tool
 
-### 持ち出さないもの
-- 工場本体の ideation 用比較資料
-- 他ブランドの設定
-- ブランド分類や探索候補の履歴全部
-- 工場全体の skill 定義
+## Stage 3: Production Promotion
+
+次の条件を満たしたら production skeleton を追加する。
+
+- 初回set countとslot構成が固まっている。
+- style anchor または character / motif anchor を作る段階に入った。
+- 1 itemずつfinalizationする意思決定がある。
+- asset QA、metadata、submission package が近い将来必要になる。
+
+production repoに追加するもの:
+
+- release spec
+- series plan
+- production handoff
+- release log
+- prompts bundle
+- production pipeline snapshot
+- production rough / final / main / tab dirs
+- QA checklist / quality ledger / usage validation
+- submission metadata / checklist / audit report
+- asset validation and packaging tools
+
+## Stage 4: Release / Learning
+
+- 実画像ができたら、production-pipeline、quality-control、submission-auditを通す。
+- 公開後の学習はbrand repoに残し、再発問題だけfactoryへ戻す。
+
+## Fixed Startup Distribution
+
+startup repoが必ず持つsnapshot:
+
+- `rules/line-platform-baseline.md`
+- `rules/structure-constraints.md`
+- `rules/evaluation-model.md`
+- `rules/brand-taxonomy.md`
+- `rules/brand-creation-rules.md`
+- `rules/emoji-product-rules.md`
+- `rules/sticker-product-rules.md`
+- `rules/review-risk-rules.md`
+- `rules/review-risk-keywords.yaml`
+- `workflows/brand-distillation-workflow.md`
+- `workflows/set-architecture-workflow.md`
+
+startup repoが必ず持つtool:
+
+- `tools/validate-brand-repo.py`
+- `tools/validate-brand-repo.ps1`
+- `tools/validate-schemas.py`
+- `tools/check-source-integrity.py`
+- `tools/check-data-files.py`
+- `tools/check-placeholders.py`
+- `tools/validate-manifest-paths.py`
+- `tools/sync-shared-snapshots.ps1`
+- `tools/promote-brand-repo.ps1`
+
+## Supported Patterns
+
+startup repoは次のブランド型に対応する。
+
+- キャラクター型
+- モチーフ型
+- 記号型
+- 図形・抽象型
+- デコ文字型
+- 固定IP型
+- collaboration型
+
+型によって不要な欄は空でよい。空欄を埋めるためだけに世界観やキャラを増やさない。
+
+## Non-Negotiable
+
+- 判断順序は `構造 → ブランド → 商品`。
+- startup repoは、production repoではない。
+- hard canonを太らせない。
+- live dependencyにしない。
+- factory repoを丸ごとforkしない。
+- 他ブランドの資料を持ち込まない。
+- 画像制作前にsubmission運用を重くしない。
 
 ## 実現方法
-### 第一推奨
-- この工場 repo を正本に保つ。
-- `tools/init-brand-repo.ps1` でブランド repo を scaffold する。
-- scaffold 時に必要な snapshot とテンプレートだけをコピーする。
 
-### 第二推奨
-- 手動で brand repo を作る。
-- ただし `templates/repo/brand-repo-blueprint.md` と manifest に従う。
-
-### 非推奨
-- 工場 repo をそのまま fork してブランド repo にする。
-- 共通基盤を毎回手でつまみ食いしてコピーする。
-- 工場 repo と brand repo を live sync させる。
-
-## 同期ポリシー
-- 工場本体が更新されても、既存ブランド repo を自動更新しない。
-- 公式仕様変更や審査基準変更が入ったときだけ、ブランド repo 側で再同期判断を行う。
-- 再同期時は `factory_base_version` を上げ、変更差分を release log に残す。
-- 再発問題や運用過重が見えたら、brand repo 側で抱え込まず factory 側の継続改善へ戻す。
+- 標準startup分離:
+  - `tools/init-brand-repo.ps1 -BrandSlug <slug> -Destination <path> -BrandName <name>`
+- 既存startup repoのproduction昇格:
+  - `tools/promote-brand-repo.ps1 -BrandRepo <path> -ProductItemType <static-emoji|static-sticker>`
+- production skeletonつき新規分離:
+  - `tools/init-brand-repo.ps1 -BrandSlug <slug> -Destination <path> -BrandName <name> -RepoProfile production`

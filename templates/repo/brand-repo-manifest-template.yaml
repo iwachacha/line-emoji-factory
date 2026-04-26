@@ -1,12 +1,18 @@
-schema_version: "1.0"
+schema_version: "2.0"
 factory_base_version: "2026-04-26"
-template_schema_version: "1.0"
+template_schema_version: "2.0"
+
+repo:
+  profile: "[REPO_PROFILE]"
+  purpose: "Brand startup project separated from the factory repo."
+  owner: "owner-name"
+  initialized_at: "[INIT_DATE]"
 
 brand:
   slug: "your-brand-slug"
   name: "YOUR_BRAND_NAME"
   type: "[BRAND_TYPE]"
-  stage: "design-ready"
+  stage: "startup"
   owner: "owner-name"
 
 product:
@@ -15,112 +21,74 @@ product:
   supported_item_types:
     - "static-emoji"
     - "static-sticker"
+  # [ANIMATION_SUPPORTED_ITEM]
   initial_set_count: [INITIAL_SET_COUNT]
   animation: [ANIMATION]
+  status: "hypothesis"
+
+startup:
+  brief: "startup/brand-startup.md"
+  checklist: "startup/startup-checklist.md"
+  character_data: "data/characters.json"
+  item_seed_data: "data/item-seeds.json"
+  asset_log: "data/asset-log.csv"
+  prompt_library: "prompts/prompt-library.md"
+
+startup_profile:
+  name: "brand-startup"
+  structure_gate_stage:
+    purpose: "confirm the idea can become LINE emoji or sticker items before expanding lore"
+    required_outputs:
+      - "structure_judgment"
+      - "item_type_hypothesis"
+      - "transformation_notes"
+  brand_core_stage:
+    purpose: "fix the minimum brand core and variable boundaries"
+    required_outputs:
+      - "brand_setting"
+      - "brand_canon"
+      - "brand_positioning"
+  product_seed_stage:
+    purpose: "turn the brand core into first product hypotheses without overbuilding production ops"
+    required_outputs:
+      - "product_hypothesis"
+      - "first_series_seed"
+      - "expansion_queue"
+  prompt_seed_stage:
+    purpose: "prepare reusable generation prompts and negative constraints"
+    required_outputs:
+      - "prompt_library"
+      - "negative_prompt"
+      - "variable_boundaries"
+  handoff_stage:
+    purpose: "make the repo ready for rough anchors or for later production skeleton promotion"
+    required_outputs:
+      - "owner_files"
+      - "next_actions"
+      - "unresolved_watch"
 
 market:
   observation_log: "market/market-observation-log.md"
   category_gap_map: "market/category-gap-map.md"
 
-production:
-  profile: "gpt-series-production"
-  release_root: "releases"
-  active_release: "release-001"
-  final_asset_dir: "releases/release-001/production/finals"
-  prompt_bundle_dir: "releases/release-001/prompts"
-
-production_profile:
-  name: "gpt-series-production"
-  brand_canon_stage:
-    purpose: "brand canon and IP guardrail confirmation"
-    required_outputs:
-      - "brand_canon"
-      - "ip_guardrails"
-      - "allowed_variations"
-      - "prohibited_drift"
-  series_planning_stage:
-    purpose: "release differentiation from previous products"
-    required_outputs:
-      - "product_catalog_review"
-      - "series_plan"
-      - "inheritance_points"
-      - "novelty_points"
-      - "cannibalization_notes"
-  rough_stage:
-    purpose: "style, character, motif, and set-direction exploration"
-    required_outputs:
-      - "style_anchor"
-      - "character_anchor"
-      - "rough_board"
-      - "per_item_intent"
-      - "failure_notes"
-  item_finalization_stage:
-    purpose: "one-item-at-a-time final asset candidate production"
-    required_outputs:
-      - "item_specs"
-      - "four_candidate_minimum"
-      - "candidate_comparison"
-      - "final_assets"
-      - "correction_notes"
-      - "export_check"
-  product_qa_stage:
-    purpose: "small-size and product usability QA"
-    required_outputs:
-      - "contact_sheet"
-      - "chat_preview"
-      - "asset_validation_report"
-      - "duplicate_and_usage_overlap_notes"
-      - "unresolved_watch_items"
-  release_ledger_stage:
-    purpose: "update release ledger and brand product catalog"
-    required_outputs:
-      - "release_log_update"
-      - "quality_ledger_update"
-      - "product_catalog_update"
-      - "next_series_watch"
-  revision_stage:
-    purpose: "slot-level corrections"
-    required_outputs:
-      - "revision_notes"
-      - "fixed_assets"
-      - "unresolved_watch_items"
-
-quality:
-  release_checklist_path: "releases/release-001/qa/release-checklist.md"
-  quality_ledger_path: "releases/release-001/qa/quality-ledger.md"
-  usage_validation_path: "releases/release-001/qa/usage-validation.md"
-  retrospective_path: "releases/release-001/qa/release-retrospective.md"
-  release_log_path: "releases/release-001/release-log.md"
-
-submission:
-  metadata_path: "releases/release-001/submission/metadata.yaml"
-  checklist_path: "releases/release-001/submission/submission-checklist.md"
-  audit_report_path: "releases/release-001/submission/submission-audit-report.md"
-  line_upload_dir: "releases/release-001/submission/line-upload"
-  internal_archive_dir: "releases/release-001/submission/internal-archive"
-
 strategy:
-  split_reason: "Brand-specific production and QA are managed outside the factory repo."
-  release_policy: "manual"
+  split_reason: "Initial brand concept is developed enough to isolate brand context, prompts, and startup decisions."
+  release_policy: "unknown"
   sync_policy: "snapshot"
   premium_horizon: "unknown"
 
 snapshots:
   line_platform_baseline: "references/shared/line-platform-baseline.md"
   structure_constraints: "references/shared/structure-constraints.md"
+  evaluation_model: "references/shared/evaluation-model.md"
+  brand_taxonomy: "references/shared/brand-taxonomy.md"
+  brand_creation_rules: "references/shared/brand-creation-rules.md"
   emoji_product_rules: "references/shared/emoji-product-rules.md"
   sticker_product_rules: "references/shared/sticker-product-rules.md"
   review_risk_rules: "references/shared/review-risk-rules.md"
-  evaluation_model: "references/shared/evaluation-model.md"
-  visual_asset_quality_rules: "references/shared/visual-asset-quality-rules.md"
-  quality_control_workflow: "references/shared/quality-control-workflow.md"
-  production_pipeline_workflow: "references/shared/production-pipeline-workflow.md"
-  series_development_workflow: "references/shared/series-development-workflow.md"
-  item_generation_workflow: "references/shared/item-generation-workflow.md"
-  usage_validation_workflow: "references/shared/usage-validation-workflow.md"
-  asset_validation_rules: "references/shared/asset-validation-rules.md"
-  production_profile_rules: "references/shared/production-profile-rules.md"
-  submission_metadata_rules: "references/shared/submission-metadata-rules.md"
+  review_risk_keywords: "references/shared/review-risk-keywords.yaml"
+  brand_distillation_workflow: "references/shared/brand-distillation-workflow.md"
+  set_architecture_workflow: "references/shared/set-architecture-workflow.md"
 
 source:
   factory_repo: "line-emoji-factory"
@@ -130,18 +98,6 @@ source:
   brand_positioning_path: "brand/brand-positioning.md"
   production_brief_path: "brand/brand-production-brief.md"
   system_prompt_path: "brand/brand-system-prompt.md"
-  active_release_spec_path: "releases/release-001/release-spec.md"
-  active_series_plan_path: "releases/release-001/series-plan.md"
+  startup_brief_path: "startup/brand-startup.md"
 
-releases:
-  - id: "release-001"
-    status: "draft"
-    item_type: "[ITEM_TYPE]"
-    package_type: "[PACKAGE_TYPE]"
-    set_count: [INITIAL_SET_COUNT]
-    animation: [ANIMATION]
-    series_plan: "releases/release-001/series-plan.md"
-    spec: "releases/release-001/release-spec.md"
-    handoff: "releases/release-001/production-handoff.md"
-    checklist: "releases/release-001/qa/release-checklist.md"
-    submission: "releases/release-001/submission"
+releases: []

@@ -21,6 +21,24 @@ def test_validate_brand_repo_is_manifest_driven(tmp_path):
     assert result.returncode == 0, result.stderr
 
 
+def test_startup_brand_contract_passes_without_release_skeleton(tmp_path):
+    brand = create_brand_repo(tmp_path, repo_profile="startup")
+    assert not (brand / "releases").exists()
+    manifest = yaml.safe_load((brand / "brand-manifest.yaml").read_text(encoding="utf-8"))
+    assert "production_pipeline_workflow" not in manifest["snapshots"]
+    assert "production_profile_rules" not in manifest["snapshots"]
+
+    result = run_brand_repo(brand)
+    assert result.returncode == 0, result.stderr
+
+
+def test_startup_animation_emoji_hypothesis_is_allowed(tmp_path):
+    brand = create_brand_repo(tmp_path, item_type="animation-emoji", repo_profile="startup")
+
+    result = run_brand_repo(brand)
+    assert result.returncode == 0, result.stderr
+
+
 def test_generic_brand_does_not_require_ip_files(tmp_path):
     brand = create_brand_repo(tmp_path, brand_type="generic")
     assert not (brand / "brand" / "ip").exists()
@@ -52,12 +70,12 @@ def test_missing_required_snapshot_fails(tmp_path):
     brand = create_brand_repo(tmp_path)
     manifest_path = brand / "brand-manifest.yaml"
     manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
-    del manifest["snapshots"]["asset_validation_rules"]
+    del manifest["snapshots"]["brand_taxonomy"]
     write_yaml(manifest_path, manifest)
 
     result = run_brand_repo(brand)
     assert result.returncode != 0
-    assert "asset_validation_rules" in result.stderr
+    assert "brand_taxonomy" in result.stderr
 
 
 def test_fixed_ip_missing_ip_file_fails(tmp_path):
@@ -87,3 +105,16 @@ def test_production_profile_contract_is_validated(tmp_path):
     assert result.returncode != 0
     assert "production_profile.rough_stage" in result.stderr
     assert "rough_board" in result.stderr
+
+
+def test_startup_profile_contract_is_validated(tmp_path):
+    brand = create_brand_repo(tmp_path, repo_profile="startup")
+    manifest_path = brand / "brand-manifest.yaml"
+    manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
+    manifest["startup_profile"]["product_seed_stage"]["required_outputs"].remove("first_series_seed")
+    write_yaml(manifest_path, manifest)
+
+    result = run_brand_repo(brand)
+    assert result.returncode != 0
+    assert "startup_profile.product_seed_stage" in result.stderr
+    assert "first_series_seed" in result.stderr

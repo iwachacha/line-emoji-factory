@@ -60,7 +60,7 @@
 - 市場調査つき探索: `workflows/idea-research-workflow.md`
 - 具体会話検証: `workflows/usage-validation-workflow.md`
 - release 振り返り: `workflows/release-retrospective-workflow.md`
-- ブランドの残留 / 分離判断: `workflows/brand-lifecycle-workflow.md`
+- ブランド startup / 分離判断: `workflows/brand-lifecycle-workflow.md`
 - schema 検証: `workflows/schema-validation-workflow.md`
 - 画像検査: `workflows/asset-validation-workflow.md`
 - 申請前監査: `workflows/submission-audit-workflow.md`
@@ -86,8 +86,8 @@
 - 具体会話検証項目: `templates/qa/usage-validation-template.md`
 - release 振り返り項目: `templates/qa/release-retrospective-template.md`
 - 公開 / 審査履歴項目: `templates/release/release-log-template.md`
-- ブランド別リポジトリ設計: `templates/repo/brand-repo-blueprint.md`
-- ブランド別 manifest: `templates/repo/brand-repo-manifest-template.yaml`
+- ブランド startup repo 設計: `templates/repo/brand-repo-blueprint.md`
+- ブランド startup manifest: `templates/repo/brand-repo-manifest-template.yaml`
 - 専用AI制作指示項目: `templates/brand/brand-system-prompt-template.md`
 - item image prompt 項目: `templates/prompts/item-image-prompt-template.md`
 - 再生成 feedback 項目: `templates/prompts/regeneration-feedback-template.md`
@@ -109,23 +109,23 @@
 10. 固定IP案件なら `skills/line-emoji-ip-governor/SKILL.md` を使う。
 11. 公開後学習なら `skills/line-emoji-post-release-analyst/SKILL.md` を使う。
 12. 改善採否、文書監査、workflow / skill の整理なら `skills/line-emoji-factory-auditor/SKILL.md` を使う。
-7. 通常運用では `workflows/consultation-workflow.md` に従ってモードを決める。
-8. 探索モードで新規案出しや市場調査が必要なら `workflows/idea-research-workflow.md` を起動する。
-9. 先に `rules/line-platform-baseline.md` と `rules/structure-constraints.md` で、item type、公式仕様、構造成立性を判定する。
-10. 構造でFailしたら `workflows/transformation-workflow.md` に沿って変換案を出す。
-11. 構造を通過した案だけ、ブランドと item type 別の商品を順に評価する。
-12. `Design Ready` まで達したら、`templates/brand/brand-setting-template.md` を埋める。
-13. 制作へ進める場合は `templates/brand/brand-canon-template.md` で brand canon / IP guardrails を固定する。
-14. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で GPT / image_gen 標準の共通制作フローを固定する。
-15. 既存ブランドで新シリーズを切るなら `workflows/series-development-workflow.md` と `templates/release/series-plan-template.md` を使い、過去商品との差分を決める。
-16. 初期 release / set を切るなら `templates/release/release-spec-template.md` を埋める。
-17. item finalization へ進むなら `workflows/item-generation-workflow.md` と `templates/prompts/item-image-prompt-template.md` を使う。
-18. 品質管理に入るなら `workflows/quality-control-workflow.md` を起動し、QA と release log と product catalog 更新を初期化する。
-19. 申請前は `tools/validate-assets.py`, `tools/validate-metadata.py`, `workflows/submission-audit-workflow.md` を通す。
-20. ブランドの継続運用や独立制作が見えたら `workflows/brand-lifecycle-workflow.md` で残留 / 分離を決める。
-21. 分離する場合は `templates/repo/brand-repo-blueprint.md`, `templates/repo/brand-repo-manifest-template.yaml`, `tools/init-brand-repo.ps1` を使う。
-22. 作業結果、監査結果、市場観測、skill friction は `workflows/continuous-improvement-workflow.md` に接続して、記録、昇格判断、軽量化判断まで閉じる。
-23. 作業完了は、必要な owner file 更新、記録更新、検証、push 状態の明記まで含む。
+13. 通常運用では `workflows/consultation-workflow.md` に従ってモードを決める。
+14. 探索モードで新規案出しや市場調査が必要なら `workflows/idea-research-workflow.md` を起動する。
+15. 先に `rules/line-platform-baseline.md` と `rules/structure-constraints.md` で、item type、公式仕様、構造成立性を判定する。
+16. 構造でFailしたら `workflows/transformation-workflow.md` に沿って変換案を出す。
+17. 構造を通過した案だけ、ブランドと item type 別の商品を順に評価する。
+18. `Design Ready` まで達したら、`templates/brand/brand-setting-template.md` を埋める。
+19. 制作へ進める場合は `templates/brand/brand-canon-template.md` で brand canon / IP guardrails を固定する。
+20. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で GPT / image_gen 標準の共通制作フローを固定する。
+21. 既存ブランドで新シリーズを切るなら `workflows/series-development-workflow.md` と `templates/release/series-plan-template.md` を使い、過去商品との差分を決める。
+22. 初期 release / set を切るなら `templates/release/release-spec-template.md` を埋める。
+23. item finalization へ進むなら `workflows/item-generation-workflow.md` と `templates/prompts/item-image-prompt-template.md` を使う。
+24. 品質管理に入るなら `workflows/quality-control-workflow.md` を起動し、QA と release log と product catalog 更新を初期化する。
+25. 申請前は `tools/validate-assets.py`, `tools/validate-metadata.py`, `workflows/submission-audit-workflow.md` を通す。
+26. 初期ブランド構想がStartup Readyなら `workflows/brand-lifecycle-workflow.md` で startup repo 分離を決める。
+27. 分離する場合は `templates/repo/brand-repo-blueprint.md`, `templates/repo/brand-repo-manifest-template.yaml`, `tools/init-brand-repo.ps1` を使う。標準は軽量startupで、実画像制作へ入る場合だけ `-RepoProfile production` を使う。
+28. 作業結果、監査結果、市場観測、skill friction は `workflows/continuous-improvement-workflow.md` に接続して、記録、昇格判断、軽量化判断まで閉じる。
+29. 作業完了は、必要な owner file 更新、記録更新、検証、push 状態の明記まで含む。
 
 ## 責務境界
 - `rules/` は「何を守るか」を定義する。手順は書かない。
@@ -147,9 +147,10 @@
 # Current Implementation Addendum
 
 - `requirements-dev.txt`: local and CI validation dependencies.
-- `tests/`: pytest coverage for packaging, asset validation, metadata validation, and manifest-driven brand repo validation.
+- `tests/`: pytest coverage for startup scaffold, production packaging, asset validation, metadata validation, and manifest-driven brand repo validation.
 - `tools/validate-brand-repo.py`: canonical manifest-driven validator.
 - `tools/validate-brand-repo.ps1`: PowerShell wrapper.
+- `tools/promote-brand-repo.ps1`: startup repo to production skeleton promotion tool.
 - `tools/check-source-integrity.py`: anti-collapse source integrity gate.
 - `tools/check-canonical-drift.py`: canonical skill/template/script drift gate.
 - `tools/check-data-files.py`: YAML, workflow, schema JSON, and dependency parse gate.

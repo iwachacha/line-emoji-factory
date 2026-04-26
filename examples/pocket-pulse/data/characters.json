@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "brand": "Pocket Pulse",
+  "characters_or_motifs": [
+    {
+      "id": "pulse",
+      "name": "Pocket Pulse motif",
+      "role": "Primary visual motif",
+      "fixed_design": ["compact pulse shape", "clear reaction silhouette"],
+      "variable_design": ["color", "intensity", "emoji or sticker scale"],
+      "ai_identity": "original compact pulse reaction motif",
+      "voice_or_usage": ["quick mood signal", "reaction support"],
+      "drift_guardrails": ["avoid logo-like marks", "avoid near-duplicate color-only variants"]
+    }
+  ]
+}

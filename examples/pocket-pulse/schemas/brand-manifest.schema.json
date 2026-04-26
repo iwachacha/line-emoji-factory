@@ -7,22 +7,20 @@
     "schema_version",
     "factory_base_version",
     "template_schema_version",
+    "repo",
     "brand",
     "product",
+    "startup",
+    "startup_profile",
     "market",
-    "production",
-    "production_profile",
-    "quality",
-    "submission",
     "strategy",
     "snapshots",
-    "source",
-    "releases"
+    "source"
   ],
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "1.0"
+      "const": "2.0"
     },
     "factory_base_version": {
       "type": "string",
@@ -30,6 +28,146 @@
     },
     "template_schema_version": {
       "type": "string"
+    },
+    "repo": {
+      "$ref": "#/$defs/repo"
+    },
+    "brand": {
+      "$ref": "#/$defs/brand"
+    },
+    "product": {
+      "$ref": "#/$defs/product"
+    },
+    "startup": {
+      "$ref": "#/$defs/startup"
+    },
+    "startup_profile": {
+      "$ref": "#/$defs/startup_profile"
+    },
+    "market": {
+      "$ref": "#/$defs/market"
+    },
+    "production": {
+      "$ref": "#/$defs/production"
+    },
+    "production_profile": {
+      "$ref": "#/$defs/production_profile"
+    },
+    "quality": {
+      "$ref": "#/$defs/quality"
+    },
+    "submission": {
+      "$ref": "#/$defs/submission"
+    },
+    "strategy": {
+      "$ref": "#/$defs/strategy"
+    },
+    "snapshots": {
+      "$ref": "#/$defs/snapshots"
+    },
+    "source": {
+      "$ref": "#/$defs/source"
+    },
+    "ip": {
+      "$ref": "#/$defs/ip"
+    },
+    "releases": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/release"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "brand"
+        ],
+        "properties": {
+          "brand": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "fixed_ip"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "ip"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "repo": {
+            "required": [
+              "profile"
+            ],
+            "properties": {
+              "profile": {
+                "const": "production"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "production",
+          "production_profile",
+          "quality",
+          "submission",
+          "releases"
+        ],
+        "properties": {
+          "releases": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "repo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile",
+        "purpose",
+        "owner",
+        "initialized_at"
+      ],
+      "properties": {
+        "profile": {
+          "type": "string",
+          "enum": [
+            "startup",
+            "production"
+          ]
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "initialized_at": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      }
     },
     "brand": {
       "type": "object",
@@ -63,6 +201,7 @@
           "enum": [
             "idea",
             "revise",
+            "startup",
             "design-ready",
             "production",
             "submitted",
@@ -84,7 +223,8 @@
         "package_type",
         "supported_item_types",
         "initial_set_count",
-        "animation"
+        "animation",
+        "status"
       ],
       "properties": {
         "item_type": {
@@ -127,71 +267,83 @@
         },
         "animation": {
           "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "hypothesis",
+            "planned",
+            "production",
+            "released"
+          ]
         }
       }
     },
-    "market": {
-      "$ref": "#/$defs/market"
-    },
-    "production": {
-      "$ref": "#/$defs/production"
-    },
-    "production_profile": {
-      "$ref": "#/$defs/production_profile"
-    },
-    "quality": {
-      "$ref": "#/$defs/quality"
-    },
-    "submission": {
-      "$ref": "#/$defs/submission"
-    },
-    "strategy": {
-      "$ref": "#/$defs/strategy"
-    },
-    "snapshots": {
-      "$ref": "#/$defs/snapshots"
-    },
-    "source": {
-      "$ref": "#/$defs/source"
-    },
-    "ip": {
-      "$ref": "#/$defs/ip"
-    },
-    "releases": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "$ref": "#/$defs/release"
-      }
-    }
-  },
-  "allOf": [
-    {
-      "if": {
-        "required": [
-          "brand"
-        ],
-        "properties": {
-          "brand": {
-            "required": [
-              "type"
-            ],
-            "properties": {
-              "type": {
-                "const": "fixed_ip"
-              }
-            }
-          }
+    "startup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "brief",
+        "checklist",
+        "character_data",
+        "item_seed_data",
+        "asset_log",
+        "prompt_library"
+      ],
+      "properties": {
+        "brief": {
+          "type": "string"
+        },
+        "checklist": {
+          "type": "string"
+        },
+        "character_data": {
+          "type": "string"
+        },
+        "item_seed_data": {
+          "type": "string"
+        },
+        "asset_log": {
+          "type": "string"
+        },
+        "prompt_library": {
+          "type": "string"
         }
-      },
-      "then": {
-        "required": [
-          "ip"
-        ]
       }
-    }
-  ],
-  "$defs": {
+    },
+    "startup_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "structure_gate_stage",
+        "brand_core_stage",
+        "product_seed_stage",
+        "prompt_seed_stage",
+        "handoff_stage"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "structure_gate_stage": {
+          "$ref": "#/$defs/profile_stage"
+        },
+        "brand_core_stage": {
+          "$ref": "#/$defs/profile_stage"
+        },
+        "product_seed_stage": {
+          "$ref": "#/$defs/profile_stage"
+        },
+        "prompt_seed_stage": {
+          "$ref": "#/$defs/profile_stage"
+        },
+        "handoff_stage": {
+          "$ref": "#/$defs/profile_stage"
+        }
+      }
+    },
     "market": {
       "type": "object",
       "additionalProperties": false,
@@ -256,29 +408,29 @@
           "minLength": 1
         },
         "rough_stage": {
-          "$ref": "#/$defs/production_profile_stage"
+          "$ref": "#/$defs/profile_stage"
         },
         "brand_canon_stage": {
-          "$ref": "#/$defs/production_profile_stage"
+          "$ref": "#/$defs/profile_stage"
         },
         "series_planning_stage": {
-          "$ref": "#/$defs/production_profile_stage"
+          "$ref": "#/$defs/profile_stage"
         },
         "item_finalization_stage": {
-          "$ref": "#/$defs/production_profile_stage"
+          "$ref": "#/$defs/profile_stage"
         },
         "product_qa_stage": {
-          "$ref": "#/$defs/production_profile_stage"
+          "$ref": "#/$defs/profile_stage"
         },
         "release_ledger_stage": {
-          "$ref": "#/$defs/production_profile_stage"
+          "$ref": "#/$defs/profile_stage"
         },
         "revision_stage": {
-          "$ref": "#/$defs/production_profile_stage"
+          "$ref": "#/$defs/profile_stage"
         }
       }
     },
-    "production_profile_stage": {
+    "profile_stage": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -395,25 +547,30 @@
       "required": [
         "line_platform_baseline",
         "structure_constraints",
+        "evaluation_model",
+        "brand_taxonomy",
+        "brand_creation_rules",
         "emoji_product_rules",
         "sticker_product_rules",
         "review_risk_rules",
-        "evaluation_model",
-        "visual_asset_quality_rules",
-        "quality_control_workflow",
-        "production_pipeline_workflow",
-        "series_development_workflow",
-        "item_generation_workflow",
-        "usage_validation_workflow",
-        "asset_validation_rules",
-        "production_profile_rules",
-        "submission_metadata_rules"
+        "review_risk_keywords",
+        "brand_distillation_workflow",
+        "set_architecture_workflow"
       ],
       "properties": {
         "line_platform_baseline": {
           "type": "string"
         },
         "structure_constraints": {
+          "type": "string"
+        },
+        "evaluation_model": {
+          "type": "string"
+        },
+        "brand_taxonomy": {
+          "type": "string"
+        },
+        "brand_creation_rules": {
           "type": "string"
         },
         "emoji_product_rules": {
@@ -425,7 +582,7 @@
         "review_risk_rules": {
           "type": "string"
         },
-        "evaluation_model": {
+        "review_risk_keywords": {
           "type": "string"
         },
         "visual_asset_quality_rules": {
@@ -435,6 +592,12 @@
           "type": "string"
         },
         "production_pipeline_workflow": {
+          "type": "string"
+        },
+        "brand_distillation_workflow": {
+          "type": "string"
+        },
+        "set_architecture_workflow": {
           "type": "string"
         },
         "series_development_workflow": {
@@ -468,8 +631,7 @@
         "brand_positioning_path",
         "production_brief_path",
         "system_prompt_path",
-        "active_release_spec_path",
-        "active_series_plan_path"
+        "startup_brief_path"
       ],
       "properties": {
         "factory_repo": {
@@ -491,6 +653,9 @@
           "type": "string"
         },
         "system_prompt_path": {
+          "type": "string"
+        },
+        "startup_brief_path": {
           "type": "string"
         },
         "active_release_spec_path": {
@@ -533,9 +698,7 @@
         "status",
         "series_plan",
         "spec",
-        "handoff",
-        "checklist",
-        "submission"
+        "handoff"
       ],
       "properties": {
         "id": {

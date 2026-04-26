@@ -58,7 +58,7 @@
 - 具体会話検証フロー: `workflows/usage-validation-workflow.md`
 - release 振り返りフロー: `workflows/release-retrospective-workflow.md`
 - 文書保守フロー: `workflows/framework-maintenance.md`
-- ブランド運用と分離戦略: `workflows/brand-lifecycle-workflow.md`
+- ブランド startup と分離戦略: `workflows/brand-lifecycle-workflow.md`
 - schema 検証フロー: `workflows/schema-validation-workflow.md`
 - 画像検査フロー: `workflows/asset-validation-workflow.md`
 - 申請前監査フロー: `workflows/submission-audit-workflow.md`
@@ -84,8 +84,8 @@
 - 具体会話検証出力: `templates/qa/usage-validation-template.md`
 - release 振り返り出力: `templates/qa/release-retrospective-template.md`
 - 公開 / 審査履歴出力: `templates/release/release-log-template.md`
-- ブランド別リポジトリ設計: `templates/repo/brand-repo-blueprint.md`
-- ブランド別 manifest: `templates/repo/brand-repo-manifest-template.yaml`
+- ブランド startup repo 設計: `templates/repo/brand-repo-blueprint.md`
+- ブランド startup manifest: `templates/repo/brand-repo-manifest-template.yaml`
 - ブランド専用AI制作指示出力: `templates/brand/brand-system-prompt-template.md`
 - item image prompt 出力: `templates/prompts/item-image-prompt-template.md`
 - 再生成 feedback 出力: `templates/prompts/regeneration-feedback-template.md`

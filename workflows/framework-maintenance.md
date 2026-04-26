@@ -84,15 +84,20 @@
 - 依存する `workflows/` と `templates/` を更新する。
 - 重複 skill があるなら、新設ではなく統合や廃止も検討する。
 
-### brand repo の scaffold 出力を変える
+### brand startup repo の scaffold 出力を変える
 - 先に対応する `templates/*-template.*` を更新する。
 - script 内の直書きを正本にしない。
 - 次に `tools/init-brand-repo.ps1` を更新する。
+- 既存 startup repo の production 昇格に影響する場合は `tools/promote-brand-repo.ps1` も更新する。
+- startup profile の契約を変えた場合は `schemas/brand-manifest.schema.json` と `tools/validate-brand-repo.py` を更新する。
+- production skeleton へ影響する場合だけ、release / QA / submission templates と packaging tests を更新する。
 
-### ブランド別 repo の雛形を変える
+### ブランド別 startup repo の雛形を変える
 - 先に `templates/repo/brand-repo-blueprint.md` を更新する。
 - 次に `templates/repo/brand-repo-manifest-template.yaml` を更新する。
 - 自動化している場合は `tools/init-brand-repo.ps1` を更新する。
+- default scaffold に QA / submission / package tool を戻さない。必要なら `-RepoProfile production` 側へ置く。
+- production pipeline snapshot、metadata validator、画像処理依存も production 側へ置く。startup 側は構造・ブランド・商品仮説の検証に限定する。
 
 ## 重複検出手順
 1. 変更した用語で全文検索する。

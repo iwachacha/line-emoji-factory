@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "brand": "[BRAND_NAME]",
+  "item_type_hypothesis": "[ITEM_TYPE]",
+  "set_count_hypothesis": [INITIAL_SET_COUNT],
+  "text_policy": "Do not generate text inside images; add text after image generation when needed.",
+  "items": [
+    {
+      "id": "item_001",
+      "line_or_meaning": "",
+      "role": "high-frequency",
+      "character_or_motif": "",
+      "emotion": "",
+      "prop": "",
+      "usage": "",
+      "generation_note": "",
+      "watch": []
+    }
+  ]
+}

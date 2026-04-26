@@ -1,13 +1,16 @@
-# Brand Repo Blueprint
+# Brand Startup Repo Blueprint
 
-Brand repos contain brand-specific production and release artifacts. The factory repo keeps shared rules, workflows, schemas, tools, and templates. A release chooses one LINE item type; a brand may be prepared for both emoji and stickers without forcing both to ship.
+Brand startup repos isolate one brand concept after the factory has enough structure to keep it. They are not full submission projects by default. The default scaffold distributes only the common elements needed to create, judge, and prepare a brand for rough anchors or first-series planning.
 
-## Layout
+## Default Layout
 
 ```text
-brand-repo/
+brand-startup-repo/
+  AGENTS.md
+  PROJECT_MAP.md
   README.md
   brand-manifest.yaml
+  requirements-dev.txt
   brand/
     brand-canon.md
     brand-setting.md
@@ -15,63 +18,120 @@ brand-repo/
     brand-production-brief.md
     brand-system-prompt.md
     product-catalog.md
-    ip/
-      ip-style-bible.md
-      reference-asset-register.md
-      ip-approval-log.md
-      character-expression-matrix.md
+  startup/
+    brand-startup.md
+    startup-checklist.md
+  data/
+    characters.json
+    item-seeds.json
+    asset-log.csv
+  prompts/
+    prompt-library.md
   market/
     market-observation-log.md
     category-gap-map.md
-  releases/
-    release-001/
-      series-plan.md
-      release-spec.md
-      production-handoff.md
-      release-log.md
-      prompts/
-      production/
-        rough-boards/
-        finals/
-        main/
-          source-main.png
-        tab/
-          source-tab.png
-      qa/
-      submission/
-        metadata.yaml
-        submission-checklist.md
-        submission-audit-report.md
-        line-upload/
-        internal-archive/
   references/
     shared/
   schemas/
   tools/
 ```
 
-`brand-manifest.yaml` includes `production_profile` as the machine-readable production stage contract and points to brand canon, product catalog, and active series plan.
+## Fixed Startup Distribution
 
-## Production Assets
+The startup scaffold always carries these common snapshots:
 
-- Put arbitrary-named final content PNGs in `production/finals/`.
-- Put the tab source PNG at `production/tab/source-tab.png`.
-- For static sticker releases, put the main source PNG at `production/main/source-main.png`.
-- Do not manually name submission assets. `tools/package-release.py` creates item-type-specific submission filenames.
-- Static emoji submission filenames are `001.png`, `002.png`, ... and `tab.png`.
-- Static sticker submission filenames are `01.png`, `02.png`, ..., `main.png`, and `tab.png`.
-- Keep brand canon, series planning, rough / anchor, item finalization, product QA, ledger update, and revision outputs in `production_profile`; do not make a tool name the production source of truth.
+- `line-platform-baseline`
+- `structure-constraints`
+- `evaluation-model`
+- `brand-taxonomy`
+- `brand-creation-rules`
+- `emoji-product-rules`
+- `sticker-product-rules`
+- `review-risk-rules`
+- `review-risk-keywords`
+- `brand-distillation-workflow`
+- `set-architecture-workflow`
+
+The startup scaffold always carries these tools:
+
+- `validate-brand-repo.py`
+- `validate-brand-repo.ps1`
+- `validate-schemas.py`
+- `check-source-integrity.py`
+- `check-data-files.py`
+- `check-placeholders.py`
+- `validate-manifest-paths.py`
+- `sync-shared-snapshots.ps1`
+- `promote-brand-repo.ps1`
+
+Asset validation and package creation are not part of the default startup distribution. Add them only when the repo is promoted to production.
+
+## Startup Responsibilities
+
+- Preserve the brand context outside the factory repo.
+- Keep hard canon narrow enough to support multiple future series.
+- Record what is fixed, what is variable, and what remains undecided.
+- Seed first-series item ideas without forcing full release operations.
+- Keep prompts reusable across sticker, emoji, and later series patterns.
+- Avoid mixing this brand with unrelated ideation history.
+
+## Production Extension
+
+When a startup repo is ready for actual asset production, add a production skeleton:
+
+```text
+releases/
+  release-001/
+    series-plan.md
+    release-spec.md
+    production-handoff.md
+    release-log.md
+    prompts/
+    production/
+      rough-boards/
+      finals/
+      main/
+      tab/
+    qa/
+    submission/
+      metadata.yaml
+      submission-checklist.md
+      submission-audit-report.md
+      line-upload/
+      internal-archive/
+```
+
+Production repos also carry:
+
+- `production-pipeline-workflow`
+- `quality-control-workflow`
+- `series-development-workflow`
+- `item-generation-workflow`
+- `usage-validation-workflow`
+- `asset-validation-rules`
+- `visual-asset-quality-rules`
+- `production-profile-rules`
+- `submission-metadata-rules`
+- `validate-metadata.py`
+- `validate-assets.py`
+- `package-release.py`
+
+Use `tools/promote-brand-repo.ps1` when adding this layer to an existing startup repo. Use `tools/init-brand-repo.ps1 -RepoProfile production` only when creating a production repo from scratch.
+
+## Item Types
+
+A brand may support several LINE item types. The manifest records one first hypothesis in `product.item_type`, but this is not a final release obligation. A production release chooses one item type.
+
+Supported startup hypotheses:
+
+- `static-sticker`
+- `static-emoji`
+- `animation-emoji` as a future hypothesis only; packaging is still unsupported.
+
+## Operating Rules
+
+- Do not live-sync factory files. Shared files are snapshots.
+- Do not copy other brands into the repo.
+- Do not force QA, submission, or release ledgers before real assets exist.
 - Do not treat rough boards or bulk-generated set images as final assets.
-- Finalization is one item at a time, with at least four candidates per item and QA before adoption.
-
-## Series Operations
-
-- `brand/brand-canon.md` defines the brand/IP elements that cannot drift.
-- `brand/product-catalog.md` records past releases and series differences.
-- Each release has `series-plan.md`; create it before `release-spec.md` when developing a new series.
-- After QA, update product catalog with inherited elements, successful differentiation, and overlap to avoid.
-
-## Submission Outputs
-
-- `submission/line-upload/images.zip` is the LINE upload ZIP and contains only images.
-- `submission/internal-archive/package.zip` is the internal archive and contains traceability files.
+- Keep `startup/brand-startup.md`, `brand/brand-canon.md`, and `data/item-seeds.json` aligned.

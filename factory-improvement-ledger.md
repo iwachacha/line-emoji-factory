@@ -60,6 +60,12 @@
 - Updated owner file: 本作業で更新中。次回の新ブランド scaffold と既存ブランド新シリーズで実効性を観測する
 - Verification method: integrity gate、schema validation、example drift、brand repo validation、pytest
 - Verify on: 次の `new brand` scaffold と次の `existing brand / new series`
+- ID: `FAC-2026-04-26-007`
+- Hypothesis: scaffold の標準を production repo から brand startup repo に戻せば、初期ブランド創出時の不要な QA / submission / release 層を削り、キャラ型・モチーフ型・記号型・デコ文字型・固定IP型へ広く対応できる
+- Intervention: brand lifecycle / repo blueprint / manifest schema / scaffold / validator / tests を startup profile 中心へ破壊的に更新し、production skeleton は `-RepoProfile production` と `tools/promote-brand-repo.ps1` に分離する
+- Updated owner file: startup repo から production pipeline snapshot、metadata validator、submission/release schema、画像処理依存を外し、manifest snapshot 契約と昇格 tool を追加した
+- Verification method: startup scaffold smoke、animation hypothesis smoke、production scaffold smoke、promotion smoke、brand repo validation、schema validation、integrity gate、pytest
+- Verify on: 次の `initial brand concept -> separated repo` 作業
 
 ## 3. Verified Upgrades
 - ID: `FAC-2026-04-25-001`
@@ -95,6 +101,12 @@
 - Fix: `tools/validate-assets.py` now gates near-duplicate warnings on both perceptual hash distance and mean RGB difference, while keeping exact duplicate detection intact.
 - Remaining risk: `examples/pocket-pulse` is an audit artifact, not a market-approved commercial release; live LINE Store category comparison is still required before real submission.
 - Push status: pending final validation and push in this working turn.
+- ID: `FAC-2026-04-26-007`
+- Verified: brand startup repo を標準 profile にし、production 専用要素を production scaffold / promotion tool 側へ隔離した。startup は構造・ブランド・商品仮説・prompt seed・snapshot同期だけを持つ。
+- Verification method: scaffold smoke for startup/static, startup/animation, production/static, production animation guard, startup-to-production promotion smoke, schema validation, data file check, example drift, example brand validation, integrity gates, pytest.
+- Owner files updated: `workflows/brand-lifecycle-workflow.md`, `templates/repo/brand-repo-blueprint.md`, `templates/repo/brand-repo-manifest-template.yaml`, `tools/init-brand-repo.ps1`, `tools/promote-brand-repo.ps1`, `tools/sync-shared-snapshots.ps1`, `schemas/brand-manifest.schema.json`, `tools/validate-brand-repo.py`, `examples/`.
+- Remaining risk: animation emoji は startup 仮説と asset validation まで対応し、release packaging は未対応のため production 昇格では明示的に拒否する。
+- Push status: pending final commit and push in this working turn.
 
 ## 4. Skill Evolution
 - ID: `FAC-2026-04-25-001`

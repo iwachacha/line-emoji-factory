@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "brand": "[BRAND_NAME]",
+  "characters_or_motifs": [
+    {
+      "id": "primary",
+      "name": "Primary character or motif",
+      "role": "Main brand signal",
+      "fixed_design": [],
+      "variable_design": [],
+      "ai_identity": "",
+      "voice_or_usage": [],
+      "drift_guardrails": []
+    }
+  ]
+}
