@@ -13,11 +13,17 @@ STANDALONE_TOOL_FILES = [
     "tools/validate-schemas.py",
     "tools/validate-assets.py",
     "tools/validate-metadata.py",
+    "tools/check-source-integrity.py",
+    "tools/check-data-files.py",
+    "tools/check-canonical-drift.py",
     "tools/check-placeholders.py",
     "tools/validate-manifest-paths.py",
     "tools/package-release.py",
     "tools/sync-shared-snapshots.ps1",
 ]
+STANDALONE_SHARED_FILES = {
+    "rules/review-risk-keywords.yaml": "references/shared/review-risk-keywords.yaml",
+}
 
 
 def load_manifest(example: Path) -> dict:
@@ -55,6 +61,22 @@ def compare_tools(factory_root: Path, example: Path) -> list[str]:
     errors: list[str] = []
     for rel_path in STANDALONE_TOOL_FILES:
         errors.extend(compare_file(factory_root, example, rel_path))
+    return errors
+
+
+def compare_shared_files(factory_root: Path, example: Path) -> list[str]:
+    errors: list[str] = []
+    for source_rel, target_rel in STANDALONE_SHARED_FILES.items():
+        source = factory_root / source_rel
+        target = example / target_rel
+        if not source.exists():
+            errors.append(f"factory source missing: {source_rel}")
+            continue
+        if not target.exists():
+            errors.append(f"example shared copy missing: {target_rel}")
+            continue
+        if not filecmp.cmp(source, target, shallow=False):
+            errors.append(f"example shared copy drifted: {target_rel}")
     return errors
 
 
@@ -108,6 +130,7 @@ def main() -> int:
         manifest = load_manifest(example)
         errors.extend(compare_schemas(factory_root, example))
         errors.extend(compare_tools(factory_root, example))
+        errors.extend(compare_shared_files(factory_root, example))
         errors.extend(compare_manifest_snapshots(factory_root, example, manifest))
     except ValueError as exc:
         errors.append(str(exc))

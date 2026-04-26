@@ -3,6 +3,6 @@ locale: "ja"
 creator_name: "Fixture Creator"
 title: "Fixture Emoji"
 description: "Fixture reactions for validation."
-copyright: "Fixture Creator"
+copyright: "FixtureCreator"
 suggest_tags:
   - fixture

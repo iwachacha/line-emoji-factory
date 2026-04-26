@@ -20,6 +20,8 @@ PATH_KEYS = {
     "release_log_path",
     "metadata_path",
     "images_dir",
+    "line_upload_dir",
+    "internal_archive_dir",
     "checklist_path",
     "audit_report_path",
     "asset_validation_rules",

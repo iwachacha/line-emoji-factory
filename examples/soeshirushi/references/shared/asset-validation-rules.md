@@ -15,6 +15,12 @@ This file defines the mechanical gate for LINE emoji image assets.
 - Content image count: `8`, `16`, `24`, `32`, or `40`.
 - Transparent background is required.
 - Fully transparent images fail.
+- Visible content below `15%` of the canvas fails as near-empty.
+- Visible content below `35%` of the canvas warns.
+- Any transparent margin above `35%` warns.
+- Duplicate and near-duplicate content images warn because the set may not provide enough conversation coverage.
+- Low contrast visible content warns because it may collapse at small LINE emoji sizes.
+- Low color variety warns as a production-review prompt, not as a structural failure.
 - Each image must be `1MB` or less.
 - A ZIP package must be `20MB` or less.
 
@@ -44,7 +50,7 @@ Use `tools/validate-assets.py`.
 
 ```powershell
 python tools/validate-assets.py path/to/images --expected-count 8 --stage production
-python tools/validate-assets.py path/to/submission/images --expected-count 8 --stage submission
+python tools/validate-assets.py path/to/submission/line-upload/images --expected-count 8 --stage submission
 python tools/validate-assets.py path/to/apng --expected-count 8 --asset-type animation
-python tools/validate-assets.py path/to/submission/images --preview-contact-sheet report/contact-sheet.png
+python tools/validate-assets.py path/to/submission/line-upload/images --preview-contact-sheet report/contact-sheet.png
 ```

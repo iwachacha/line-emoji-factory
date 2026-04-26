@@ -96,3 +96,7 @@
 For implementation work, read in this order: `AGENTS.md`, `PROJECT_MAP.md`, the relevant `skills/*/SKILL.md`, relevant `rules/`, relevant `workflows/`, relevant `templates/`, `schemas/`, then `tools/`.
 
 Completion status must include changed owner files, validation results, known unfinished items, and push status. Push is only a completion condition when credentials and permissions are available.
+
+# Integrity Gate Addendum
+
+Source restoration and canonical cleanup work must run `tools/check-source-integrity.py`, `tools/check-canonical-drift.py`, and `tools/check-data-files.py` before treating CI or pytest as trustworthy.

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+import shutil
 
 import yaml
 from PIL import Image, ImageDraw
@@ -64,7 +65,7 @@ def valid_metadata() -> dict:
         "creator_name": "Test Creator",
         "title": "Test Emoji",
         "description": "Small reactions for testing.",
-        "copyright": "Test Creator",
+        "copyright": "TestCreator",
         "suggest_tags": ["test"],
     }
 
@@ -87,7 +88,6 @@ def create_brand_repo(
     release = brand / "releases" / release_id
     paths = [
         brand / "brand",
-        brand / "brand" / "ip",
         brand / "market",
         brand / "references" / "shared",
         release / "prompts",
@@ -95,7 +95,11 @@ def create_brand_repo(
         release / "production" / "tab",
         release / "qa",
         release / "submission",
+        release / "submission" / "line-upload" / "images",
+        release / "submission" / "internal-archive",
     ]
+    if brand_type == "fixed_ip":
+        paths.append(brand / "brand" / "ip")
     for path in paths:
         path.mkdir(parents=True, exist_ok=True)
 
@@ -104,10 +108,6 @@ def create_brand_repo(
         "brand/brand-positioning.md",
         "brand/brand-production-brief.md",
         "brand/brand-system-prompt.md",
-        "brand/ip/ip-style-bible.md",
-        "brand/ip/reference-asset-register.md",
-        "brand/ip/ip-approval-log.md",
-        "brand/ip/character-expression-matrix.md",
         "market/market-observation-log.md",
         "market/category-gap-map.md",
         "references/shared/line-platform-baseline.md",
@@ -130,6 +130,15 @@ def create_brand_repo(
         f"releases/{release_id}/submission/submission-checklist.md",
         f"releases/{release_id}/submission/submission-audit-report.md",
     ]
+    if brand_type == "fixed_ip":
+        files.extend(
+            [
+                "brand/ip/ip-style-bible.md",
+                "brand/ip/reference-asset-register.md",
+                "brand/ip/ip-approval-log.md",
+                "brand/ip/character-expression-matrix.md",
+            ]
+        )
     for file_name in files:
         (brand / file_name).write_text("ok\n", encoding="utf-8")
 
@@ -218,12 +227,6 @@ def create_brand_repo(
             "system_prompt_path": "brand/brand-system-prompt.md",
             "active_release_spec_path": f"releases/{release_id}/release-spec.md",
         },
-        "ip": {
-            "style_bible": "brand/ip/ip-style-bible.md",
-            "reference_asset_register": "brand/ip/reference-asset-register.md",
-            "approval_log": "brand/ip/ip-approval-log.md",
-            "character_expression_matrix": "brand/ip/character-expression-matrix.md",
-        },
         "releases": [
             {
                 "id": release_id,
@@ -235,6 +238,13 @@ def create_brand_repo(
             }
         ],
     }
+    if brand_type == "fixed_ip":
+        manifest["ip"] = {
+            "style_bible": "brand/ip/ip-style-bible.md",
+            "reference_asset_register": "brand/ip/reference-asset-register.md",
+            "approval_log": "brand/ip/ip-approval-log.md",
+            "character_expression_matrix": "brand/ip/character-expression-matrix.md",
+        }
     write_yaml(brand / "brand-manifest.yaml", manifest)
 
     if with_assets:
@@ -243,4 +253,30 @@ def create_brand_repo(
         if with_tab:
             write_png(release / "production" / "tab" / "source-tab.png", (96, 74))
 
+    return brand
+
+
+def create_two_release_brand_repo(root: Path, *, with_assets: bool = False) -> Path:
+    brand = create_brand_repo(root, with_assets=with_assets)
+    release_001 = brand / "releases" / "release-001"
+    release_002 = brand / "releases" / "release-002"
+    shutil.copytree(release_001, release_002)
+
+    metadata = valid_metadata()
+    metadata["title"] = "Release Two Emoji"
+    write_yaml(release_002 / "submission" / "metadata.yaml", metadata)
+
+    manifest_path = brand / "brand-manifest.yaml"
+    manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
+    manifest["releases"].append(
+        {
+            "id": "release-002",
+            "status": "draft",
+            "spec": "releases/release-002/release-spec.md",
+            "handoff": "releases/release-002/production-handoff.md",
+            "checklist": "releases/release-002/qa/release-checklist.md",
+            "submission": "releases/release-002/submission",
+        }
+    )
+    write_yaml(manifest_path, manifest)
     return brand

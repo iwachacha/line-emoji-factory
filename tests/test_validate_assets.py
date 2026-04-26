@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import subprocess
+import zipfile
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 from conftest import PYTHON, ROOT, run_cmd_args, write_apng, write_png
 
@@ -43,6 +44,35 @@ def test_production_allows_arbitrary_filenames(tmp_path):
     assert result.returncode == 0, result.stderr
 
 
+def test_submission_requires_tab_image(tmp_path):
+    images = tmp_path / "images"
+    for index in range(1, 9):
+        write_png(images / f"{index:03}.png", (180, 180))
+
+    result = subprocess.run(
+        run_cmd_args(PYTHON, ROOT / "tools" / "validate-assets.py", images, "--expected-count", "8", "--stage", "submission"),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert "tab image does not exist" in result.stderr
+
+
+def test_wrong_size_fails(tmp_path):
+    images = tmp_path / "images"
+    for index in range(1, 9):
+        size = (179, 180) if index == 1 else (180, 180)
+        write_png(images / f"{index:03}.png", size)
+
+    result = subprocess.run(
+        run_cmd_args(PYTHON, ROOT / "tools" / "validate-assets.py", images, "--expected-count", "8"),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert "expected 180x180" in result.stderr
+
+
 def test_fully_transparent_and_no_alpha_fail(tmp_path):
     transparent = tmp_path / "transparent"
     for index in range(1, 9):
@@ -67,6 +97,115 @@ def test_fully_transparent_and_no_alpha_fail(tmp_path):
     )
     assert result.returncode != 0
     assert "transparent background not detected" in result.stderr
+
+
+def test_near_empty_static_image_fails(tmp_path):
+    images = tmp_path / "tiny"
+    for index in range(1, 9):
+        path = images / f"{index:03}.png"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        image = Image.new("RGBA", (180, 180), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(image)
+        draw.rectangle((85, 85, 95, 95), fill=(30, 30, 30, 255))
+        image.save(path, dpi=(72, 72))
+
+    result = subprocess.run(
+        run_cmd_args(PYTHON, ROOT / "tools" / "validate-assets.py", images, "--expected-count", "8"),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert "visible content is too small" in result.stderr
+
+
+def test_line_upload_zip_rejects_non_images(tmp_path):
+    images = tmp_path / "images"
+    for index in range(1, 9):
+        write_png(images / f"{index:03}.png", (180, 180))
+    write_png(images / "tab.png", (96, 74))
+    zip_path = tmp_path / "images.zip"
+    with zipfile.ZipFile(zip_path, "w") as archive:
+        for image in images.glob("*.png"):
+            archive.write(image, image.name)
+        archive.writestr("metadata.yaml", "title: bad\n")
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "validate-assets.py",
+            images,
+            "--expected-count",
+            "8",
+            "--stage",
+            "submission",
+            "--zip",
+            zip_path,
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert "must contain only image files" in result.stderr
+
+
+def test_line_upload_zip_size_limit_is_checked(tmp_path):
+    images = tmp_path / "images"
+    for index in range(1, 9):
+        write_png(images / f"{index:03}.png", (180, 180))
+    write_png(images / "tab.png", (96, 74))
+    zip_path = tmp_path / "oversize.zip"
+    with zip_path.open("wb") as handle:
+        handle.truncate(20_000_001)
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "validate-assets.py",
+            images,
+            "--expected-count",
+            "8",
+            "--stage",
+            "submission",
+            "--zip",
+            zip_path,
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert "exceeds 20MB" in result.stderr
+
+
+def test_visual_quality_warnings_cover_duplicates_and_low_detail(tmp_path):
+    images = tmp_path / "quality"
+    images.mkdir()
+    base = Image.new("RGBA", (180, 180), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(base)
+    draw.rectangle((30, 30, 150, 150), fill=(30, 30, 30, 255))
+    base.save(images / "001.png", dpi=(72, 72))
+
+    near = base.copy()
+    near.putpixel((90, 90), (31, 31, 31, 255))
+    near.save(images / "002.png", dpi=(72, 72))
+
+    base.save(images / "003.png", dpi=(72, 72))
+    for index in range(4, 9):
+        image = Image.new("RGBA", (180, 180), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(image)
+        shade = 20 + index
+        draw.rectangle((30, 30, 150, 150), fill=(shade, shade, shade, 255))
+        image.save(images / f"{index:03}.png", dpi=(72, 72))
+
+    result = subprocess.run(
+        run_cmd_args(PYTHON, ROOT / "tools" / "validate-assets.py", images, "--expected-count", "8"),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "duplicate image content" in result.stderr
+    assert "near-duplicate image content" in result.stderr
+    assert "low contrast visible content" in result.stderr
+    assert "low color variety" in result.stderr
 
 
 def test_contact_sheet_preview_is_generated(tmp_path):

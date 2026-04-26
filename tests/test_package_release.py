@@ -4,7 +4,9 @@ import json
 import subprocess
 import zipfile
 
-from conftest import PYTHON, ROOT, create_brand_repo, run_cmd_args
+import yaml
+
+from conftest import PYTHON, ROOT, create_brand_repo, create_two_release_brand_repo, run_cmd_args
 
 
 def test_package_release_splits_line_upload_and_internal_archive(tmp_path):
@@ -52,6 +54,39 @@ def test_package_release_splits_line_upload_and_internal_archive(tmp_path):
     assert "line-upload/images.zip" in names
 
 
+def test_package_release_clean_removes_stale_submission_files(tmp_path):
+    brand = create_brand_repo(tmp_path, with_assets=True)
+    submission = brand / "releases" / "release-001" / "submission"
+    stale_image = submission / "line-upload" / "images" / "999.png"
+    stale_image.parent.mkdir(parents=True, exist_ok=True)
+    stale_image.write_bytes(b"stale")
+    stale_note = submission / "line-upload" / "metadata.yaml"
+    stale_note.write_text("stale: true\n", encoding="utf-8")
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "package-release.py",
+            brand,
+            "--release-id",
+            "release-001",
+            "--target",
+            "both",
+            "--clean",
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr
+    assert not stale_image.exists()
+    assert not stale_note.exists()
+
+    with zipfile.ZipFile(submission / "line-upload" / "images.zip") as archive:
+        names = set(archive.namelist())
+    assert "999.png" not in names
+    assert "metadata.yaml" not in names
+
+
 def test_package_release_requires_tab_image(tmp_path):
     brand = create_brand_repo(tmp_path, with_assets=True, with_tab=False)
 
@@ -62,3 +97,29 @@ def test_package_release_requires_tab_image(tmp_path):
     )
     assert result.returncode != 0
     assert "tab image does not exist" in result.stderr
+
+
+def test_package_release_uses_release_specific_metadata(tmp_path):
+    brand = create_two_release_brand_repo(tmp_path, with_assets=True)
+    release_002 = brand / "releases" / "release-002"
+
+    result = subprocess.run(
+        run_cmd_args(
+            PYTHON,
+            ROOT / "tools" / "package-release.py",
+            brand,
+            "--release-id",
+            "release-002",
+            "--target",
+            "both",
+            "--clean",
+        ),
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr
+
+    internal_zip = release_002 / "submission" / "internal-archive" / "package.zip"
+    with zipfile.ZipFile(internal_zip) as archive:
+        packaged_metadata = yaml.safe_load(archive.read("metadata.yaml").decode("utf-8"))
+    assert packaged_metadata["title"] == "Release Two Emoji"

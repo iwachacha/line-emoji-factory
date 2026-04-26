@@ -20,8 +20,20 @@ jobs:
       - name: Install validation dependencies
         run: python -m pip install -r requirements-dev.txt
 
-      - name: Compile tools
-        run: python -m compileall tools
+      - name: Check source integrity
+        run: python tools/check-source-integrity.py
+
+      - name: Check canonical drift
+        run: python tools/check-canonical-drift.py
+
+      - name: Check data files
+        run: python tools/check-data-files.py
+
+      - name: Compile tracked Python
+        run: python -m py_compile $(git ls-files '*.py')
+
+      - name: Compile tools and tests
+        run: python -m compileall tools tests
 
       - name: Check schema files
         run: python tools/validate-schemas.py --check-schemas schemas
@@ -49,7 +61,11 @@ jobs:
         shell: pwsh
         run: |
           $dest = Join-Path $env:RUNNER_TEMP "smoke-brand"
-          ./tools/init-brand-repo.ps1 -BrandSlug "smoke-brand" -BrandName "Smoke Brand" -Destination $dest -InitialSetCount 8
+          ./tools/init-brand-repo.ps1 -BrandSlug "smoke-brand" -BrandName "Smoke Brand" -Destination $dest -InitialSetCount 8 -BrandType generic
+          if (Test-Path (Join-Path $dest "brand/ip")) {
+            Write-Error "generic scaffold must not create brand/ip"
+            exit 1
+          }
           ./tools/validate-brand-repo.ps1 $dest
 
       - name: Validate generated metadata
@@ -78,7 +94,8 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           from PIL import Image
-          base = Path(__import__("os").environ["RUNNER_TEMP"]) / "smoke-brand" / "releases" / "release-001" / "production"
+          import os
+          base = Path(os.environ["RUNNER_TEMP"]) / "smoke-brand" / "releases" / "release-001" / "production"
           finals = base / "finals"
           tab = base / "tab"
           finals.mkdir(parents=True, exist_ok=True)
@@ -96,3 +113,25 @@ jobs:
           tab_img.save(tab / "source-tab.png", dpi=(72, 72))
           PY
           python tools/package-release.py "$RUNNER_TEMP/smoke-brand" --release-id release-001 --target both --clean
+          python tools/validate-assets.py "$RUNNER_TEMP/smoke-brand/releases/release-001/submission/line-upload/images" --expected-count 8 --stage submission --asset-type static --zip "$RUNNER_TEMP/smoke-brand/releases/release-001/submission/line-upload/images.zip"
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          import zipfile
+          root = Path(os.environ["RUNNER_TEMP"]) / "smoke-brand" / "releases" / "release-001" / "submission"
+          with zipfile.ZipFile(root / "line-upload" / "images.zip") as archive:
+              names = set(archive.namelist())
+          assert "metadata.yaml" not in names
+          assert "asset-map.json" not in names
+          assert "package-report.md" not in names
+          assert "tab.png" in names
+          assert "001.png" in names
+          assert "008.png" in names
+          with zipfile.ZipFile(root / "internal-archive" / "package.zip") as archive:
+              names = set(archive.namelist())
+          assert "metadata.yaml" in names
+          assert "asset-map.json" in names
+          assert "package-report.md" in names
+          assert "line-upload/images.zip" in names
+          print("zip content check passed")
+          PY

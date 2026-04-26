@@ -70,11 +70,10 @@ if (-not $BrandName) {
 
 $releaseId = "release-001"
 $initDate = Get-Date -Format "yyyy-MM-dd"
-$copyright = ($BrandSlug -replace "-", " ")
+$copyright = ($BrandSlug -replace "-", "")
 
 $dirs = @(
     "brand",
-    "brand/ip",
     "market",
     "references/shared",
     "releases/$releaseId/prompts",
@@ -83,9 +82,15 @@ $dirs = @(
     "releases/$releaseId/production/tab",
     "releases/$releaseId/qa",
     "releases/$releaseId/submission",
+    "releases/$releaseId/submission/line-upload/images",
+    "releases/$releaseId/submission/internal-archive",
     "schemas",
     "tools"
 )
+
+if ($BrandType -eq "fixed_ip") {
+    $dirs += "brand/ip"
+}
 
 foreach ($dir in $dirs) {
     New-Item -ItemType Directory -Path (Join-Path $destRoot $dir) -Force | Out-Null
@@ -97,6 +102,7 @@ $sharedFiles = @(
     @{ Source = "rules/structure-constraints.md"; Target = "references/shared/structure-constraints.md" },
     @{ Source = "rules/emoji-product-rules.md"; Target = "references/shared/emoji-product-rules.md" },
     @{ Source = "rules/review-risk-rules.md"; Target = "references/shared/review-risk-rules.md" },
+    @{ Source = "rules/review-risk-keywords.yaml"; Target = "references/shared/review-risk-keywords.yaml" },
     @{ Source = "rules/asset-validation-rules.md"; Target = "references/shared/asset-validation-rules.md" },
     @{ Source = "rules/production-profile-rules.md"; Target = "references/shared/production-profile-rules.md" },
     @{ Source = "rules/submission-metadata-rules.md"; Target = "references/shared/submission-metadata-rules.md" },
@@ -131,6 +137,9 @@ $toolFiles = @(
     "tools/validate-schemas.py",
     "tools/validate-assets.py",
     "tools/validate-metadata.py",
+    "tools/check-source-integrity.py",
+    "tools/check-data-files.py",
+    "tools/check-canonical-drift.py",
     "tools/check-placeholders.py",
     "tools/validate-manifest-paths.py",
     "tools/package-release.py",
@@ -174,10 +183,12 @@ Write-Template "templates/brand/brand-production-brief-template.md" "brand/brand
 Write-Template "templates/brand/brand-system-prompt-template.md" "brand/brand-system-prompt.md"
 Write-Template "templates/market/market-observation-log-template.md" "market/market-observation-log.md"
 Write-Template "templates/market/category-gap-map-template.md" "market/category-gap-map.md"
-Write-Template "templates/ip/ip-style-bible-template.md" "brand/ip/ip-style-bible.md"
-Write-Template "templates/ip/reference-asset-register-template.md" "brand/ip/reference-asset-register.md"
-Write-Template "templates/ip/ip-approval-log-template.md" "brand/ip/ip-approval-log.md"
-Write-Template "templates/ip/character-expression-matrix-template.md" "brand/ip/character-expression-matrix.md"
+if ($BrandType -eq "fixed_ip") {
+    Write-Template "templates/ip/ip-style-bible-template.md" "brand/ip/ip-style-bible.md"
+    Write-Template "templates/ip/reference-asset-register-template.md" "brand/ip/reference-asset-register.md"
+    Write-Template "templates/ip/ip-approval-log-template.md" "brand/ip/ip-approval-log.md"
+    Write-Template "templates/ip/character-expression-matrix-template.md" "brand/ip/character-expression-matrix.md"
+}
 Write-Template "templates/release/release-spec-template.md" "releases/$releaseId/release-spec.md"
 Write-Template "templates/release/production-handoff-template.md" "releases/$releaseId/production-handoff.md"
 Write-Template "templates/release/release-log-template.md" "releases/$releaseId/release-log.md"
@@ -197,6 +208,27 @@ Write-Template "templates/submission/submission-checklist-template.md" "releases
 Write-Template "templates/submission/submission-audit-report-template.md" "releases/$releaseId/submission/submission-audit-report.md"
 Write-Template "templates/submission/package-report-template.md" "releases/$releaseId/submission/package-report.md"
 
-Write-Utf8File -Path (Join-Path $destRoot "releases/$releaseId/submission/images/.gitkeep") -Content ""
+if ($BrandType -eq "fixed_ip") {
+    $manifestPath = Join-Path $destRoot "brand-manifest.yaml"
+    $manifestText = Read-Utf8File $manifestPath
+    $ipBlock = @"
+ip:
+  style_bible: "brand/ip/ip-style-bible.md"
+  reference_asset_register: "brand/ip/reference-asset-register.md"
+  approval_log: "brand/ip/ip-approval-log.md"
+  character_expression_matrix: "brand/ip/character-expression-matrix.md"
+
+"@
+    $manifestText = [System.Text.RegularExpressions.Regex]::Replace(
+        $manifestText,
+        "(?m)^releases:\s*$",
+        "$ipBlock`nreleases:",
+        1
+    )
+    Write-Utf8File -Path $manifestPath -Content $manifestText
+}
+
+Write-Utf8File -Path (Join-Path $destRoot "releases/$releaseId/submission/line-upload/images/.gitkeep") -Content ""
+Write-Utf8File -Path (Join-Path $destRoot "releases/$releaseId/submission/internal-archive/.gitkeep") -Content ""
 
 Write-Host "Brand repo initialized at $destRoot"

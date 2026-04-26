@@ -137,6 +137,9 @@
 - `tests/`: pytest coverage for packaging, asset validation, metadata validation, and manifest-driven brand repo validation.
 - `tools/validate-brand-repo.py`: canonical manifest-driven validator.
 - `tools/validate-brand-repo.ps1`: PowerShell wrapper.
+- `tools/check-source-integrity.py`: anti-collapse source integrity gate.
+- `tools/check-canonical-drift.py`: canonical skill/template/script drift gate.
+- `tools/check-data-files.py`: YAML, workflow, schema JSON, and dependency parse gate.
 - `tools/package-release.py`: creates separated `submission/line-upload/images.zip` and `submission/internal-archive/package.zip`.
 - `tools/validate-assets.py`: validates static PNG and APNG assets and can generate contact sheet previews.
 - `tools/check-project-map-paths.py`: verifies path references in this map.

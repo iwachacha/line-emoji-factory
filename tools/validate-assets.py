@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import sys
 import zipfile
 from pathlib import Path
@@ -22,6 +23,12 @@ ANIMATION_MAX_DURATION_MS = 4_000
 ANIMATION_MIN_LOOP = 1
 ANIMATION_MAX_LOOP = 4
 CONTACT_SHEET_PREVIEWS = (180, 48, 32, 24)
+MIN_VISIBLE_BBOX_RATIO = 0.15
+WARN_VISIBLE_BBOX_RATIO = 0.35
+WARN_MARGIN_RATIO = 0.35
+LOW_CONTRAST_RANGE = 24
+LOW_COLOR_VARIETY_COUNT = 3
+NEAR_DUPLICATE_HASH_DISTANCE = 5
 
 
 def alpha_extrema(image: Image.Image) -> tuple[int, int] | None:
@@ -55,6 +62,27 @@ def validate_image(path: Path, expected_size: tuple[int, int], label: str) -> tu
                 errors.append(f"{path}: transparent background not detected")
             elif alpha[1] == 0:
                 errors.append(f"{path}: image is fully transparent")
+            else:
+                bbox = image.convert("RGBA").getchannel("A").getbbox()
+                if bbox is None:
+                    errors.append(f"{path}: image is fully transparent")
+                else:
+                    left, top, right, bottom = bbox
+                    bbox_area = (right - left) * (bottom - top)
+                    canvas_area = image.size[0] * image.size[1]
+                    bbox_ratio = bbox_area / canvas_area
+                    if bbox_ratio < MIN_VISIBLE_BBOX_RATIO:
+                        errors.append(f"{path}: visible content is too small ({bbox_ratio:.1%} of canvas)")
+                    elif bbox_ratio < WARN_VISIBLE_BBOX_RATIO:
+                        warnings.append(f"{path}: visible content is small ({bbox_ratio:.1%} of canvas)")
+                    margins = (
+                        left / image.size[0],
+                        top / image.size[1],
+                        (image.size[0] - right) / image.size[0],
+                        (image.size[1] - bottom) / image.size[1],
+                    )
+                    if max(margins) > WARN_MARGIN_RATIO:
+                        warnings.append(f"{path}: transparent margin exceeds {WARN_MARGIN_RATIO:.0%}")
             dpi = image.info.get("dpi")
             if dpi and (dpi[0] < 71.9 or dpi[1] < 71.9):
                 warnings.append(f"{path}: dpi below 72: {dpi}")
@@ -150,6 +178,88 @@ def first_frame(path: Path) -> Image.Image:
         return image.convert("RGBA")
 
 
+def visual_pixel_hash(path: Path) -> str:
+    image = first_frame(path)
+    digest = hashlib.sha256()
+    digest.update(image.tobytes())
+    digest.update(str(image.size).encode("ascii"))
+    return digest.hexdigest()
+
+
+def average_hash(path: Path, size: int = 8) -> int:
+    image = first_frame(path)
+    background = Image.new("RGBA", image.size, (255, 255, 255, 255))
+    background.alpha_composite(image)
+    grayscale = background.convert("L").resize((size, size), Image.Resampling.LANCZOS)
+    pixels = list(grayscale.getdata())
+    average = sum(pixels) / len(pixels)
+    bits = 0
+    for pixel in pixels:
+        bits = (bits << 1) | int(pixel >= average)
+    return bits
+
+
+def hamming_distance(left: int, right: int) -> int:
+    return (left ^ right).bit_count()
+
+
+def visual_quality_warnings(path: Path) -> list[str]:
+    warnings: list[str] = []
+    try:
+        image = first_frame(path)
+    except Exception as exc:  # noqa: BLE001
+        return [f"{path}: cannot inspect visual quality: {exc}"]
+
+    visible_luminance: list[int] = []
+    visible_colors: set[tuple[int, int, int]] = set()
+    for red, green, blue, alpha in image.getdata():
+        if alpha == 0:
+            continue
+        visible_colors.add((red, green, blue))
+        visible_luminance.append(round((0.2126 * red) + (0.7152 * green) + (0.0722 * blue)))
+
+    if not visible_luminance:
+        return warnings
+
+    luminance_range = max(visible_luminance) - min(visible_luminance)
+    if luminance_range < LOW_CONTRAST_RANGE:
+        warnings.append(f"{path}: low contrast visible content (luminance range {luminance_range})")
+    if len(visible_colors) < LOW_COLOR_VARIETY_COUNT:
+        warnings.append(f"{path}: low color variety ({len(visible_colors)} visible colors)")
+    return warnings
+
+
+def collection_quality_warnings(images: list[Path]) -> list[str]:
+    warnings: list[str] = []
+    visual_hashes: dict[str, Path] = {}
+    perceptual_hashes: list[tuple[Path, int]] = []
+    warned_near_duplicates: set[Path] = set()
+
+    for path in images:
+        warnings.extend(visual_quality_warnings(path))
+        try:
+            digest = visual_pixel_hash(path)
+            if digest in visual_hashes:
+                warnings.append(f"{path}: duplicate image content matches {visual_hashes[digest]}")
+            else:
+                visual_hashes[digest] = path
+            perceptual_hashes.append((path, average_hash(path)))
+        except Exception as exc:  # noqa: BLE001
+            warnings.append(f"{path}: cannot inspect duplicate quality: {exc}")
+
+    for index, (path, signature) in enumerate(perceptual_hashes):
+        for other_path, other_signature in perceptual_hashes[index + 1 :]:
+            if other_path in warned_near_duplicates:
+                continue
+            if visual_pixel_hash(path) == visual_pixel_hash(other_path):
+                continue
+            distance = hamming_distance(signature, other_signature)
+            if distance <= NEAR_DUPLICATE_HASH_DISTANCE:
+                warnings.append(f"{other_path}: near-duplicate image content resembles {path} (hash distance {distance})")
+                warned_near_duplicates.add(other_path)
+    return warnings
+
+
 def write_contact_sheet(images: list[Path], output: Path) -> None:
     if not images:
         return
@@ -178,7 +288,7 @@ def write_contact_sheet(images: list[Path], output: Path) -> None:
     sheet.convert("RGB").save(output)
 
 
-def validate_zip(path: Path) -> list[str]:
+def validate_zip(path: Path, expected_count: int | None = None) -> list[str]:
     errors: list[str] = []
     if not path.exists():
         return [f"{path}: zip file does not exist"]
@@ -193,6 +303,15 @@ def validate_zip(path: Path) -> list[str]:
         filename = Path(name).name
         if not filename.lower().endswith(".png"):
             errors.append(f"{path}: line upload zip must contain only image files, found {name}")
+    if expected_count is not None:
+        filenames = {Path(name).name for name in names}
+        expected_names = submission_expected_names(expected_count) | {SUBMISSION_TAB_NAME}
+        extra = sorted(filenames - expected_names)
+        missing = sorted(expected_names - filenames)
+        for name in extra:
+            errors.append(f"{path}: unexpected image filename in line upload zip: {name}")
+        for name in missing:
+            errors.append(f"{path}: missing image filename in line upload zip: {name}")
     return errors
 
 
@@ -250,6 +369,7 @@ def main() -> int:
                 image_errors, image_warnings = validate_image(image_path, CONTENT_SIZE, "content image")
             errors.extend(image_errors)
             warnings.extend(image_warnings)
+        warnings.extend(collection_quality_warnings(content_images))
 
         if tab_image:
             if not tab_image.exists():
@@ -271,7 +391,7 @@ def main() -> int:
         warnings.extend(image_warnings)
 
     if args.zip_path:
-        errors.extend(validate_zip(args.zip_path))
+        errors.extend(validate_zip(args.zip_path, args.expected_count if args.stage == "submission" else None))
 
     for warning in warnings:
         print(f"warning: {warning}", file=sys.stderr)

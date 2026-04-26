@@ -82,6 +82,25 @@ def resolve_asset_type(manifest: dict, cli_asset_type: str | None) -> str:
     return asset_type
 
 
+def resolve_metadata_path(brand_repo: Path, manifest: dict, release_info: dict, release_id: str) -> Path:
+    release_submission = release_info.get("submission")
+    if release_submission:
+        path = brand_repo / release_submission / "metadata.yaml"
+        if path.exists():
+            return path
+
+    path = brand_repo / "releases" / release_id / "submission" / "metadata.yaml"
+    if path.exists():
+        return path
+
+    active_release = manifest.get("production", {}).get("active_release")
+    fallback = manifest.get("submission", {}).get("metadata_path")
+    if fallback and active_release == release_id:
+        return brand_repo / fallback
+
+    return path
+
+
 def rel(path: Path, root: Path) -> str:
     try:
         return path.resolve().relative_to(root.resolve()).as_posix()
@@ -135,6 +154,31 @@ def make_line_zip(line_upload_dir: Path, images: list[Path]) -> Path:
         for image in sorted(images):
             archive.write(image, image.name)
     return package_path
+
+
+def asset_map_from_submission(line_images_dir: Path, release_id: str) -> dict:
+    content_images = []
+    for image in sorted(line_images_dir.glob("*.png")):
+        if image.name == "tab.png":
+            continue
+        content_images.append(
+            {
+                "slot": int(image.stem) if image.stem.isdigit() else None,
+                "source": None,
+                "submission": f"submission/line-upload/images/{image.name}",
+            }
+        )
+    tab_image = line_images_dir / "tab.png"
+    return {
+        "release_id": release_id,
+        "content_images": content_images,
+        "tab_image": {
+            "source": None,
+            "submission": "submission/line-upload/images/tab.png",
+        }
+        if tab_image.exists()
+        else None,
+    }
 
 
 def write_report(
@@ -223,7 +267,7 @@ def main() -> int:
     line_upload_dir = submission_dir / "line-upload"
     line_images_dir = line_upload_dir / "images"
     internal_dir = submission_dir / "internal-archive"
-    metadata = brand_repo / manifest.get("submission", {}).get("metadata_path", f"releases/{release_id}/submission/metadata.yaml")
+    metadata = resolve_metadata_path(brand_repo, manifest, release_info, release_id)
     release_spec = brand_repo / release_info.get("spec", f"releases/{release_id}/release-spec.md")
 
     if not finals_dir.exists():
@@ -291,6 +335,22 @@ def main() -> int:
         if images_zip.stat().st_size > 20_000_000:
             print(f"line upload zip exceeds 20MB: {images_zip}", file=sys.stderr)
             return 1
+        run(
+            [
+                sys.executable,
+                str(factory_root / "tools" / "validate-assets.py"),
+                str(line_images_dir),
+                "--expected-count",
+                str(expected_count),
+                "--stage",
+                "submission",
+                "--asset-type",
+                asset_type,
+                "--zip",
+                str(images_zip),
+            ],
+            factory_root,
+        )
 
     if args.target == "internal-archive" and images_zip is None:
         images_zip = line_upload_dir / "images.zip"
@@ -302,7 +362,7 @@ def main() -> int:
     if args.target in {"internal-archive", "both"}:
         internal_dir.mkdir(parents=True, exist_ok=True)
         if asset_map is None:
-            asset_map = {"release_id": release_id, "content_images": [], "tab_image": None}
+            asset_map = asset_map_from_submission(line_images_dir, release_id)
         asset_map_path = internal_dir / "asset-map.json"
         asset_map_path.write_text(json.dumps(asset_map, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         report_path = internal_dir / "package-report.md"
@@ -322,8 +382,7 @@ def main() -> int:
         )
         write_checksums(checksum_path, [images_zip, metadata, asset_map_path, report_path, internal_zip])
         if internal_zip.stat().st_size > 20_000_000:
-            print(f"internal archive exceeds 20MB: {internal_zip}", file=sys.stderr)
-            return 1
+            print(f"warning: internal archive exceeds 20MB: {internal_zip}", file=sys.stderr)
 
     if images_zip:
         print(f"line upload zip created: {images_zip}")

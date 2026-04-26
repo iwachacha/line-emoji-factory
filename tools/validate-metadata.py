@@ -18,22 +18,43 @@ LIMITS = {
     "copyright": 50,
 }
 
-DEFAULT_REVIEW_RISK_KEYWORDS = [
-    "campaign",
-    "discount",
-    "free",
-    "giveaway",
-    "instagram",
-    "sale",
-    "tiktok",
-    "twitter",
-    "youtube",
-    "キャンペーン",
-    "セール",
-    "プレゼント",
-    "無料",
-    "割引",
-]
+DEFAULT_RISK_KEYWORDS = {
+    "hard_ng": {
+        "external_services": [
+            "Discord",
+            "Slack",
+            "WhatsApp",
+            "Telegram",
+            "Messenger",
+            "Facebook",
+            "Instagram",
+            "TikTok",
+            "YouTube",
+            "Twitter",
+            "X",
+        ]
+    },
+    "review": {
+        "promotion": [
+            "発売",
+            "新発売",
+            "予約",
+            "セール",
+            "キャンペーン",
+            "期間限定",
+            "無料",
+            "プレゼント",
+            "割引",
+            "campaign",
+            "discount",
+            "free",
+            "giveaway",
+            "sale",
+        ],
+        "personal_targeting": ["専用", "さんへ", "ちゃんへ", "くんへ"],
+        "corporate_logo_like": ["ロゴ", "公式"],
+    },
+}
 
 EMOJI_RE = re.compile(
     "["
@@ -66,15 +87,54 @@ def load_yaml(path: Path):
         raise ValueError(f"{path}: invalid YAML: {exc}") from exc
 
 
-def load_review_keywords(path: Path | None) -> list[str]:
-    if path is None or not path.exists():
-        return DEFAULT_REVIEW_RISK_KEYWORDS
-    data = load_yaml(path)
-    if isinstance(data, dict):
-        values = data.get("keywords", [])
-    else:
-        values = data or []
-    return [str(value) for value in values if str(value).strip()]
+def flatten_keyword_groups(value) -> list[tuple[str, str]]:
+    keywords: list[tuple[str, str]] = []
+    if isinstance(value, dict):
+        for category, child in value.items():
+            for child_category, keyword in flatten_keyword_groups(child):
+                label = str(category) if not child_category else f"{category}.{child_category}"
+                keywords.append((label, keyword))
+    elif isinstance(value, list):
+        for item in value:
+            keyword = str(item).strip()
+            if keyword:
+                keywords.append(("", keyword))
+    elif value is not None:
+        keyword = str(value).strip()
+        if keyword:
+            keywords.append(("", keyword))
+    return keywords
+
+
+def load_risk_keywords(path: Path | None) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
+    data = DEFAULT_RISK_KEYWORDS if path is None else load_yaml(path)
+    if not isinstance(data, dict):
+        return [], flatten_keyword_groups(data)
+    if "keywords" in data:
+        return [], flatten_keyword_groups(data.get("keywords", []))
+    hard_ng = flatten_keyword_groups(data.get("hard_ng", {}))
+    review = flatten_keyword_groups(data.get("review", {}))
+    return hard_ng, review
+
+
+def discover_risk_keyword_path(metadata_path: Path, cli_path: Path | None) -> Path | None:
+    if cli_path is not None:
+        if not cli_path.exists():
+            raise ValueError(f"{cli_path}: risk keyword file does not exist")
+        return cli_path
+
+    candidates: list[Path] = []
+    for parent in [metadata_path.parent, *metadata_path.parents]:
+        candidates.append(parent / "rules" / "review-risk-keywords.yaml")
+        candidates.append(parent / "references" / "shared" / "review-risk-keywords.yaml")
+        if (parent / "brand-manifest.yaml").exists():
+            break
+    candidates.append(Path(__file__).resolve().parents[1] / "rules" / "review-risk-keywords.yaml")
+
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return None
 
 
 def validate_schema(data: dict, schema_path: Path) -> list[str]:
@@ -86,7 +146,19 @@ def validate_schema(data: dict, schema_path: Path) -> list[str]:
     ]
 
 
-def validate_metadata(data: dict, keywords: list[str]) -> tuple[list[str], list[str]]:
+def keyword_found(keyword: str, text: str) -> bool:
+    if keyword.isascii():
+        if len(keyword) == 1:
+            return re.search(rf"(?<![A-Za-z0-9]){re.escape(keyword)}(?![A-Za-z0-9])", text, re.IGNORECASE) is not None
+        return keyword.lower() in text.lower()
+    return keyword in text
+
+
+def validate_metadata(
+    data: dict,
+    hard_ng_keywords: list[tuple[str, str]],
+    review_keywords: list[tuple[str, str]],
+) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
 
@@ -99,13 +171,18 @@ def validate_metadata(data: dict, keywords: list[str]) -> tuple[list[str], list[
             errors.append(f"{key}: emoji characters are not allowed")
 
     copyright_value = str(data.get("copyright", ""))
-    if copyright_value and not re.fullmatch(r"[A-Za-z0-9 ]+", copyright_value):
-        errors.append("copyright: use only ASCII letters, numbers, and spaces")
+    if copyright_value and not re.fullmatch(r"[A-Za-z0-9]+", copyright_value):
+        errors.append("copyright: use only ASCII letters and numbers")
 
-    combined = "\n".join(str(data.get(key, "")) for key in ("creator_name", "title", "description")).lower()
-    for keyword in keywords:
-        if keyword.lower() in combined:
-            warnings.append(f"metadata: review-risk keyword found: {keyword}")
+    combined = "\n".join(str(data.get(key, "")) for key in ("creator_name", "title", "description"))
+    for category, keyword in hard_ng_keywords:
+        if keyword_found(keyword, combined):
+            label = f" ({category})" if category else ""
+            errors.append(f"metadata: hard-ng keyword found{label}: {keyword}")
+    for category, keyword in review_keywords:
+        if keyword_found(keyword, combined):
+            label = f" ({category})" if category else ""
+            warnings.append(f"metadata: review-risk keyword found{label}: {keyword}")
 
     return errors, warnings
 
@@ -118,11 +195,7 @@ def main() -> int:
         type=Path,
         default=Path(__file__).resolve().parents[1] / "schemas" / "submission-metadata.schema.json",
     )
-    parser.add_argument(
-        "--risk-keywords",
-        type=Path,
-        default=Path(__file__).resolve().parents[1] / "rules" / "review-risk-keywords.yaml",
-    )
+    parser.add_argument("--risk-keywords", type=Path)
     parser.add_argument("--warnings-as-errors", action="store_true")
     args = parser.parse_args()
 
@@ -130,9 +203,10 @@ def main() -> int:
         data = load_yaml(args.metadata)
         if not isinstance(data, dict):
             raise ValueError(f"{args.metadata}: metadata root must be an object")
-        keywords = load_review_keywords(args.risk_keywords)
+        risk_path = discover_risk_keyword_path(args.metadata.resolve(), args.risk_keywords)
+        hard_ng_keywords, review_keywords = load_risk_keywords(risk_path)
         errors = validate_schema(data, args.schema)
-        metadata_errors, warnings = validate_metadata(data, keywords)
+        metadata_errors, warnings = validate_metadata(data, hard_ng_keywords, review_keywords)
         errors.extend(metadata_errors)
     except ValueError as exc:
         print(str(exc), file=sys.stderr)

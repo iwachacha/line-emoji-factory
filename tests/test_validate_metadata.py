@@ -46,6 +46,26 @@ def test_promotion_keyword_is_warning(tmp_path):
     assert "warning:" in result.stderr
     assert "review-risk keyword" in result.stderr
 
+    strict = subprocess.run(
+        run_cmd_args(PYTHON, ROOT / "tools" / "validate-metadata.py", path, "--warnings-as-errors"),
+        text=True,
+        capture_output=True,
+    )
+    assert strict.returncode != 0
+    assert "review-risk keyword" in strict.stderr
+
+
+def test_external_service_keyword_is_error(tmp_path):
+    data = valid_metadata()
+    data["description"] = "Works with Discord reactions."
+    path = tmp_path / "metadata.yaml"
+    write_yaml(path, data)
+
+    result = run_metadata(path)
+    assert result.returncode != 0
+    assert "hard-ng keyword" in result.stderr
+    assert "Discord" in result.stderr
+
 
 def test_review_risk_keywords_can_be_externalized(tmp_path):
     data = valid_metadata()

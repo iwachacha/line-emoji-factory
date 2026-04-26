@@ -1,6 +1,6 @@
 # line-emoji-factory
 
-LINE 絵文字ブランドを、構造、ブランド、商品の順で評価し、制作、検証、申請準備まで運用するための factory リポジトリです。
+LINE emoji brand ideas are evaluated and carried through structure, brand, product, production, validation, and submission packaging. The current packaging pipeline targets static emoji releases.
 
 ## Requirements
 
@@ -17,9 +17,10 @@ python -m pip install -r requirements-dev.txt
 ```powershell
 ./tools/init-brand-repo.ps1 `
   -BrandSlug "my-brand" `
-  -BrandName "マイブランド" `
+  -BrandName "My Brand" `
   -Destination ".\brands\my-brand" `
-  -InitialSetCount 8
+  -InitialSetCount 8 `
+  -BrandType generic
 
 ./tools/validate-brand-repo.ps1 ".\brands\my-brand"
 ```
@@ -59,6 +60,9 @@ The generated submission outputs are intentionally split:
 ## Main Tools
 
 - `tools/init-brand-repo.ps1`: scaffold a brand repo.
+- `tools/check-source-integrity.py`: fails collapsed or non-parseable source before weaker compile checks.
+- `tools/check-canonical-drift.py`: fails old skills, old root templates, or old scaffold entrypoints in canonical scope.
+- `tools/check-data-files.py`: parses YAML, workflow YAML, JSON schema files, and dependency lines.
 - `tools/validate-brand-repo.py`: manifest-driven brand repo validation.
 - `tools/validate-brand-repo.ps1`: PowerShell wrapper for the Python validator.
 - `tools/validate-assets.py`: static PNG and APNG validation, submission filename checks, and contact sheet previews.
@@ -67,13 +71,16 @@ The generated submission outputs are intentionally split:
 - `tools/check-project-map-paths.py`: validates path references in `PROJECT_MAP.md`.
 - `tools/check-example-drift.py`: verifies standalone examples have current embedded schemas, tools, and shared snapshots.
 
-Animation APNG validation is available through `tools/validate-assets.py --asset-type animation`. Animation release packaging is not implemented in `tools/package-release.py` yet.
+Static emoji packaging is the primary supported release path. Animation APNG validation is available through `tools/validate-assets.py --asset-type animation`, but animation release packaging is not implemented in `tools/package-release.py` yet.
 Generated brand manifests include `production_profile` so rough, finalization, and revision outputs stay explicit and tool-neutral.
 
 ## Validation
 
 ```powershell
-python -m compileall tools
+python tools/check-source-integrity.py
+python tools/check-canonical-drift.py
+python tools/check-data-files.py
+python -m compileall tools tests
 python tools/validate-schemas.py --check-schemas schemas
 python tools/check-project-map-paths.py
 python tools/check-example-drift.py examples/soeshirushi
@@ -86,4 +93,4 @@ pytest
 
 ## Operating Rule
 
-判断順序は常に `構造 → ブランド → 商品` です。構造が成立しない案は、魅力や雰囲気だけでは通しません。
+Judge in this order: `structure -> brand -> product`. If structure fails, do not pass the idea on mood or appeal alone.

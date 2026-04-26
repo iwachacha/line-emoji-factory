@@ -18,6 +18,7 @@ python -m pip install -r requirements-dev.txt
 
 Use `-InitialSetCount` with one of `8`, `16`, `24`, `32`, or `40`.
 The generated manifest also contains `production_profile`, which keeps rough, finalization, and revision outputs explicit without making a specific tool the source of truth.
+Generic brand repos do not create `brand/ip/` or an `ip:` manifest block.
 
 For fixed IP projects, add:
 
@@ -73,6 +74,7 @@ Outputs:
 
 - `submission/line-upload/images.zip`: LINE upload ZIP. Images only.
 - `submission/internal-archive/package.zip`: internal archive with metadata, package report, asset map, checksums, manifest snapshot, and release spec snapshot.
+- `submission/line-upload/images/`: normalized submission images generated from production assets.
 
 ## 7. Validate Again
 
@@ -92,7 +94,14 @@ Common failures:
 - Tab image not `96 x 74`
 - Submission filename not `001.png`, `002.png`, ...
 - Metadata title, description, creator name, or copyright exceeds LINE limits
-- Copyright contains non-ASCII characters
+- Copyright contains non-alphanumeric characters
+
+Quality warnings:
+
+- Duplicate or near-duplicate content images
+- Low contrast visible content
+- Low color variety
+- Large transparent margins
 
 ## Animation Assets
 

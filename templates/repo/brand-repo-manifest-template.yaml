@@ -87,12 +87,6 @@ source:
   system_prompt_path: "brand/brand-system-prompt.md"
   active_release_spec_path: "releases/release-001/release-spec.md"
 
-ip:
-  style_bible: "brand/ip/ip-style-bible.md"
-  reference_asset_register: "brand/ip/reference-asset-register.md"
-  approval_log: "brand/ip/ip-approval-log.md"
-  character_expression_matrix: "brand/ip/character-expression-matrix.md"
-
 releases:
   - id: "release-001"
     status: "draft"

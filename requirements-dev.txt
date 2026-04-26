@@ -1,4 +1,4 @@
 jsonschema
 pillow
 pytest
-pyyaml
+PyYAML

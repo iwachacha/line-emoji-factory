@@ -1,0 +1,8 @@
+schema_version: "1.0"
+locale: "ja"
+creator_name: "Test Creator"
+title: "Test Emoji"
+description: "Small reactions for testing."
+copyright: "TestCreator"
+suggest_tags:
+  - test

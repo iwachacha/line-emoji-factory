@@ -24,6 +24,7 @@ PATH_KEYS = {
     "final_asset_dir",
     "handoff",
     "line_platform_baseline",
+    "line_upload_dir",
     "metadata_path",
     "observation_log",
     "production_brief_path",
@@ -44,6 +45,7 @@ PATH_KEYS = {
     "system_prompt_path",
     "tab_asset_dir",
     "tab_asset_path",
+    "internal_archive_dir",
     "usage_validation_path",
     "usage_validation_workflow",
 }

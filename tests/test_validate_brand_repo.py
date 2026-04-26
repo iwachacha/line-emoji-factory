@@ -4,7 +4,7 @@ import subprocess
 
 import yaml
 
-from conftest import PYTHON, ROOT, create_brand_repo, run_cmd_args, write_yaml
+from conftest import PYTHON, ROOT, create_brand_repo, create_two_release_brand_repo, run_cmd_args, write_yaml
 
 
 def run_brand_repo(brand, *extra):
@@ -16,8 +16,16 @@ def run_brand_repo(brand, *extra):
 
 
 def test_validate_brand_repo_is_manifest_driven(tmp_path):
-    brand = create_brand_repo(tmp_path, release_id="release-002")
+    brand = create_two_release_brand_repo(tmp_path)
     result = run_brand_repo(brand, "--release-id", "release-002")
+    assert result.returncode == 0, result.stderr
+
+
+def test_generic_brand_does_not_require_ip_files(tmp_path):
+    brand = create_brand_repo(tmp_path, brand_type="generic")
+    assert not (brand / "brand" / "ip").exists()
+
+    result = run_brand_repo(brand)
     assert result.returncode == 0, result.stderr
 
 
@@ -40,6 +48,13 @@ def test_fixed_ip_missing_ip_file_fails(tmp_path):
     result = run_brand_repo(brand)
     assert result.returncode != 0
     assert "ip-style-bible.md" in result.stderr
+
+
+def test_fixed_ip_complete_fixture_passes(tmp_path):
+    brand = create_brand_repo(tmp_path, brand_type="fixed_ip")
+
+    result = run_brand_repo(brand)
+    assert result.returncode == 0, result.stderr
 
 
 def test_production_profile_contract_is_validated(tmp_path):
