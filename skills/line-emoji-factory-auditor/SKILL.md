@@ -24,8 +24,9 @@ description: LINE絵文字 / スタンプ factory 全体の改善採否、文書
 6. 採用する改善は、brand 固有修正で足りるか factory 修正が必要かを分ける。
 7. factory 側へ上げる場合は owner file、追随更新先、検証方法を明記する。
 8. schema、tool、CI の変更は `../../workflows/schema-validation-workflow.md` と接続する。
-9. 作業結果は `../../factory-improvement-ledger.md` に記録する。
-10. 閉じる前に、改善の仕組み自体が重くなっていないか確認する。
+9. 制作・シリーズ・画像品質の改善は `../../workflows/production-pipeline-workflow.md`, `../../workflows/series-development-workflow.md`, `../../workflows/item-generation-workflow.md`, `../../rules/visual-asset-quality-rules.md` の owner を分ける。
+10. 作業結果は `../../factory-improvement-ledger.md` に記録する。
+11. 閉じる前に、改善の仕組み自体が重くなっていないか確認する。
 
 ## Decision Rules
 

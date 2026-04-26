@@ -243,6 +243,8 @@ def test_contact_sheet_preview_is_generated(tmp_path):
         write_png(images / f"{index:03}.png", (180, 180))
     write_png(images / "tab.png", (96, 74))
     contact_sheet = tmp_path / "report" / "contact-sheet.png"
+    chat_sheet = tmp_path / "report" / "chat-preview.png"
+    report_json = tmp_path / "report" / "asset-validation.json"
 
     result = subprocess.run(
         run_cmd_args(
@@ -255,15 +257,24 @@ def test_contact_sheet_preview_is_generated(tmp_path):
             "submission",
             "--preview-contact-sheet",
             contact_sheet,
+            "--preview-chat-sheet",
+            chat_sheet,
+            "--report-json",
+            report_json,
         ),
         text=True,
         capture_output=True,
     )
     assert result.returncode == 0, result.stderr
     assert contact_sheet.exists()
+    assert chat_sheet.exists()
+    assert report_json.exists()
     with Image.open(contact_sheet) as preview:
-        assert preview.size[0] >= 180 + 48 + 32 + 24
+        assert preview.size[0] >= 180 + 96 + 48 + 32
         assert preview.size[1] >= 180 * 8
+    with Image.open(chat_sheet) as preview:
+        assert preview.size[0] >= 260
+        assert preview.size[1] >= 72 * 8
 
 
 def test_animation_apng_validation(tmp_path):

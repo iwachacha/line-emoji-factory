@@ -25,7 +25,7 @@
 - [x] handoff に keep / trim / drift が書かれている
 - [x] 各絵文字に用途と意味がある
 - [x] 生成後に優先監査する絵文字が決まっている
-- [x] ClaudeDesign に暗黙前提を押し込んでいない
+- [x] item finalization に暗黙前提を押し込んでいない
 
 ## Gate 2.5: 具体会話検証
 - [x] usage validation シートがある

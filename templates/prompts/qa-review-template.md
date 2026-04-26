@@ -8,9 +8,11 @@
 ## Review Order
 1. Structure
 2. Brand
-3. Product
-4. LINE specification
-5. Review risk
+3. Series differentiation
+4. Product
+5. Visual asset quality
+6. LINE specification
+7. Review risk
 
 ## Required Output
 - Hard NG:
@@ -18,3 +20,6 @@
 - Watch:
 - Keep:
 - Slot-level fixes:
+- Near-duplicate / usage overlap:
+- Small-size result: `180 / 96 / 48 / 32`
+- Product catalog update:

@@ -11,7 +11,7 @@
 - Round signal mascot with dark outline.
 - Small face plus one status mark.
 - Short ASCII label at the bottom.
-- Keep margin even and preserve readability at 24 px preview.
+- Keep margin even and preserve readability at 32 px preview.
 
 ## Slot Instructions
 - OK: teal body, check mark.

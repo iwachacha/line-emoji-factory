@@ -260,6 +260,9 @@ def write_report(
     images_zip: Path | None,
     internal_zip: Path | None,
     expected_count: int,
+    series_plan: Path | None = None,
+    brand_canon: Path | None = None,
+    product_catalog: Path | None = None,
 ) -> None:
     created_at = datetime.now(UTC).replace(microsecond=0).isoformat()
     lines = [
@@ -276,6 +279,9 @@ def write_report(
         f"- Content image count: `{expected_count}`",
         f"- Line upload ZIP: `{images_zip.as_posix() if images_zip else 'not generated'}`",
         f"- Internal archive ZIP: `{internal_zip.as_posix() if internal_zip else 'not generated yet'}`",
+        f"- Brand canon snapshot: `{brand_canon.as_posix() if brand_canon and brand_canon.exists() else 'not available'}`",
+        f"- Product catalog snapshot: `{product_catalog.as_posix() if product_catalog and product_catalog.exists() else 'not available'}`",
+        f"- Series plan snapshot: `{series_plan.as_posix() if series_plan and series_plan.exists() else 'not available'}`",
         "",
         "## Validation",
         "- Metadata validation: passed",
@@ -300,6 +306,9 @@ def make_internal_zip(
     checksums: Path,
     manifest: Path,
     release_spec: Path,
+    series_plan: Path | None = None,
+    brand_canon: Path | None = None,
+    product_catalog: Path | None = None,
 ) -> Path:
     package_path = internal_dir / "package.zip"
     if package_path.exists():
@@ -314,6 +323,12 @@ def make_internal_zip(
             archive.write(manifest, "snapshots/brand-manifest.yaml")
         if release_spec.exists():
             archive.write(release_spec, "snapshots/release-spec.md")
+        if series_plan and series_plan.exists():
+            archive.write(series_plan, "snapshots/series-plan.md")
+        if brand_canon and brand_canon.exists():
+            archive.write(brand_canon, "snapshots/brand-canon.md")
+        if product_catalog and product_catalog.exists():
+            archive.write(product_catalog, "snapshots/product-catalog.md")
     return package_path
 
 
@@ -341,6 +356,10 @@ def main() -> int:
     internal_dir = submission_dir / "internal-archive"
     metadata = resolve_metadata_path(brand_repo, manifest, release_info, release_id)
     release_spec = brand_repo / release_info.get("spec", f"releases/{release_id}/release-spec.md")
+    series_plan = brand_repo / release_info.get("series_plan", f"releases/{release_id}/series-plan.md")
+    source_info = manifest.get("source", {})
+    brand_canon = brand_repo / source_info.get("brand_canon_path", "brand/brand-canon.md")
+    product_catalog = brand_repo / source_info.get("product_catalog_path", "brand/product-catalog.md")
 
     if not finals_dir.exists():
         print(f"finals directory does not exist: {finals_dir}", file=sys.stderr)
@@ -444,7 +463,19 @@ def main() -> int:
         report_path = internal_dir / "package-report.md"
         checksum_path = internal_dir / "package-checksums.txt"
         internal_zip_path = internal_dir / "package.zip"
-        write_report(report_path, brand_repo, release_id, item_type, args.target, images_zip, internal_zip_path, expected_count)
+        write_report(
+            report_path,
+            brand_repo,
+            release_id,
+            item_type,
+            args.target,
+            images_zip,
+            internal_zip_path,
+            expected_count,
+            series_plan,
+            brand_canon,
+            product_catalog,
+        )
         write_checksums(checksum_path, [images_zip, metadata, asset_map_path, report_path])
         internal_zip = make_internal_zip(
             internal_dir,
@@ -455,6 +486,9 @@ def main() -> int:
             checksum_path,
             brand_repo / "brand-manifest.yaml",
             release_spec,
+            series_plan,
+            brand_canon,
+            product_catalog,
         )
         write_checksums(checksum_path, [images_zip, metadata, asset_map_path, report_path, internal_zip])
         if internal_zip.stat().st_size > spec["zip_max_bytes"]:

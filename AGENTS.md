@@ -40,6 +40,7 @@
 - 継続改善の昇格判断: `rules/continuous-improvement-rules.md`
 - 市場調査つき探索の判断: `rules/idea-research-rules.md`
 - 画像検査判断: `rules/asset-validation-rules.md`
+- visual asset 商品品質判断: `rules/visual-asset-quality-rules.md`
 - 申請 metadata 判断: `rules/submission-metadata-rules.md`
 - 固定IP統制判断: `rules/ip-governance-rules.md`
 - 市場観測証跡判断: `rules/market-observation-rules.md`
@@ -48,6 +49,8 @@
 - 制作 profile 判断: `rules/production-profile-rules.md`
 - 相談運用フロー: `workflows/consultation-workflow.md`
 - 共通制作パイプライン: `workflows/production-pipeline-workflow.md`
+- シリーズ開発フロー: `workflows/series-development-workflow.md`
+- item 生成フロー: `workflows/item-generation-workflow.md`
 - 品質管理フロー: `workflows/quality-control-workflow.md`
 - 構造Fail時の変換: `workflows/transformation-workflow.md`
 - 継続改善フロー: `workflows/continuous-improvement-workflow.md`
@@ -67,9 +70,12 @@
 - 公開後学習フロー: `workflows/post-release-learning-workflow.md`
 - CI保守フロー: `workflows/ci-maintenance-workflow.md`
 - ブランド設定出力: `templates/brand/brand-setting-template.md`
+- ブランド canon / IP guardrails 出力: `templates/brand/brand-canon-template.md`
+- ブランド商品カタログ / シリーズ台帳出力: `templates/brand/brand-product-catalog-template.md`
 - ブランド位置づけ出力: `templates/brand/brand-positioning-template.md`
 - ブランド固有の制作基盤: `templates/brand/brand-production-brief-template.md`
 - 初期release設計出力: `templates/release/release-spec-template.md`
+- シリーズ企画 / 差分設計出力: `templates/release/series-plan-template.md`
 - 制作ハンドオフ出力: `templates/release/production-handoff-template.md`
 - release QA 出力: `templates/qa/release-checklist-template.md`
 - 品質台帳出力: `templates/qa/quality-ledger-template.md`
@@ -81,6 +87,8 @@
 - ブランド別リポジトリ設計: `templates/repo/brand-repo-blueprint.md`
 - ブランド別 manifest: `templates/repo/brand-repo-manifest-template.yaml`
 - ブランド専用AI制作指示出力: `templates/brand/brand-system-prompt-template.md`
+- item image prompt 出力: `templates/prompts/item-image-prompt-template.md`
+- 再生成 feedback 出力: `templates/prompts/regeneration-feedback-template.md`
 - 市場観測出力: `templates/market/market-observation-log-template.md`
 - 申請 metadata 出力: `templates/submission/submission-metadata-template.yaml`
 - 固定IP制作統制出力: `templates/ip/ip-style-bible-template.md`

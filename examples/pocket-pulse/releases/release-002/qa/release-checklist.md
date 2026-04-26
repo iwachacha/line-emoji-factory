@@ -16,7 +16,7 @@
 - [x] Main PNG is 240 x 240.
 - [x] Tab PNG is 96 x 74.
 - [x] Submission filenames are normalized to 01.png through 08.png plus main.png and tab.png.
-- [x] Contact sheet generated for 180, 48, 32, and 24 px preview checks.
+- [x] Contact sheet generated for 180, 96, 48, and 32 px preview checks.
 - [x] No advertising, campaign, external-service, or logo-like content found.
 
 ## Result

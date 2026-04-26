@@ -4,7 +4,8 @@ This workflow defines how the factory creates submission packages for static emo
 
 ## Start Conditions
 - The release has a manifest entry with one concrete item type.
-- Final production PNGs exist under `releases/<release-id>/production/finals`.
+- Final production PNGs exist under `releases/<release-id>/production/finals` and have passed product QA.
+- `series-plan.md`, `brand-canon.md`, and `brand/product-catalog.md` are current.
 - Companion images exist for the selected item type:
   - Static emoji: `production/tab/source-tab.png`.
   - Static sticker: `production/main/source-main.png` and `production/tab/source-tab.png`.
@@ -24,7 +25,7 @@ This workflow defines how the factory creates submission packages for static emo
 6. Validate normalized submission images and ZIP contents.
 7. Create `submission/line-upload/images.zip` with images only.
 8. Create `submission/internal-archive/asset-map.json`, `package-report.md`, and `package-checksums.txt`.
-9. Create `submission/internal-archive/package.zip` with metadata, report, asset map, checksums, manifest snapshot, and release spec snapshot.
+9. Create `submission/internal-archive/package.zip` with metadata, report, asset map, checksums, manifest snapshot, release spec snapshot, series plan snapshot, brand canon snapshot, and product catalog snapshot.
 10. Record package creation and validation status in `release-log.md` and the QA ledger.
 
 ## Item-Type Filename Rules

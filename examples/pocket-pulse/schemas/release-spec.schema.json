@@ -17,7 +17,12 @@
         "package_type": { "type": "string", "enum": ["emoji", "sticker"] },
         "brand": { "type": "string" },
         "concept": { "type": "string" },
-        "role": { "type": "string" }
+        "role": { "type": "string" },
+        "series_name": { "type": "string" },
+        "inherited_elements": { "type": "array", "items": { "type": "string" } },
+        "novelty_elements": { "type": "array", "items": { "type": "string" } },
+        "past_release_difference": { "type": "string" },
+        "cannibalization_avoidance": { "type": "string" }
       }
     },
     "set": {
@@ -42,7 +47,11 @@
               "purpose": { "type": "string" },
               "single_send_meaning": { "type": "string" },
               "inline_role": { "type": "string" },
-              "sticker_send_line": { "type": "string" }
+              "sticker_send_line": { "type": "string" },
+              "visual_symbols_to_keep": { "type": "array", "items": { "type": "string" } },
+              "decorations_to_remove": { "type": "array", "items": { "type": "string" } },
+              "prohibited_drift": { "type": "array", "items": { "type": "string" } },
+              "past_product_difference": { "type": "string" }
             }
           }
         }

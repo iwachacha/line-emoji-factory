@@ -14,6 +14,8 @@
 - 色、線、顔比率、衣装、小物の固定仕様
 - 公式素材との距離
 - AI生成時の参照画像ルール
+- brand canon へ転記する壊してはいけない要素
+- シリーズごとに許容される変化
 - 権利者レビューの要否
 - 承認ログと差し戻し履歴
 
@@ -32,6 +34,7 @@
 
 ## 成果物
 - `brand/ip/ip-style-bible.md`
+- `brand/brand-canon.md`
 - `brand/ip/reference-asset-register.md`
 - `brand/ip/ip-approval-log.md`
 - `brand/ip/character-expression-matrix.md`

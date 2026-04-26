@@ -52,6 +52,9 @@ def test_package_release_splits_line_upload_and_internal_archive(tmp_path):
     assert "asset-map.json" in names
     assert "package-report.md" in names
     assert "line-upload/images.zip" in names
+    assert "snapshots/brand-canon.md" in names
+    assert "snapshots/product-catalog.md" in names
+    assert "snapshots/series-plan.md" in names
 
 
 def test_package_release_clean_removes_stale_submission_files(tmp_path):

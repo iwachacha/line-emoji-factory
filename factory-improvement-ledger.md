@@ -54,6 +54,12 @@
 - Updated owner file: workflow / template / scaffold / `そえしるし` 実例へ反映済み。rough 以降で実効性を観測する段階
 - Verification method: `そえしるし` rough 以降で、使用検証と retrospective が実際の修正判断を動かすかを見る
 - Verify on: `release-001 / rough`
+- ID: `FAC-2026-04-26-006`
+- Hypothesis: 外部デザイン工程固定を外し、brand canon、series plan、item-by-item GPT / image_gen finalization、small-size QA、product catalog 更新を正本化すれば、低品質な一括最終生成とシリーズ drift を抑えられる
+- Intervention: production pipeline / visual QA / series workflow / item generation workflow / scaffold / manifest / validators を更新する
+- Updated owner file: 本作業で更新中。次回の新ブランド scaffold と既存ブランド新シリーズで実効性を観測する
+- Verification method: integrity gate、schema validation、example drift、brand repo validation、pytest
+- Verify on: 次の `new brand` scaffold と次の `existing brand / new series`
 
 ## 3. Verified Upgrades
 - ID: `FAC-2026-04-25-001`

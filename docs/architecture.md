@@ -18,7 +18,9 @@
 market observation
   -> brand distillation
   -> set architecture
+  -> brand canon / series planning
   -> production direction
+  -> item finalization
   -> asset validation
   -> submission audit
   -> release packaging

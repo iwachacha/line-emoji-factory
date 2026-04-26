@@ -14,15 +14,19 @@
 8. その後、item type に応じて `rules/emoji-product-rules.md` または `rules/sticker-product-rules.md` と `rules/review-risk-rules.md` で商品判断を行う。
 9. 最後に `rules/evaluation-model.md` の判定状態へ落とす。
 10. `Design Ready` なら `templates/brand/brand-setting-template.md` を埋める。
-11. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で共通制作フローを固定する。
-12. ブランド固有の制作基盤が必要なら `templates/brand/brand-production-brief-template.md` を埋める。
-13. 初期 release / set が必要なら `templates/release/release-spec-template.md` を埋める。
-14. 品質管理が必要なら `workflows/quality-control-workflow.md` を起動し、`templates/qa/release-checklist-template.md`, `templates/qa/quality-ledger-template.md`, `templates/release/release-log-template.md` を初期化する。
-15. release / set ごとの handoff が必要なら `templates/release/production-handoff-template.md` を埋める。
-16. 実会話での勝ち筋確認が必要なら `workflows/usage-validation-workflow.md` と `templates/qa/usage-validation-template.md` を使う。
-17. 専用AI制作指示が必要なら `templates/brand/brand-system-prompt-template.md` を埋める。
-18. milestone 学習を圧縮するなら `workflows/release-retrospective-workflow.md` と `templates/qa/release-retrospective-template.md` を使う。
-19. 継続改善や作業後の学習が必要なら `workflows/continuous-improvement-workflow.md` へ接続する。
+11. 制作へ進める場合は `templates/brand/brand-canon-template.md` で brand canon / IP guardrails を固定する。
+12. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で GPT / image_gen 標準の共通制作フローを固定する。
+13. ブランド固有の制作基盤が必要なら `templates/brand/brand-production-brief-template.md` を埋める。
+14. ブランドを継続運用するなら `templates/brand/brand-product-catalog-template.md` を初期化する。
+15. 既存ブランドの新シリーズなら `workflows/series-development-workflow.md` と `templates/release/series-plan-template.md` を使う。
+16. 初期 release / set が必要なら `templates/release/release-spec-template.md` を埋める。
+17. 品質管理が必要なら `workflows/quality-control-workflow.md` を起動し、`templates/qa/release-checklist-template.md`, `templates/qa/quality-ledger-template.md`, `templates/release/release-log-template.md` を初期化する。
+18. release / set ごとの handoff が必要なら `templates/release/production-handoff-template.md` を埋める。
+19. 1アイテムずつ finalization するなら `workflows/item-generation-workflow.md` と `templates/prompts/item-image-prompt-template.md` を使う。
+20. 実会話での勝ち筋確認が必要なら `workflows/usage-validation-workflow.md` と `templates/qa/usage-validation-template.md` を使う。
+21. 専用AI制作指示が必要なら `templates/brand/brand-system-prompt-template.md` を埋める。
+22. milestone 学習を圧縮するなら `workflows/release-retrospective-workflow.md` と `templates/qa/release-retrospective-template.md` を使う。
+23. 継続改善や作業後の学習が必要なら `workflows/continuous-improvement-workflow.md` へ接続する。
 
 ## モード判定
 ### 探索モード
@@ -127,9 +131,13 @@
 ### 制作パイプライン基盤化相談
 - 共通ヘッダ
 - 要約
+- brand canon / IP guardrails
+- series plan と過去商品との差分
 - rough stage で固定するもの
-- ClaudeDesign へ渡す単位
+- item finalization へ渡す単位
 - handoff で明示するべき差分軸
+- 1アイテム4案比較の単位
+- product QA で止める条件
 - 差し戻し先
 - 先に埋める正本
 
@@ -138,7 +146,9 @@
 - 要約
 - ブランド設定から転記する項目
 - rough stage の固定条件
-- ClaudeDesign 仕上げ条件
+- item finalization 条件
+- final prompt / negative prompt
+- 小表示チェック条件
 - NG表現
 
 ### 品質管理相談
@@ -156,5 +166,6 @@
 - 変換案が必要な場合は、必ず `workflows/transformation-workflow.md` に接続する。
 - 制作実装を語る場合は、必ず `workflows/production-pipeline-workflow.md` と整合させる。
 - 品質管理を語る場合は、必ず `workflows/quality-control-workflow.md` と整合させる。
+- 既存ブランドの新シリーズを語る場合は、必ず `workflows/series-development-workflow.md` と整合させる。
 - 現行市場について述べる場合は、観測日を明示する。
 - 作業後の学習や再発論点がある場合は、`workflows/continuous-improvement-workflow.md` に接続する。

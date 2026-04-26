@@ -41,7 +41,7 @@ releases/<release-id>/submission/
 
 ## Internal Archive
 
-- May contain the line-upload ZIP, metadata, package report, asset map, checksums, manifest snapshot, and release spec snapshot.
+- May contain the line-upload ZIP, metadata, package report, asset map, checksums, manifest snapshot, release spec snapshot, series plan snapshot, brand canon snapshot, and product catalog snapshot.
 - Exists for review, traceability, and future release learning.
 
 ## Tool Contract

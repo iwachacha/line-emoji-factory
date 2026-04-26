@@ -12,9 +12,11 @@ import yaml
 
 PATH_KEYS = {
     "active_release_spec_path",
+    "active_series_plan_path",
     "approval_log",
     "asset_validation_rules",
     "audit_report_path",
+    "brand_canon_path",
     "category_gap_map",
     "character_expression_matrix",
     "checklist",
@@ -23,6 +25,7 @@ PATH_KEYS = {
     "evaluation_model",
     "final_asset_dir",
     "handoff",
+    "item_generation_workflow",
     "line_platform_baseline",
     "line_upload_dir",
     "main_asset_dir",
@@ -32,6 +35,8 @@ PATH_KEYS = {
     "production_brief_path",
     "prompt_bundle_dir",
     "production_profile_rules",
+    "production_pipeline_workflow",
+    "product_catalog_path",
     "quality_control_workflow",
     "quality_ledger_path",
     "reference_asset_register",
@@ -39,6 +44,8 @@ PATH_KEYS = {
     "release_log_path",
     "retrospective_path",
     "review_risk_rules",
+    "series_development_workflow",
+    "series_plan",
     "spec",
     "structure_constraints",
     "sticker_product_rules",
@@ -51,11 +58,40 @@ PATH_KEYS = {
     "internal_archive_dir",
     "usage_validation_path",
     "usage_validation_workflow",
+    "visual_asset_quality_rules",
 }
 
 STANDARD_PRODUCTION_PROFILE_OUTPUTS = {
-    "rough_stage": {"rough_board", "failure_notes"},
-    "finalization_stage": {"final_assets", "correction_notes", "export_check"},
+    "brand_canon_stage": {"brand_canon", "ip_guardrails", "allowed_variations", "prohibited_drift"},
+    "series_planning_stage": {
+        "product_catalog_review",
+        "series_plan",
+        "inheritance_points",
+        "novelty_points",
+        "cannibalization_notes",
+    },
+    "rough_stage": {"style_anchor", "character_anchor", "rough_board", "failure_notes"},
+    "item_finalization_stage": {
+        "item_specs",
+        "four_candidate_minimum",
+        "candidate_comparison",
+        "final_assets",
+        "correction_notes",
+        "export_check",
+    },
+    "product_qa_stage": {
+        "contact_sheet",
+        "chat_preview",
+        "asset_validation_report",
+        "duplicate_and_usage_overlap_notes",
+        "unresolved_watch_items",
+    },
+    "release_ledger_stage": {
+        "release_log_update",
+        "quality_ledger_update",
+        "product_catalog_update",
+        "next_series_watch",
+    },
     "revision_stage": {"revision_notes", "fixed_assets", "unresolved_watch_items"},
 }
 ROUGH_INTENT_OUTPUTS = {"per_item_intent", "per_emoji_intent"}

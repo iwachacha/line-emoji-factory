@@ -8,6 +8,7 @@
 - ブランド探索、評価、設計の区切りがついた。
 - 創出ブランドや生成アイテムを監査した。
 - rough review、handoff review、final QA を行った。
+- series planning、catalog update、item finalization review を行った。
 - 審査差し戻し、公開後 drift、metadata 事故が出た。
 - 市場調査つきアイデア探索を行った。
 - skill、workflow、template、台帳の運用が重い、曖昧、再発的に詰まると判明した。
@@ -28,7 +29,7 @@
 4. 構造で `Fail` が見えたら、そのまま改善に入らず `workflows/transformation-workflow.md` へ戻す。
 5. `brand local / factory common / skill maintenance / monitor only` のどれかへ分類する。
 6. 記録先を決める。
-   - brand / release / item 起点: `quality-ledger`。提出や審査が絡むなら `release-log` も更新する。
+   - brand / release / item 起点: `quality-ledger`。シリーズ差分が絡むなら `product catalog` と `series plan` も更新する。提出や審査が絡むなら `release-log` も更新する。
    - factory / skill 起点: repo root の `factory-improvement-ledger.md` を更新する。未作成なら `templates/improvement/factory-improvement-ledger-template.md` から初期化する。
    - 両方に跨る場合: 両方を更新し、片方だけで閉じない。
 7. 対応を `直す / 試す / 監視する / 捨てる` のどれで扱うか決める。

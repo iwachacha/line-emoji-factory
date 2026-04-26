@@ -33,6 +33,9 @@
 ### Stage 2: 設計確定直前
 - `Design Ready` 候補が見えた。
 - `templates/brand/brand-setting-template.md` と `templates/brand/brand-production-brief-template.md` を埋める。
+- `templates/brand/brand-canon-template.md` を埋め、守る核と禁止 drift を固定する。
+- `templates/brand/brand-product-catalog-template.md` を初期化する。
+- 既存ブランドの新シリーズなら `templates/release/series-plan-template.md` を埋める。
 - `templates/release/release-spec-template.md` を埋める。
 - 必要なら `templates/qa/release-checklist-template.md`, `templates/qa/quality-ledger-template.md`, `templates/release/release-log-template.md` を初期化する。
 - 必要なら `templates/release/production-handoff-template.md` の初版を埋める。
@@ -46,12 +49,15 @@
 ### Stage 4: 拡張・量産
 - 派生シリーズ、季節版、アニメ版、商品化連携が走る。
 - ブランド別リポジトリで継続運用する。
+- 新シリーズごとに product catalog を参照し、継承要素、差分、重複回避を記録する。
 
 ## 分離の判定条件
 次の条件を **4つ以上** 満たしたら分離を推奨する。
 - `Design Ready` に到達している。
 - `brand-setting` が埋まっている。
 - `brand-production-brief` が埋まっている。
+- `brand-canon` が埋まっている。
+- `brand-product-catalog` が初期化されている。
 - 初期 release spec がある。
 - 初期 release の handoff 文書がある。
 - 初期セット構成が固まっている。
@@ -90,7 +96,10 @@
 - `workflows/usage-validation-workflow.md` の snapshot
 - `workflows/release-retrospective-workflow.md` の snapshot
 - `templates/brand/brand-setting-template.md` から埋めたブランド設定
+- `templates/brand/brand-canon-template.md` から埋めた brand canon
+- `templates/brand/brand-product-catalog-template.md` から埋めた product catalog
 - `templates/brand/brand-production-brief-template.md` から埋めた制作基盤
+- `templates/release/series-plan-template.md` から埋めた series plan
 - `templates/release/release-spec-template.md` から埋めた release spec
 - `templates/release/production-handoff-template.md` から埋めた release handoff
 - `templates/brand/brand-system-prompt-template.md` から埋めた専用AI制作指示
@@ -98,6 +107,7 @@
 
 ### 推奨
 - prompt 集
+- 新シリーズごとの series plan
 - QA checklist
 - quality ledger
 - usage validation

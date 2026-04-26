@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import sys
 import zipfile
 from pathlib import Path
@@ -26,7 +27,10 @@ ANIMATION_MAX_FRAMES = 20
 ANIMATION_MAX_DURATION_MS = 4_000
 ANIMATION_MIN_LOOP = 1
 ANIMATION_MAX_LOOP = 4
-CONTACT_SHEET_PREVIEWS = (180, 48, 32, 24)
+CONTACT_SHEET_PREVIEWS = (180, 96, 48, 32)
+CHAT_PREVIEW_SIZE = 48
+CHAT_ROW_HEIGHT = 72
+CHAT_BUBBLE_WIDTH = 260
 MIN_VISIBLE_BBOX_RATIO = 0.15
 WARN_VISIBLE_BBOX_RATIO = 0.35
 WARN_MARGIN_RATIO = 0.35
@@ -385,6 +389,64 @@ def write_contact_sheet(images: list[Path], output: Path) -> None:
     sheet.convert("RGB").save(output)
 
 
+def write_chat_preview(images: list[Path], output: Path) -> None:
+    if not images:
+        return
+    padding = 14
+    gap = 10
+    width = (padding * 2) + CHAT_BUBBLE_WIDTH
+    height = (padding * 2) + (CHAT_ROW_HEIGHT * len(images)) + (gap * (len(images) - 1))
+    sheet = Image.new("RGBA", (width, height), (245, 246, 248, 255))
+    draw = ImageDraw.Draw(sheet)
+
+    for row_index, path in enumerate(images):
+        y = padding + row_index * (CHAT_ROW_HEIGHT + gap)
+        bubble_left = padding
+        bubble_top = y
+        bubble_right = padding + CHAT_BUBBLE_WIDTH
+        bubble_bottom = y + CHAT_ROW_HEIGHT
+        draw.rounded_rectangle(
+            (bubble_left, bubble_top, bubble_right, bubble_bottom),
+            radius=12,
+            fill=(255, 255, 255, 255),
+            outline=(220, 224, 229, 255),
+        )
+        source = first_frame(path)
+        source.thumbnail((CHAT_PREVIEW_SIZE, CHAT_PREVIEW_SIZE), Image.Resampling.LANCZOS)
+        paste_x = bubble_left + 14
+        paste_y = bubble_top + (CHAT_ROW_HEIGHT - source.height) // 2
+        sheet.alpha_composite(source, (paste_x, paste_y))
+
+    output.parent.mkdir(parents=True, exist_ok=True)
+    sheet.convert("RGB").save(output)
+
+
+def write_report_json(target: Path, errors: list[str], warnings: list[str], output: Path) -> None:
+    result = "fail" if errors else "warn" if warnings else "pass"
+    issues = [
+        {"severity": "error", "message": message}
+        for message in errors
+    ] + [
+        {"severity": "warning", "message": message}
+        for message in warnings
+    ]
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
+        json.dumps(
+            {
+                "schema_version": "1.0",
+                "target": str(target),
+                "result": result,
+                "issues": issues,
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
 def validate_zip(path: Path, asset_type: str, expected_count: int | None = None) -> list[str]:
     errors: list[str] = []
     if not path.exists():
@@ -427,6 +489,8 @@ def main() -> int:
         default="static-emoji",
     )
     parser.add_argument("--preview-contact-sheet", type=Path)
+    parser.add_argument("--preview-chat-sheet", type=Path)
+    parser.add_argument("--report-json", type=Path)
     args = parser.parse_args()
 
     errors: list[str] = []
@@ -506,6 +570,11 @@ def main() -> int:
                 write_contact_sheet(content_images, args.preview_contact_sheet)
             except Exception as exc:  # noqa: BLE001
                 errors.append(f"{args.preview_contact_sheet}: cannot write contact sheet: {exc}")
+        if args.preview_chat_sheet:
+            try:
+                write_chat_preview(content_images, args.preview_chat_sheet)
+            except Exception as exc:  # noqa: BLE001
+                errors.append(f"{args.preview_chat_sheet}: cannot write chat preview: {exc}")
 
     if args.tab_image and not args.images_dir.exists():
         image_errors, image_warnings = validate_tab_image(args.tab_image)
@@ -519,6 +588,12 @@ def main() -> int:
 
     if args.zip_path:
         errors.extend(validate_zip(args.zip_path, asset_type, args.expected_count if args.stage == "submission" else None))
+
+    if args.report_json:
+        try:
+            write_report_json(args.images_dir, errors, warnings, args.report_json)
+        except Exception as exc:  # noqa: BLE001
+            errors.append(f"{args.report_json}: cannot write report JSON: {exc}")
 
     for warning in warnings:
         print(f"warning: {warning}", file=sys.stderr)

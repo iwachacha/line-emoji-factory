@@ -242,8 +242,12 @@
       "additionalProperties": false,
       "required": [
         "name",
+        "brand_canon_stage",
+        "series_planning_stage",
         "rough_stage",
-        "finalization_stage",
+        "item_finalization_stage",
+        "product_qa_stage",
+        "release_ledger_stage",
         "revision_stage"
       ],
       "properties": {
@@ -254,7 +258,19 @@
         "rough_stage": {
           "$ref": "#/$defs/production_profile_stage"
         },
-        "finalization_stage": {
+        "brand_canon_stage": {
+          "$ref": "#/$defs/production_profile_stage"
+        },
+        "series_planning_stage": {
+          "$ref": "#/$defs/production_profile_stage"
+        },
+        "item_finalization_stage": {
+          "$ref": "#/$defs/production_profile_stage"
+        },
+        "product_qa_stage": {
+          "$ref": "#/$defs/production_profile_stage"
+        },
+        "release_ledger_stage": {
           "$ref": "#/$defs/production_profile_stage"
         },
         "revision_stage": {
@@ -383,7 +399,11 @@
         "sticker_product_rules",
         "review_risk_rules",
         "evaluation_model",
+        "visual_asset_quality_rules",
         "quality_control_workflow",
+        "production_pipeline_workflow",
+        "series_development_workflow",
+        "item_generation_workflow",
         "usage_validation_workflow",
         "asset_validation_rules",
         "production_profile_rules",
@@ -408,7 +428,19 @@
         "evaluation_model": {
           "type": "string"
         },
+        "visual_asset_quality_rules": {
+          "type": "string"
+        },
         "quality_control_workflow": {
+          "type": "string"
+        },
+        "production_pipeline_workflow": {
+          "type": "string"
+        },
+        "series_development_workflow": {
+          "type": "string"
+        },
+        "item_generation_workflow": {
           "type": "string"
         },
         "usage_validation_workflow": {
@@ -431,16 +463,25 @@
       "required": [
         "factory_repo",
         "brand_setting_path",
+        "brand_canon_path",
+        "product_catalog_path",
         "brand_positioning_path",
         "production_brief_path",
         "system_prompt_path",
-        "active_release_spec_path"
+        "active_release_spec_path",
+        "active_series_plan_path"
       ],
       "properties": {
         "factory_repo": {
           "type": "string"
         },
         "brand_setting_path": {
+          "type": "string"
+        },
+        "brand_canon_path": {
+          "type": "string"
+        },
+        "product_catalog_path": {
           "type": "string"
         },
         "brand_positioning_path": {
@@ -453,6 +494,9 @@
           "type": "string"
         },
         "active_release_spec_path": {
+          "type": "string"
+        },
+        "active_series_plan_path": {
           "type": "string"
         }
       }
@@ -487,6 +531,7 @@
       "required": [
         "id",
         "status",
+        "series_plan",
         "spec",
         "handoff",
         "checklist",
@@ -509,6 +554,9 @@
           ]
         },
         "spec": {
+          "type": "string"
+        },
+        "series_plan": {
           "type": "string"
         },
         "handoff": {

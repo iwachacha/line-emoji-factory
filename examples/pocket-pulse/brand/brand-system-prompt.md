@@ -42,7 +42,7 @@ You are producing assets for the LINE brand Pocket Pulse.
 8. LATER - defer gently.
 
 ## Quality Gate
-- Readability must hold on 180, 48, 32, and 24 px contact sheet previews.
+- Readability must hold on 180, 96, 48, and 32 px contact sheet previews.
 - Each slot must differ by color and status mark.
 - No slot may rely only on text.
 - Transparent margin must remain balanced.

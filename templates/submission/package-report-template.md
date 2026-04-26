@@ -15,6 +15,9 @@
 - Internal archive ZIP:
 - Asset map:
 - Checksum file:
+- Brand canon snapshot:
+- Product catalog snapshot:
+- Series plan snapshot:
 
 ## Validation
 

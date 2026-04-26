@@ -15,7 +15,7 @@
 - [x] Final content PNGs are 180 x 180.
 - [x] Tab PNG is 96 x 74.
 - [x] Submission filenames are normalized to 001.png through 008.png plus tab.png.
-- [x] Contact sheet generated for 180, 48, 32, and 24 px preview checks.
+- [x] Contact sheet generated for 180, 96, 48, and 32 px preview checks.
 - [x] No review-risk text or external-service references found.
 
 ## Result

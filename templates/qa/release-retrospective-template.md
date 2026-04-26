@@ -17,6 +17,7 @@
 ## 3. What Broke
 - 外した判断:
 - 壊れたレイヤー: `構造 / ブランド / 商品 / 品質 / 運用`
+- series / catalog への影響:
 - 次の修正先:
 
 ## 4. What Fooled Us
@@ -26,6 +27,8 @@
 ## 5. Brand / Release Changes
 - brand 側で直すこと:
 - release 側で直すこと:
+- product catalog へ戻すこと:
+- 次シリーズで避ける重複:
 
 ## 6. Factory Feedback
 - 共通基盤へ返すこと:

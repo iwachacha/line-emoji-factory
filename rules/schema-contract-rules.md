@@ -4,6 +4,8 @@
 
 ## schema を置く対象
 - brand repo manifest
+- brand canon / product catalog path references in manifest
+- active series plan path references in manifest
 - release spec の機械可読版
 - submission metadata
 - asset validation report

@@ -61,14 +61,15 @@
 
 ### 共通制作パイプラインを変える
 - 先に `workflows/production-pipeline-workflow.md` を更新する。
-- 次に `templates/brand/brand-production-brief-template.md` と `templates/release/production-handoff-template.md` を更新する。
+- 次に `rules/production-profile-rules.md`, `workflows/series-development-workflow.md`, `workflows/item-generation-workflow.md` を整合させる。
+- 次に `templates/brand/brand-canon-template.md`, `templates/brand/brand-product-catalog-template.md`, `templates/brand/brand-production-brief-template.md`, `templates/release/series-plan-template.md`, `templates/release/production-handoff-template.md` を更新する。
 - 次に `templates/release/release-spec-template.md` を整合させる。
 - 次に `templates/brand/brand-system-prompt-template.md` を整合させる。
 - brand repo へ影響するなら `templates/repo/brand-repo-blueprint.md`, `templates/repo/brand-repo-manifest-template.yaml`, `tools/init-brand-repo.ps1` を更新する。
 
 ### 品質管理フローを変える
 - 先に `workflows/quality-control-workflow.md` を更新する。
-- 次に `templates/qa/release-checklist-template.md`, `templates/qa/quality-ledger-template.md`, `templates/release/release-log-template.md` を更新する。
+- 次に `rules/visual-asset-quality-rules.md`, `templates/qa/release-checklist-template.md`, `templates/qa/quality-ledger-template.md`, `templates/release/release-log-template.md` を更新する。
 - brand repo へ影響するなら `templates/repo/brand-repo-blueprint.md`, `templates/repo/brand-repo-manifest-template.yaml`, `tools/init-brand-repo.ps1` を更新する。
 
 ### テンプレート項目を変える

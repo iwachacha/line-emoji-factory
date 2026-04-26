@@ -8,6 +8,9 @@
 - `brand/ip/reference-asset-register.md`
 - `brand/ip/ip-approval-log.md`
 - `brand/ip/character-expression-matrix.md`
+- `brand/brand-canon.md`
+- `brand/product-catalog.md`
+- `releases/<release-id>/series-plan.md`
 
 ## Required Checks
 - 使用許諾範囲
@@ -16,3 +19,5 @@
 - 参照素材のAI生成利用可否
 - 権利者レビューの承認ログ
 - LINE絵文字 / スタンプとしての日常使用場面
+- シリーズごとの許容差分と禁止 drift
+- 過去商品との重複回避

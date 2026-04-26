@@ -19,7 +19,7 @@ python -m pip install -r requirements-dev.txt
 
 Use `-InitialSetCount` with one of `8`, `16`, `24`, `32`, or `40`.
 Use `-ProductItemType static-sticker` when the first release should be a normal static sticker release. Generated manifests still list both `static-emoji` and `static-sticker` as supported item types so a later release can choose either.
-The generated manifest also contains `production_profile`, which keeps rough, finalization, and revision outputs explicit without making a specific tool the source of truth.
+The generated manifest also contains `production_profile`, which keeps brand canon, series planning, rough / anchor, item finalization, product QA, ledger update, and revision outputs explicit without making a specific tool the source of truth.
 Generic brand repos do not create `brand/ip/` or an `ip:` manifest block.
 
 For fixed IP projects, add:
@@ -41,11 +41,16 @@ This checks the manifest schema, referenced paths, required release directories,
 ## 4. Edit the First Files
 
 - `brand/brand-setting.md`
+- `brand/brand-canon.md`
 - `brand/brand-positioning.md`
+- `brand/product-catalog.md`
 - `brand/brand-production-brief.md`
+- `releases/release-001/series-plan.md`
 - `releases/release-001/release-spec.md`
 - `releases/release-001/production-handoff.md`
 - `releases/release-001/submission/metadata.yaml`
+
+Before image generation, define the brand canon and series plan. Rough boards and anchors are for direction only; finalization is one item at a time with at least four candidates per item.
 
 ## 5. Add Images
 
@@ -90,7 +95,9 @@ Outputs:
 python ./tools/validate-assets.py ".\brands\my-brand\releases\release-001\submission\line-upload\images" `
   --expected-count 8 `
   --stage submission `
-  --preview-contact-sheet ".\brands\my-brand\releases\release-001\qa\contact-sheet.png"
+  --preview-contact-sheet ".\brands\my-brand\releases\release-001\qa\contact-sheet.png" `
+  --preview-chat-sheet ".\brands\my-brand\releases\release-001\qa\chat-preview.png" `
+  --report-json ".\brands\my-brand\releases\release-001\qa\asset-validation.json"
 ```
 
 Common failures:
@@ -111,6 +118,14 @@ Quality warnings:
 - Low contrast visible content
 - Low color variety
 - Large transparent margins
+
+Product QA warnings:
+
+- One item has no clear single-send meaning
+- Cute but not useful in conversation
+- Pretty but unreadable at `96 / 48 / 32px`
+- Four candidates are effectively the same
+- Existing series overlap is not justified in `series-plan.md`
 
 ## Animation Assets
 

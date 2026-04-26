@@ -111,9 +111,13 @@ $sharedFiles = @(
     @{ Source = "rules/review-risk-rules.md"; Target = "references/shared/review-risk-rules.md" },
     @{ Source = "rules/review-risk-keywords.yaml"; Target = "references/shared/review-risk-keywords.yaml" },
     @{ Source = "rules/asset-validation-rules.md"; Target = "references/shared/asset-validation-rules.md" },
+    @{ Source = "rules/visual-asset-quality-rules.md"; Target = "references/shared/visual-asset-quality-rules.md" },
     @{ Source = "rules/production-profile-rules.md"; Target = "references/shared/production-profile-rules.md" },
     @{ Source = "rules/submission-metadata-rules.md"; Target = "references/shared/submission-metadata-rules.md" },
+    @{ Source = "workflows/production-pipeline-workflow.md"; Target = "references/shared/production-pipeline-workflow.md" },
     @{ Source = "workflows/quality-control-workflow.md"; Target = "references/shared/quality-control-workflow.md" },
+    @{ Source = "workflows/series-development-workflow.md"; Target = "references/shared/series-development-workflow.md" },
+    @{ Source = "workflows/item-generation-workflow.md"; Target = "references/shared/item-generation-workflow.md" },
     @{ Source = "workflows/usage-validation-workflow.md"; Target = "references/shared/usage-validation-workflow.md" },
     @{ Source = "workflows/submission-audit-workflow.md"; Target = "references/shared/submission-audit-workflow.md" }
 )
@@ -187,10 +191,12 @@ function Write-Template {
 
 Write-Template "templates/repo/brand-repo-readme-template.md" "README.md"
 Write-Template "templates/repo/brand-repo-manifest-template.yaml" "brand-manifest.yaml"
+Write-Template "templates/brand/brand-canon-template.md" "brand/brand-canon.md"
 Write-Template "templates/brand/brand-setting-template.md" "brand/brand-setting.md"
 Write-Template "templates/brand/brand-positioning-template.md" "brand/brand-positioning.md"
 Write-Template "templates/brand/brand-production-brief-template.md" "brand/brand-production-brief.md"
 Write-Template "templates/brand/brand-system-prompt-template.md" "brand/brand-system-prompt.md"
+Write-Template "templates/brand/brand-product-catalog-template.md" "brand/product-catalog.md"
 Write-Template "templates/market/market-observation-log-template.md" "market/market-observation-log.md"
 Write-Template "templates/market/category-gap-map-template.md" "market/category-gap-map.md"
 if ($BrandType -eq "fixed_ip") {
@@ -200,6 +206,7 @@ if ($BrandType -eq "fixed_ip") {
     Write-Template "templates/ip/character-expression-matrix-template.md" "brand/ip/character-expression-matrix.md"
 }
 Write-Template "templates/release/release-spec-template.md" "releases/$releaseId/release-spec.md"
+Write-Template "templates/release/series-plan-template.md" "releases/$releaseId/series-plan.md"
 Write-Template "templates/release/production-handoff-template.md" "releases/$releaseId/production-handoff.md"
 Write-Template "templates/release/release-log-template.md" "releases/$releaseId/release-log.md"
 Write-Template "templates/prompts/rough-generation-template.md" "releases/$releaseId/prompts/rough-generation.md"
@@ -207,6 +214,8 @@ Write-Template "templates/prompts/finalization-template.md" "releases/$releaseId
 Write-Template "templates/prompts/revision-template.md" "releases/$releaseId/prompts/revision.md"
 Write-Template "templates/prompts/qa-review-template.md" "releases/$releaseId/prompts/qa-review.md"
 Write-Template "templates/prompts/metadata-review-template.md" "releases/$releaseId/prompts/metadata-review.md"
+Write-Template "templates/prompts/item-image-prompt-template.md" "releases/$releaseId/prompts/item-image-prompt.md"
+Write-Template "templates/prompts/regeneration-feedback-template.md" "releases/$releaseId/prompts/regeneration-feedback.md"
 Write-Template "templates/repo/rough-boards-readme-template.md" "releases/$releaseId/production/rough-boards/README.md"
 Write-Template "templates/repo/finals-readme-template.md" "releases/$releaseId/production/finals/README.md"
 Write-Template "templates/qa/release-checklist-template.md" "releases/$releaseId/qa/release-checklist.md"

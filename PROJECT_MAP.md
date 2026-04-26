@@ -43,6 +43,7 @@
 - 継続改善の昇格判断: `rules/continuous-improvement-rules.md`
 - 市場調査つき探索の判断: `rules/idea-research-rules.md`
 - 画像検査判断: `rules/asset-validation-rules.md`
+- visual asset 商品品質判断: `rules/visual-asset-quality-rules.md`
 - 申請 metadata 判断: `rules/submission-metadata-rules.md`
 - 固定IP統制判断: `rules/ip-governance-rules.md`
 - 市場観測証跡判断: `rules/market-observation-rules.md`
@@ -51,6 +52,8 @@
 - 制作 profile 判断: `rules/production-profile-rules.md`
 - 相談モード: `workflows/consultation-workflow.md`
 - 共通制作パイプライン: `workflows/production-pipeline-workflow.md`
+- シリーズ開発: `workflows/series-development-workflow.md`
+- item 生成: `workflows/item-generation-workflow.md`
 - 品質管理: `workflows/quality-control-workflow.md`
 - 構造Fail時の救済処理: `workflows/transformation-workflow.md`
 - 継続改善: `workflows/continuous-improvement-workflow.md`
@@ -69,9 +72,12 @@
 - 公開後学習: `workflows/post-release-learning-workflow.md`
 - CI保守: `workflows/ci-maintenance-workflow.md`
 - ブランド設定項目: `templates/brand/brand-setting-template.md`
+- ブランド canon / IP guardrails 項目: `templates/brand/brand-canon-template.md`
+- ブランド商品カタログ / シリーズ台帳項目: `templates/brand/brand-product-catalog-template.md`
 - ブランド位置づけ項目: `templates/brand/brand-positioning-template.md`
 - ブランド固有制作基盤: `templates/brand/brand-production-brief-template.md`
 - release 設計項目: `templates/release/release-spec-template.md`
+- シリーズ企画 / 差分設計項目: `templates/release/series-plan-template.md`
 - 制作ハンドオフ項目: `templates/release/production-handoff-template.md`
 - release QA 項目: `templates/qa/release-checklist-template.md`
 - 品質台帳項目: `templates/qa/quality-ledger-template.md`
@@ -83,6 +89,8 @@
 - ブランド別リポジトリ設計: `templates/repo/brand-repo-blueprint.md`
 - ブランド別 manifest: `templates/repo/brand-repo-manifest-template.yaml`
 - 専用AI制作指示項目: `templates/brand/brand-system-prompt-template.md`
+- item image prompt 項目: `templates/prompts/item-image-prompt-template.md`
+- 再生成 feedback 項目: `templates/prompts/regeneration-feedback-template.md`
 - 市場観測項目: `templates/market/market-observation-log-template.md`
 - 申請 metadata 項目: `templates/submission/submission-metadata-template.yaml`
 - 固定IP制作統制項目: `templates/ip/ip-style-bible-template.md`
@@ -107,14 +115,17 @@
 10. 構造でFailしたら `workflows/transformation-workflow.md` に沿って変換案を出す。
 11. 構造を通過した案だけ、ブランドと item type 別の商品を順に評価する。
 12. `Design Ready` まで達したら、`templates/brand/brand-setting-template.md` を埋める。
-13. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で共通制作フローを固定する。
-14. 初期 release / set を切るなら `templates/release/release-spec-template.md` を埋める。
-15. 品質管理に入るなら `workflows/quality-control-workflow.md` を起動し、QA と release log を初期化する。
-16. 申請前は `tools/validate-assets.py`, `tools/validate-metadata.py`, `workflows/submission-audit-workflow.md` を通す。
-17. ブランドの継続運用や独立制作が見えたら `workflows/brand-lifecycle-workflow.md` で残留 / 分離を決める。
-18. 分離する場合は `templates/repo/brand-repo-blueprint.md`, `templates/repo/brand-repo-manifest-template.yaml`, `tools/init-brand-repo.ps1` を使う。
-19. 作業結果、監査結果、市場観測、skill friction は `workflows/continuous-improvement-workflow.md` に接続して、記録、昇格判断、軽量化判断まで閉じる。
-20. 作業完了は、必要な owner file 更新、記録更新、検証、push 状態の明記まで含む。
+13. 制作へ進める場合は `templates/brand/brand-canon-template.md` で brand canon / IP guardrails を固定する。
+14. 制作へ進める場合は `workflows/production-pipeline-workflow.md` で GPT / image_gen 標準の共通制作フローを固定する。
+15. 既存ブランドで新シリーズを切るなら `workflows/series-development-workflow.md` と `templates/release/series-plan-template.md` を使い、過去商品との差分を決める。
+16. 初期 release / set を切るなら `templates/release/release-spec-template.md` を埋める。
+17. item finalization へ進むなら `workflows/item-generation-workflow.md` と `templates/prompts/item-image-prompt-template.md` を使う。
+18. 品質管理に入るなら `workflows/quality-control-workflow.md` を起動し、QA と release log と product catalog 更新を初期化する。
+19. 申請前は `tools/validate-assets.py`, `tools/validate-metadata.py`, `workflows/submission-audit-workflow.md` を通す。
+20. ブランドの継続運用や独立制作が見えたら `workflows/brand-lifecycle-workflow.md` で残留 / 分離を決める。
+21. 分離する場合は `templates/repo/brand-repo-blueprint.md`, `templates/repo/brand-repo-manifest-template.yaml`, `tools/init-brand-repo.ps1` を使う。
+22. 作業結果、監査結果、市場観測、skill friction は `workflows/continuous-improvement-workflow.md` に接続して、記録、昇格判断、軽量化判断まで閉じる。
+23. 作業完了は、必要な owner file 更新、記録更新、検証、push 状態の明記まで含む。
 
 ## 責務境界
 - `rules/` は「何を守るか」を定義する。手順は書かない。
@@ -143,7 +154,10 @@
 - `tools/check-canonical-drift.py`: canonical skill/template/script drift gate.
 - `tools/check-data-files.py`: YAML, workflow, schema JSON, and dependency parse gate.
 - `tools/package-release.py`: creates separated `submission/line-upload/images.zip` and `submission/internal-archive/package.zip`.
-- `tools/validate-assets.py`: validates static PNG and APNG assets and can generate contact sheet previews.
+- `tools/validate-assets.py`: validates static PNG and APNG assets and can generate contact sheet, chat preview, and report JSON outputs.
 - `tools/check-project-map-paths.py`: verifies path references in this map.
 - `tools/check-example-drift.py`: verifies standalone example repos have current embedded schemas, tools, and shared snapshots.
 - `schemas/post-release-metrics.schema.json`: validates machine-readable post-release metrics records.
+- `rules/visual-asset-quality-rules.md`: defines human/product visual QA for small-size LINE assets.
+- `workflows/series-development-workflow.md`: forces inheritance, differentiation, and catalog update for new series.
+- `workflows/item-generation-workflow.md`: defines item-by-item GPT / image_gen finalization with candidate comparison.

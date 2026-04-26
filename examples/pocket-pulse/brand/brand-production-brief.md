@@ -28,8 +28,8 @@
 - rough stage で先に固定するもの: 外周線、コア色、中央サイン、上位4語。
 - rough board / 全体図の最小構成: 8個一覧、白背景プレビュー、小表示プレビュー。
 - rough stage の成功条件: 8個が用途で見分けられ、単なる色違いに見えない。
-- ClaudeDesign へ渡す単位: release 全体条件 + 個別アイテム表。
-- ClaudeDesign で仕上げる範囲: 線幅、余白、文字位置、サインの視認性。
+- item finalization へ渡す単位: release 全体条件 + 個別アイテム表。
+- item finalization で仕上げる範囲: 線幅、余白、文字位置、サインの視認性。
 - 仕上げで変えてよいもの: 色の微調整、影、手の位置。
 - 仕上げで変えてはいけないもの: 丸信号体、状態語、中央サインの意味。
 - 差し戻しルール: 用途差が色だけになったら release spec へ戻す。
@@ -56,8 +56,8 @@
 - 初期 release spec の作成ルール: 各アイテムに用途、単体意味、item type別役割を書く。
 - rough stage で使う視覚 anchor: 丸コア、アンテナ線、中央サイン。
 - rough stage で未確定にしてよい点: 影の強さ、手の角度。
-- ClaudeDesign に必ず渡す共通条件: 太線、透過、単体意味、広告風NG。
-- 1アイテムごとの完成条件: 24px相当でも状態語かサインが読める。
+- item finalization に必ず渡す共通条件: 太線、透過、単体意味、広告風NG。
+- 1アイテムごとの完成条件: 32px相当でも状態語かサインが読める。
 - ファイル命名 / バージョン方針: production は任意名、submission は package tool で正規化。
 - release handoff の作成ルール: keep / trim / risk を個別に書く。
 

@@ -2,9 +2,8 @@
 
 このテンプレートは、ブランド設定を実際の制作・登録・審査・量産運用へ接続するための正本である。
 `templates/brand/brand-setting-template.md` の内容を、LINE絵文字 / スタンプの実装単位へ落とす。
-この工場では、制作方法を
-`GPT-image2.0 で高品質なたたき台 / 全体図を作る → ClaudeDesign へ必要情報を渡し、個別アイテムを完成させる`
-で固定する。
+この工場では、制作方法を `GPT / image_gen rough・anchor → 1アイテム単位の finalization → product QA` で標準化する。
+外部デザイン支援は任意であり、GPT-only で完結できることを標準条件にする。
 
 ## 1. 基本情報
 - ブランド名:
@@ -13,6 +12,8 @@
 - 商品化の目的:
 - 商品コンセプト:
 - ブランド内での役割:
+- 参照する brand canon:
+- 参照する product catalog:
 
 ## 2. 公式仕様の確定
 - 商品種別: `静止絵文字 / アニメーション絵文字 / 静止スタンプ`
@@ -30,14 +31,22 @@
 - 販売運用制約:
 
 ## 3. 固定制作パイプライン
-- rough stage の目的:
+- 標準 production profile:
+- Stage 0 / brand canon で守ること:
+- Stage 1 / series planning で確認すること:
+- rough / anchor stage の目的:
 - rough stage で先に固定するもの:
+- style anchor の最小構成:
+- character / motif anchor の最小構成:
 - rough board / 全体図の最小構成:
 - rough stage の成功条件:
-- ClaudeDesign へ渡す単位:
-- ClaudeDesign で仕上げる範囲:
+- item finalization へ渡す単位:
+- item finalization で仕上げる範囲:
+- 1アイテム4案比較のルール:
 - 仕上げで変えてよいもの:
 - 仕上げで変えてはいけないもの:
+- product QA の必須確認:
+- release ledger / catalog 更新ルール:
 - 差し戻しルール:
 
 ## 4. 表示前提
@@ -48,6 +57,8 @@
 - 余白方針:
 - アウトライン方針:
 - 装飾方針:
+- 小表示確認サイズ: `180 / 96 / 48 / 32`
+- 背景透過方針:
 
 ## 5. セット構成
 - 最上段に置く高頻度アイテム:
@@ -62,8 +73,11 @@
 - 初期 release spec の作成ルール:
 - rough stage で使う視覚 anchor:
 - rough stage で未確定にしてよい点:
-- ClaudeDesign に必ず渡す共通条件:
+- item finalization に必ず渡す共通条件:
 - 1アイテムごとの完成条件:
+- 1アイテムごとの final prompt 作成ルール:
+- negative prompt 共通条件:
+- contact sheet / chat preview 作成ルール:
 - ファイル命名 / バージョン方針:
 - release handoff の作成ルール:
 
@@ -92,6 +106,9 @@
 
 ## 10. 量産・拡張
 - 次に増やす差分:
+- 過去商品から継承する要素:
+- 新シリーズで避ける重複:
+- product catalog 更新方針:
 - 季節派生の可否:
 - 実用品派生の可否:
 - プレミアム / 長期運用の見立て:

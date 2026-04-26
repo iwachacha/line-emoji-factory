@@ -8,6 +8,28 @@
 - Result:
 - Notes:
 
+## Series Planning Entry
+- Date:
+- Release:
+- Series name:
+- Inherited elements:
+- Novelty elements:
+- Difference from past releases:
+- Cannibalization risk:
+- Product catalog updated:
+- Follow-up action:
+
+## QA Entry
+- Date:
+- Release:
+- Contact sheet:
+- Chat preview:
+- Asset validation report:
+- Hard NG:
+- Revise:
+- Watch:
+- Catalog update:
+
 ## Submission Entry
 - Date:
 - Release:

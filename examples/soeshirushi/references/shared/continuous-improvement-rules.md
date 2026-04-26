@@ -25,7 +25,8 @@
 
 ## 学習源
 - 創出ブランドの監査
-- 生成されたアイテム、rough board、handoff、final asset の監査
+- 生成されたアイテム、style anchor、character anchor、rough board、handoff、final asset の監査
+- series plan、brand product catalog、過去商品との差分管理の監査
 - 審査差し戻し、公開後の drift、metadata 事故
 - 市場調査つきのアイデア探索
 - prompt、workflow、template、skill の運用詰まり

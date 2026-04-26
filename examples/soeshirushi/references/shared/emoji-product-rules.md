@@ -92,10 +92,16 @@
 - シーズン外に使えない場合は、通年派生方針がある。
 
 ## ブランド固有基盤への接続
-- この工場では、制作方法を `GPT-image2.0 ラフ生成 → ClaudeDesign 仕上げ` で固定する。
+- この工場では、制作方法を `GPT / image_gen rough・anchor → 1アイテム単位の finalization → product QA` で標準化する。
+- rough と finalization の責務は分ける。rough board を final asset として採用しない。
+- finalization では 1アイテムにつき最低4案を比較し、小表示 QA を通す。
 - `Design Ready` の後、制作実装へ進める場合は `workflows/production-pipeline-workflow.md` で工程責務を固定する。
+- 既存ブランドの新シリーズでは `workflows/series-development-workflow.md` と `templates/brand/brand-product-catalog-template.md` を先に参照する。
+- 実画像の商品品質は `rules/visual-asset-quality-rules.md` を使う。
 - `Design Ready` の後、制作実装へ進める場合は `templates/brand/brand-production-brief-template.md` を埋める。
+- brand canon / IP guardrails は `templates/brand/brand-canon-template.md` を埋める。
 - 初期 release / set 設計は `templates/release/release-spec-template.md` を埋める。
+- series plan は `templates/release/series-plan-template.md` を埋める。
 - release / set 単位の引き継ぎは `templates/release/production-handoff-template.md` を埋める。
 - 提出前と継続改善は `workflows/quality-control-workflow.md` と `templates/qa/release-checklist-template.md`, `templates/qa/quality-ledger-template.md` を使う。
 - `brand-production-brief` では、推奨パッケージタイプ、初期個数、差分配列、余白方針、タグ方針、審査注意、工程責務を固定する。

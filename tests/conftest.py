@@ -107,10 +107,12 @@ def create_brand_repo(
         path.mkdir(parents=True, exist_ok=True)
 
     files = [
+        "brand/brand-canon.md",
         "brand/brand-setting.md",
         "brand/brand-positioning.md",
         "brand/brand-production-brief.md",
         "brand/brand-system-prompt.md",
+        "brand/product-catalog.md",
         "market/market-observation-log.md",
         "market/category-gap-map.md",
         "references/shared/line-platform-baseline.md",
@@ -119,12 +121,17 @@ def create_brand_repo(
         "references/shared/sticker-product-rules.md",
         "references/shared/review-risk-rules.md",
         "references/shared/evaluation-model.md",
+        "references/shared/visual-asset-quality-rules.md",
         "references/shared/quality-control-workflow.md",
+        "references/shared/production-pipeline-workflow.md",
+        "references/shared/series-development-workflow.md",
+        "references/shared/item-generation-workflow.md",
         "references/shared/usage-validation-workflow.md",
         "references/shared/asset-validation-rules.md",
         "references/shared/production-profile-rules.md",
         "references/shared/submission-metadata-rules.md",
         f"releases/{release_id}/release-spec.md",
+        f"releases/{release_id}/series-plan.md",
         f"releases/{release_id}/production-handoff.md",
         f"releases/{release_id}/release-log.md",
         f"releases/{release_id}/qa/release-checklist.md",
@@ -151,7 +158,7 @@ def create_brand_repo(
 
     manifest = {
         "schema_version": "1.0",
-        "factory_base_version": "2026-04-25",
+        "factory_base_version": "2026-04-26",
         "template_schema_version": "1.0",
         "brand": {
             "slug": "test-brand",
@@ -172,21 +179,61 @@ def create_brand_repo(
             "category_gap_map": "market/category-gap-map.md",
         },
         "production": {
-            "profile": "rough-to-final",
+            "profile": "gpt-series-production",
             "release_root": "releases",
             "active_release": release_id,
             "final_asset_dir": f"releases/{release_id}/production/finals",
             "prompt_bundle_dir": f"releases/{release_id}/prompts",
         },
         "production_profile": {
-            "name": "rough-to-final",
-            "rough_stage": {
-                "purpose": "structure and set-direction exploration",
-                "required_outputs": ["rough_board", "per_item_intent", "failure_notes"],
+            "name": "gpt-series-production",
+            "brand_canon_stage": {
+                "purpose": "brand canon and IP guardrail confirmation",
+                "required_outputs": ["brand_canon", "ip_guardrails", "allowed_variations", "prohibited_drift"],
             },
-            "finalization_stage": {
-                "purpose": "final asset production",
-                "required_outputs": ["final_assets", "correction_notes", "export_check"],
+            "series_planning_stage": {
+                "purpose": "release differentiation from previous products",
+                "required_outputs": [
+                    "product_catalog_review",
+                    "series_plan",
+                    "inheritance_points",
+                    "novelty_points",
+                    "cannibalization_notes",
+                ],
+            },
+            "rough_stage": {
+                "purpose": "style, character, motif, and set-direction exploration",
+                "required_outputs": ["style_anchor", "character_anchor", "rough_board", "per_item_intent", "failure_notes"],
+            },
+            "item_finalization_stage": {
+                "purpose": "one-item-at-a-time final asset candidate production",
+                "required_outputs": [
+                    "item_specs",
+                    "four_candidate_minimum",
+                    "candidate_comparison",
+                    "final_assets",
+                    "correction_notes",
+                    "export_check",
+                ],
+            },
+            "product_qa_stage": {
+                "purpose": "small-size and product usability QA",
+                "required_outputs": [
+                    "contact_sheet",
+                    "chat_preview",
+                    "asset_validation_report",
+                    "duplicate_and_usage_overlap_notes",
+                    "unresolved_watch_items",
+                ],
+            },
+            "release_ledger_stage": {
+                "purpose": "update release ledger and brand product catalog",
+                "required_outputs": [
+                    "release_log_update",
+                    "quality_ledger_update",
+                    "product_catalog_update",
+                    "next_series_watch",
+                ],
             },
             "revision_stage": {
                 "purpose": "slot-level corrections",
@@ -220,7 +267,11 @@ def create_brand_repo(
             "sticker_product_rules": "references/shared/sticker-product-rules.md",
             "review_risk_rules": "references/shared/review-risk-rules.md",
             "evaluation_model": "references/shared/evaluation-model.md",
+            "visual_asset_quality_rules": "references/shared/visual-asset-quality-rules.md",
             "quality_control_workflow": "references/shared/quality-control-workflow.md",
+            "production_pipeline_workflow": "references/shared/production-pipeline-workflow.md",
+            "series_development_workflow": "references/shared/series-development-workflow.md",
+            "item_generation_workflow": "references/shared/item-generation-workflow.md",
             "usage_validation_workflow": "references/shared/usage-validation-workflow.md",
             "asset_validation_rules": "references/shared/asset-validation-rules.md",
             "production_profile_rules": "references/shared/production-profile-rules.md",
@@ -229,10 +280,13 @@ def create_brand_repo(
         "source": {
             "factory_repo": "line-emoji-factory",
             "brand_setting_path": "brand/brand-setting.md",
+            "brand_canon_path": "brand/brand-canon.md",
+            "product_catalog_path": "brand/product-catalog.md",
             "brand_positioning_path": "brand/brand-positioning.md",
             "production_brief_path": "brand/brand-production-brief.md",
             "system_prompt_path": "brand/brand-system-prompt.md",
             "active_release_spec_path": f"releases/{release_id}/release-spec.md",
+            "active_series_plan_path": f"releases/{release_id}/series-plan.md",
         },
         "releases": [
             {
@@ -242,6 +296,7 @@ def create_brand_repo(
                 "package_type": package_type,
                 "set_count": count,
                 "animation": False,
+                "series_plan": f"releases/{release_id}/series-plan.md",
                 "spec": f"releases/{release_id}/release-spec.md",
                 "handoff": f"releases/{release_id}/production-handoff.md",
                 "checklist": f"releases/{release_id}/qa/release-checklist.md",
@@ -286,6 +341,7 @@ def create_two_release_brand_repo(root: Path, *, with_assets: bool = False) -> P
         {
             "id": "release-002",
             "status": "draft",
+            "series_plan": "releases/release-002/series-plan.md",
             "spec": "releases/release-002/release-spec.md",
             "handoff": "releases/release-002/production-handoff.md",
             "checklist": "releases/release-002/qa/release-checklist.md",
